@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.LootMarket" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/viola1</item>
+        <item name="colorPrimaryVariant">@color/Gold</item>
+        <item name="android:statusBarColor">@color/Gold</item>
+
+    </style>
+
+    <style name="Theme.LootMarket" parent="Base.Theme.LootMarket" />
+
+    <style name="Theme.App.Splashscreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/Gold</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logofinaletondo</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.LootMarket</item>
+    </style>
+</resources>
