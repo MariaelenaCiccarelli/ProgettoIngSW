@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity"
+    android:paddingTop="20dp"
+    android:background="@color/GoldBackground">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/headingPaginaHome"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Homepage"
+        android:layout_marginStart="18dp"
+        android:textColor="@color/viola1"
+        android:textSize="24sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerViewPaginaHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:padding="16dp"/>
+
+</RelativeLayout>
