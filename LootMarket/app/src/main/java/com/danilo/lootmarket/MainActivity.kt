@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
             var passwordUtente = binding.editTextPasswordPaginaAccedi.text.toString()
             if((mailUtente == "lootmarket@gmail.com") && (passwordUtente == "lootmarket@24")){
                 Toast.makeText(this, "Accesso eseguito", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
             }
             else{
                 Toast.makeText(this, "Credenziali errate", Toast.LENGTH_SHORT).show()

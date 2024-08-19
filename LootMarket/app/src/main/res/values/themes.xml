@@ -15,4 +15,11 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/logofinaletondo</item>
         <item name="postSplashScreenTheme">@style/Base.Theme.LootMarket</item>
     </style>
+
+    <style name="Theme.BottomNavigationNavBar" parent="Base.Theme.LootMarket" />
+
+    <style name = "App.custom.Indicator" parent= "Widget.Material3.BottomNavigationView.ActiveIndicator">
+
+        <item name="android:color">@color/viola2</item>
+    </style>
 </resources>

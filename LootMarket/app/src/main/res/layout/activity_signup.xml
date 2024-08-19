@@ -58,6 +58,7 @@
             android:textSize="14sp"
             android:layout_marginTop="1dp"
             android:maxLines="1"
+            android:inputType="textEmailAddress"
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/grigio1"/>
     </androidx.cardview.widget.CardView>

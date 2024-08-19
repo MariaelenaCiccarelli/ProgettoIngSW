@@ -49,6 +49,7 @@
             android:layout_marginTop="1dp"
             android:fontFamily="@font/roboto_medium"
             android:hint="Il Tuo Nome"
+            android:inputType="textPersonName"
             android:maxLines="1"
             android:padding="12dp"
             android:textColor="@color/grigio1"
@@ -83,6 +84,7 @@
             android:textSize="14sp"
             android:layout_marginTop="1dp"
             android:maxLines="1"
+            android:inputType="textPersonName"
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/grigio1"/>
     </androidx.cardview.widget.CardView>
@@ -112,6 +114,7 @@
             android:id="@+id/editTextCodiceFiscalePaginaProfileData"
             android:padding="12dp"
             android:hint="Il Tuo Codice Fiscale"
+            android:inputType="text"
             android:textSize="14sp"
             android:layout_marginTop="1dp"
             android:maxLines="1"
@@ -171,6 +174,7 @@
             android:padding="12dp"
             android:hint="Il Tuo Numero di Cellulare"
             android:textSize="14sp"
+            android:inputType="phone"
             android:layout_marginTop="1dp"
             android:maxLines="1"
             android:fontFamily="@font/roboto_medium"

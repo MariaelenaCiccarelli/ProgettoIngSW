@@ -1,5 +1,6 @@
 package com.danilo.lootmarket
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -34,12 +35,15 @@ class DataProfileActivity: AppCompatActivity() {
             
             if((nome == "")|| (cognome =="")||(codiceFiscale == "")||(cellulare=="")){
                 Toast.makeText(this, "Compila tutti i campi!", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Registrazione avvenuta con successo!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
             }
         }
 
-
-
         setContentView(binding.root)
+
 
     }
 }
