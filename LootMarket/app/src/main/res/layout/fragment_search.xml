@@ -7,33 +7,45 @@
     tools:context=".HomeActivity"
     android:background="@color/GoldBackground">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardSearchBarFrammentoSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardBackgroundColor="@color/GoldScuro"
+        app:cardCornerRadius="0dp">
+
 
         <androidx.appcompat.widget.SearchView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp"
             android:id="@+id/searchbarFrammentoSearch"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:iconifiedByDefault="false"
-            app:searchHintIcon="@null"
-            app:queryHint="Cerca..."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="12dp"
+            android:background="@drawable/search_bkg"
             android:focusable="false"
             app:closeIcon="@drawable/baseline_clear_24"
-            app:searchIcon="@drawable/baseline_search_24colored"
-            android:background="@drawable/search_bkg">
-
+            app:iconifiedByDefault="false"
+            app:queryHint="Cerca..."
+            app:searchHintIcon="@null"
+            android:backgroundTint="@color/GoldBackground"
+            app:searchIcon="@drawable/baseline_search_24colored">
         </androidx.appcompat.widget.SearchView>
+
+    </androidx.cardview.widget.CardView>
+
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerViewFrammentoSearch"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchbarFrammentoSearch"
+        app:layout_constraintTop_toBottomOf="@+id/cardSearchBarFrammentoSearch"
         app:layout_constraintVertical_bias="0.0" />
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,161 +11,173 @@
     android:background="@color/Gold">
 
     <ImageView
+        android:id="@+id/logoPaginaAccedi"
         android:layout_width="210dp"
         android:layout_height="210dp"
-        android:src="@drawable/logofinaletondo"
-        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
-        android:id="@+id/logoPaginaAccedi">
-    </ImageView>
+        android:src="@drawable/logofinaletondo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
     <TextView
+        android:id="@+id/testoMottoPaginaAccedi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
         android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto_medium"
         android:text="Pronto a fare fantastici affari?"
         android:textColor="@color/viola1"
-        android:fontFamily="@font/roboto_medium"
         android:textSize="18sp"
-        android:id="@+id/testoMottoPaginaAccedi">
-    </TextView>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPaginaAccedi"></TextView>
 
     <TextView
         android:id="@+id/testoAccediPaginaAccedi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="245dp"
         android:fontFamily="@font/roboto_bold"
         android:text="Accedi"
         android:textColor="@color/viola1"
-        android:textSize="24sp">
-    </TextView>
+        android:textSize="24sp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testoMottoPaginaAccedi"></TextView>
+
     <TextView
+        android:id="@+id/testoEmailLabelPaginaAccedi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
         android:text="Email"
-        android:id="@+id/testoEmailLabelPaginaAccedi"
-        android:layout_marginTop="290dp"
-        android:layout_marginStart="20dp"
-        android:textSize="18sp"
         android:textColor="@color/viola1"
-        android:fontFamily="@font/roboto_medium">
-    </TextView>
+        android:textSize="18sp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testoAccediPaginaAccedi"></TextView>
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardEmailPaginaAccedi"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="320dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:layout_centerHorizontal="true"
         app:cardCornerRadius="11dp"
-        android:id="@+id/cardEmailPaginaAccedi">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testoEmailLabelPaginaAccedi">
+
         <EditText
+            android:id="@+id/editTextEmailPaginaAccedi"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:id="@+id/editTextEmailPaginaAccedi"
-            android:padding="12dp"
-            android:hint="latuaemail@email.com"
-            android:textSize="14sp"
             android:layout_marginTop="1dp"
+            android:fontFamily="@font/roboto_medium"
+            android:hint="latuaemail@email.com"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/grigio1"/>
+            android:padding="12dp"
+            android:textColor="@color/grigio1"
+            android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
+
     <TextView
+        android:id="@+id/testoPasswordLabelPaginaAccedi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
         android:text="Password"
-        android:id="@+id/testoPasswordLabelPaginaAccedi"
-        android:layout_marginTop="380dp"
-        android:layout_marginStart="20dp"
-        android:textSize="18sp"
         android:textColor="@color/viola1"
-        android:fontFamily="@font/roboto_medium">
-    </TextView>
+        android:textSize="18sp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardEmailPaginaAccedi"></TextView>
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardPasswordPaginaAccedi"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="410dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         app:cardCornerRadius="11dp"
-        android:id="@+id/cardPasswordPaginaAccedi">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testoPasswordLabelPaginaAccedi">
+
         <EditText
+            android:id="@+id/editTextPasswordPaginaAccedi"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:inputType="textPassword"
-            android:id="@+id/editTextPasswordPaginaAccedi"
-            android:padding="12dp"
-            android:hint="LaTuaPassword"
-            android:textSize="14sp"
             android:layout_marginTop="1dp"
-            android:maxLines="1"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/grigio1"/>
+            android:hint="LaTuaPassword"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:padding="12dp"
+            android:textColor="@color/grigio1"
+            android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
+
     <Button
+        android:id="@+id/bottoneRecoveryPaginaAccedi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="450dp"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="20dp"
-        android:id="@+id/bottoneRecoveryPaginaAccedi"
-        android:text="@string/bottonePasswordDimenticataPaginaAccedi"
-        android:fontFamily="@font/roboto_medium"
-        android:textAllCaps="false"
-        android:textSize="18sp"
-        android:maxLines="1"
         android:background="@android:color/transparent"
-        android:textColor="@color/viola1">
-    </Button>
+        android:fontFamily="@font/roboto_medium"
+        android:maxLines="1"
+        android:text="@string/bottonePasswordDimenticataPaginaAccedi"
+        android:textAllCaps="false"
+        android:textColor="@color/viola1"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardPasswordPaginaAccedi"></Button>
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardBottoneAccediPaginaAccesso"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         app:cardCornerRadius="10dp"
-        android:layout_marginTop="530dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:id="@+id/cardBottoneAccediPaginaAccesso">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottoneRecoveryPaginaAccedi">
+
         <Button
+            android:id="@+id/bottoneAccediPaginaAccedi"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:text="Accedi"
-            android:id="@+id/bottoneAccediPaginaAccedi"
             android:background="@color/viola1"
-            android:textColor="@color/white"
+            android:text="Accedi"
             android:textAllCaps="false"
-            android:textSize="18sp">
-        </Button>
+            android:textColor="@color/white"
+            android:textSize="18sp"></Button>
     </androidx.cardview.widget.CardView>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Non hai un account?"
-        android:textSize="18sp"
         android:id="@+id/testoDomandaPaginaAccedi"
-        android:layout_marginTop="600dp"
-        android:layout_marginStart="20dp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/roboto_medium">
-    </TextView>
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="585dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="20dp"
-        android:id="@+id/bottoneRegistratiPaginaAccedi"
-        android:text="@string/bottoneRegistratiPaginaAccedi"
         android:fontFamily="@font/roboto_medium"
+        android:text="Non hai un account?"
+        android:textColor="@color/black"
         android:textSize="18sp"
-        android:textAllCaps="false"
-        android:maxLines="1"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardBottoneAccediPaginaAccesso"></TextView>
+
+    <Button
+        android:id="@+id/bottoneRegistratiPaginaAccedi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:background="@android:color/transparent"
-        android:textColor="@color/viola1">
-    </Button>
-</RelativeLayout>
+        android:fontFamily="@font/roboto_medium"
+        android:maxLines="1"
+        android:text="@string/bottoneRegistratiPaginaAccedi"
+        android:textAllCaps="false"
+        android:textColor="@color/viola1"
+        android:textSize="18sp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardBottoneAccediPaginaAccesso"></Button>
+</androidx.constraintlayout.widget.ConstraintLayout>

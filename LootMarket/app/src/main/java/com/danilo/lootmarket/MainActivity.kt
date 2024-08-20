@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottoneAccediPaginaAccedi.setOnClickListener{
             var mailUtente = binding.editTextEmailPaginaAccedi.text.toString()
             var passwordUtente = binding.editTextPasswordPaginaAccedi.text.toString()
-            if((mailUtente == "lootmarket@gmail.com") && (passwordUtente == "lootmarket@24")){
+            if((mailUtente == "") && (passwordUtente == "")){
                 Toast.makeText(this, "Accesso eseguito", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)

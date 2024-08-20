@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.danilo.lootmarket.databinding.FragmentSearchBinding
@@ -15,7 +15,6 @@ import java.util.Locale
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
-
     private lateinit var auctionsAdapter: AuctionsAdapter
     private lateinit var searchView: SearchView
     private lateinit var searchList: ArrayList<Auction>
@@ -88,16 +87,18 @@ class SearchFragment : Fragment() {
         var auctions: List<Auction>
         auctions = listOf(auction1, auction2, auction3, auction4, auction5, auction6, auction7)
         searchList = arrayListOf<Auction>()
+        searchList.addAll(auctions)
 
 
         binding = FragmentSearchBinding.inflate(layoutInflater)
         //setContentView(binding.root)
 
-        auctionsAdapter = AuctionsAdapter(auctions, this.requireContext())
+        auctionsAdapter = AuctionsAdapter(searchList, this.requireContext())
         binding.RecyclerViewFrammentoSearch.layoutManager = LinearLayoutManager(this.requireContext())
         binding.RecyclerViewFrammentoSearch.adapter = auctionsAdapter
-        searchView = binding.searchbarFrammentoSearch.findViewById(R.id.searchbarFrammentoSearch)
+        searchView = binding.searchbarFrammentoSearch
         searchView.clearFocus()
+
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 searchView.clearFocus()
@@ -122,8 +123,8 @@ class SearchFragment : Fragment() {
                 return false
 
             }
-        })
 
+        })
 
         //val view = inflater.inflate(R.layout.fragment_home, container, false)
         return binding.root
