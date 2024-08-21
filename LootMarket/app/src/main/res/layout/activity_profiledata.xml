@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,45 +8,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DataProfileActivity"
-    android:background="@color/Gold">
+    android:background="@color/LightGold">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="I Tuoi Dati"
         android:id="@+id/testoITuoiDatiPaginaProfileData"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="20dp"
-        android:textSize="24sp"
-        android:textColor="@color/viola1"
-        android:fontFamily="@font/roboto_bold">
-    </TextView>
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nome"
-        android:id="@+id/testoNomeLabelPaginaProfileData"
-        android:layout_marginTop="80dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="I Tuoi Dati"
+        android:textColor="@color/LightRed"
+        android:textSize="24sp"
         android:layout_marginStart="20dp"
-        android:textSize="18sp"
-        android:textColor="@color/viola1"
-        android:fontFamily="@font/roboto_medium">
-    </TextView>
-    <androidx.cardview.widget.CardView
-        android:layout_width="360dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></TextView>
+
+    <TextView
+        android:id="@+id/testoNomeLabelPaginaProfileData"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="110dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Nome"
+        android:textColor="@color/LightRed"
+        android:textSize="18sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testoITuoiDatiPaginaProfileData">
+    </TextView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardNomePaginaProfileData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         app:cardCornerRadius="11dp"
-        android:id="@+id/cardNomePaginaProfileData">
+        android:backgroundTint="@color/GoldBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testoNomeLabelPaginaProfileData">
 
         <EditText
             android:id="@+id/editTextNomePaginaProfileData"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="1dp"
             android:fontFamily="@font/roboto_medium"
             android:hint="Il Tuo Nome"
             android:inputType="textPersonName"
@@ -55,179 +63,216 @@
             android:textColor="@color/grigio1"
             android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cognome"
         android:id="@+id/testoCognomeLabelPaginaProfileData"
-        android:layout_marginTop="160dp"
-        android:layout_marginStart="20dp"
-        android:textSize="18sp"
-        android:textColor="@color/viola1"
-        android:fontFamily="@font/roboto_medium">
-    </TextView>
-    <androidx.cardview.widget.CardView
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="190dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        app:cardCornerRadius="11dp"
-        android:id="@+id/cardCognomePaginaProfileData">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/editTextCognomePaginaProfileData"
-            android:padding="12dp"
-            android:hint="Il Tuo Cognome"
-            android:textSize="14sp"
-            android:layout_marginTop="1dp"
-            android:maxLines="1"
-            android:inputType="textPersonName"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/grigio1"/>
-    </androidx.cardview.widget.CardView>
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Codice Fiscale"
-        android:id="@+id/testoCodiceFiscaleLabelPaginaProfileData"
-        android:layout_marginTop="240dp"
-        android:layout_marginStart="20dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Cognome"
+        android:textColor="@color/LightRed"
         android:textSize="18sp"
-        android:textColor="@color/viola1"
-        android:fontFamily="@font/roboto_medium">
-    </TextView>
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardNomePaginaProfileData"></TextView>
+
     <androidx.cardview.widget.CardView
-        android:layout_width="360dp"
+        android:id="@+id/cardCognomePaginaProfileData"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="270dp"
-        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_centerHorizontal="true"
         app:cardCornerRadius="11dp"
-        android:id="@+id/cardCodiceFiscalePaginaProfileData">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testoCognomeLabelPaginaProfileData">
+
         <EditText
+            android:id="@+id/editTextCognomePaginaProfileData"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:id="@+id/editTextCodiceFiscalePaginaProfileData"
+            android:background="@color/GoldBackground"
+            android:fontFamily="@font/roboto_medium"
+            android:hint="Il Tuo Cognome"
+            android:inputType="textPersonName"
+            android:maxLines="1"
             android:padding="12dp"
+            android:textColor="@color/grigio1"
+            android:textSize="14sp" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/testoCodiceFiscaleLabelPaginaProfileData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Codice Fiscale"
+        android:textColor="@color/LightRed"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardCognomePaginaProfileData"></TextView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardCodiceFiscalePaginaProfileData"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:cardCornerRadius="11dp"
+        app:layout_constraintTop_toBottomOf="@+id/testoCodiceFiscaleLabelPaginaProfileData">
+
+        <EditText
+            android:id="@+id/editTextCodiceFiscalePaginaProfileData"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/GoldBackground"
+            android:fontFamily="@font/roboto_medium"
             android:hint="Il Tuo Codice Fiscale"
             android:inputType="text"
-            android:textSize="14sp"
-            android:layout_marginTop="1dp"
             android:maxLines="1"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/grigio1"/>
+            android:padding="12dp"
+            android:textColor="@color/grigio1"
+            android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
+
     <TextView
+        android:id="@+id/testoNazioneLabelPaginaProfileData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nazione"
-        android:id="@+id/testoNazioneLabelPaginaProfileData"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Nazione"
+        android:textColor="@color/LightRed"
         android:textSize="18sp"
-        android:textColor="@color/viola1"
-        android:fontFamily="@font/roboto_medium">
-    </TextView>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardCodiceFiscalePaginaProfileData"></TextView>
+
     <androidx.cardview.widget.CardView
-        android:layout_width="360dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="350dp"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/cardNazioneFiscalePaginaProfileData"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
         app:cardCornerRadius="11dp"
-        android:id="@+id/cardNazioneFiscalePaginaProfileData">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testoNazioneLabelPaginaProfileData">
+
         <Spinner
+            android:id="@+id/spinnerNazionePaginaProfileData"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/spinnerNazionePaginaProfileData">
-        </Spinner>
+            android:background="@color/GoldBackground"></Spinner>
     </androidx.cardview.widget.CardView>
+
     <TextView
+        android:id="@+id/testoCellulareLabelPaginaProfileData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
         android:text="Cellulare"
-        android:id="@+id/testoCellulareLabelPaginaProfileData"
-        android:layout_marginTop="400dp"
-        android:layout_marginStart="20dp"
+        android:textColor="@color/LightRed"
         android:textSize="18sp"
-        android:textColor="@color/viola1"
-        android:fontFamily="@font/roboto_medium">
-    </TextView>
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardNazioneFiscalePaginaProfileData"></TextView>
+
     <androidx.cardview.widget.CardView
-        android:layout_width="360dp"
+        android:id="@+id/cardCellularePaginaProfileData"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="430dp"
         android:layout_centerHorizontal="true"
+        app:cardCornerRadius="11dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        app:cardCornerRadius="11dp"
-        android:id="@+id/cardCellularePaginaProfileData">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testoCellulareLabelPaginaProfileData">
+
         <EditText
+            android:id="@+id/editTextCellularePaginaProfileData"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:id="@+id/editTextCellularePaginaProfileData"
-            android:padding="12dp"
-            android:hint="Il Tuo Numero di Cellulare"
-            android:textSize="14sp"
-            android:inputType="phone"
-            android:layout_marginTop="1dp"
-            android:maxLines="1"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/grigio1"/>
+            android:hint="Il Tuo Numero di Cellulare"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:padding="12dp"
+            android:textColor="@color/grigio1"
+            android:background="@color/GoldBackground"
+            android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
+
     <TextView
+        android:id="@+id/testoDataDiNascitaLabelPaginaProfileData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="Data di Nascita"
-        android:id="@+id/testoDataDiNascitaLabelPaginaProfileData"
-        android:layout_marginTop="480dp"
-        android:layout_marginStart="20dp"
+        android:textColor="@color/LightRed"
         android:textSize="18sp"
-        android:textColor="@color/viola1"
-        android:fontFamily="@font/roboto_medium">
-    </TextView>
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardCellularePaginaProfileData"></TextView>
+
     <androidx.cardview.widget.CardView
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="510dp"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/cardDataDiNascitaPaginaProfileData"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         app:cardCornerRadius="11dp"
-        android:id="@+id/cardDataDiNascitaPaginaProfileData">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testoDataDiNascitaLabelPaginaProfileData">
 
         <DatePicker
+            android:id="@+id/datePickerPaginaProfileData"
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:calendarViewShown="false"
             android:datePickerMode="spinner"
-            android:id="@+id/datePickerPaginaProfileData">
-        </DatePicker>
+            android:background="@color/GoldBackground"></DatePicker>
     </androidx.cardview.widget.CardView>
 
+
     <androidx.cardview.widget.CardView
-        android:layout_width="380dp"
+        android:id="@+id/cardBottoneConfermaPaginaProfileData"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        app:cardCornerRadius="10dp"
-        android:layout_marginTop="620dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:id="@+id/cardBottoneConfermaPaginaProfileData">
+        android:backgroundTint="@color/Red"
+        android:layout_centerHorizontal="true"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/cardDataDiNascitaPaginaProfileData">
+
         <Button
             android:id="@+id/bottoneConfermaPaginaProfileData"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:backgroundTint="@color/LightRed"
             android:text="Conferma"
-            android:background="@color/viola1"
             android:textAllCaps="false"
-            android:textSize="18sp">
-        </Button>
+            android:textSize="18sp"></Button>
     </androidx.cardview.widget.CardView>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

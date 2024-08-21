@@ -8,12 +8,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignupActivity"
-    android:background="@color/Gold">
+    android:background="@color/LightGold">
 
     <ImageView
-        android:layout_width="210dp"
-        android:layout_height="210dp"
-        android:src="@drawable/logofinaletondo"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/lootmarket_logo_rotondo_lightgold"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
         android:id="@+id/logoPaginaSignup">
@@ -26,7 +26,7 @@
         android:layout_marginTop="245dp"
         android:layout_marginStart="20dp"
         android:textSize="24sp"
-        android:textColor="@color/viola1"
+        android:textColor="@color/LightRed"
         android:fontFamily="@font/roboto_bold">
     </TextView>
     <TextView
@@ -37,7 +37,7 @@
         android:layout_marginTop="290dp"
         android:layout_marginStart="20dp"
         android:textSize="18sp"
-        android:textColor="@color/viola1"
+        android:textColor="@color/LightRed"
         android:fontFamily="@font/roboto_medium">
     </TextView>
     <androidx.cardview.widget.CardView
@@ -56,7 +56,7 @@
             android:padding="12dp"
             android:hint="latuaemail@email.com"
             android:textSize="14sp"
-            android:layout_marginTop="1dp"
+            android:background="@color/GoldBackground"
             android:maxLines="1"
             android:inputType="textEmailAddress"
             android:fontFamily="@font/roboto_medium"
@@ -70,7 +70,7 @@
         android:layout_marginTop="380dp"
         android:layout_marginStart="20dp"
         android:textSize="18sp"
-        android:textColor="@color/viola1"
+        android:textColor="@color/LightRed"
         android:fontFamily="@font/roboto_medium">
     </TextView>
     <androidx.cardview.widget.CardView
@@ -90,7 +90,7 @@
             android:padding="12dp"
             android:hint="LaTuaPassword"
             android:textSize="14sp"
-            android:layout_marginTop="1dp"
+            android:background="@color/GoldBackground"
             android:maxLines="1"
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/grigio1"/>
@@ -108,7 +108,7 @@
         android:layout_marginTop="475dp"
         android:layout_marginStart="60dp"
         android:layout_marginEnd="20dp"
-        android:textColor="@color/viola1"
+        android:textColor="@color/LightRed"
         android:fontFamily="@font/roboto_medium"
         android:id="@+id/testoTerminiPaginaSignup"
         android:text="Accetto i termini e le condizioni d’uso e vendita di Loot Market.">
@@ -121,14 +121,17 @@
         android:layout_marginTop="530dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/Red"
         android:id="@+id/cardBottoneRegistratiPaginaSignup">
 
         <Button
             android:id="@+id/bottoneRegistratiPaginaSignup"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:text="Continua"
-            android:background="@color/viola1"
+            android:backgroundTint="@color/LightRed"
             android:textAllCaps="false"
             android:textSize="18sp">
         </Button>
@@ -157,6 +160,6 @@
         android:textAllCaps="false"
         android:maxLines="1"
         android:background="@android:color/transparent"
-        android:textColor="@color/viola1">
+        android:textColor="@color/LightRed">
     </Button>
 </RelativeLayout>

@@ -8,14 +8,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/Gold">
+    android:background="@color/LightGold">
 
     <ImageView
         android:id="@+id/logoPaginaAccedi"
-        android:layout_width="210dp"
-        android:layout_height="210dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/logofinaletondo"
+        android:src="@drawable/lootmarket_logo_rotondo_lightgold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></ImageView>
@@ -27,7 +27,7 @@
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/roboto_medium"
         android:text="Pronto a fare fantastici affari?"
-        android:textColor="@color/viola1"
+        android:textColor="@color/LightRed"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_bold"
         android:text="Accedi"
-        android:textColor="@color/viola1"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/Red"
         android:textSize="24sp"
         android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +52,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_medium"
         android:text="Email"
-        android:textColor="@color/viola1"
+        android:textColor="@color/Red"
+        android:layout_marginTop="10dp"
         android:textSize="18sp"
         android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,10 +61,13 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardEmailPaginaAccedi"
-        android:layout_width="360dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         app:cardCornerRadius="11dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/testoEmailLabelPaginaAccedi">
@@ -75,6 +80,7 @@
             android:fontFamily="@font/roboto_medium"
             android:hint="latuaemail@email.com"
             android:inputType="textEmailAddress"
+            android:background="@color/GoldBackground"
             android:maxLines="1"
             android:padding="12dp"
             android:textColor="@color/grigio1"
@@ -87,7 +93,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_medium"
         android:text="Password"
-        android:textColor="@color/viola1"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/Red"
         android:textSize="18sp"
         android:layout_marginStart="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,10 +102,13 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardPasswordPaginaAccedi"
-        android:layout_width="360dp"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         app:cardCornerRadius="11dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/testoPasswordLabelPaginaAccedi">
@@ -111,6 +121,7 @@
             android:fontFamily="@font/roboto_medium"
             android:hint="LaTuaPassword"
             android:inputType="textPassword"
+            android:background="@color/GoldBackground"
             android:maxLines="1"
             android:padding="12dp"
             android:textColor="@color/grigio1"
@@ -125,19 +136,25 @@
         android:background="@android:color/transparent"
         android:fontFamily="@font/roboto_medium"
         android:maxLines="1"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
         android:text="@string/bottonePasswordDimenticataPaginaAccedi"
         android:textAllCaps="false"
-        android:textColor="@color/viola1"
+        android:textColor="@color/LightRed"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardPasswordPaginaAccedi"></Button>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardBottoneAccediPaginaAccesso"
-        android:layout_width="380dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
         android:layout_centerHorizontal="true"
         app:cardCornerRadius="10dp"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@color/Red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bottoneRecoveryPaginaAccedi">
@@ -146,9 +163,11 @@
             android:id="@+id/bottoneAccediPaginaAccedi"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/viola1"
             android:text="Accedi"
             android:textAllCaps="false"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:backgroundTint="@color/LightRed"
             android:textColor="@color/white"
             android:textSize="18sp"></Button>
     </androidx.cardview.widget.CardView>
@@ -160,8 +179,9 @@
         android:fontFamily="@font/roboto_medium"
         android:text="Non hai un account?"
         android:textColor="@color/black"
+        android:layout_marginTop="17dp"
         android:textSize="18sp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardBottoneAccediPaginaAccesso"></TextView>
 
@@ -175,9 +195,10 @@
         android:maxLines="1"
         android:text="@string/bottoneRegistratiPaginaAccedi"
         android:textAllCaps="false"
-        android:textColor="@color/viola1"
+        android:textColor="@color/LightRed"
         android:textSize="18sp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardBottoneAccediPaginaAccesso"></Button>
 </androidx.constraintlayout.widget.ConstraintLayout>

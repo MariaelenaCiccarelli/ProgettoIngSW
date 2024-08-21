@@ -3,9 +3,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="Gold">#EBCA71</color>
+    <color name="LightGold">#e4d3a4</color>
+    <color name="LogoGold">#fad354</color>
+
     <color name="GoldBackground">#FFF6DD</color>
-    <color name="viola1">#4d2994</color>
-    <color name="viola2">#5415a4</color>
+    <color name="Red">#a91010</color>
+    <color name="DarkRed">#4d251b</color>
+    <color name="LightRed">#c01b1b</color>
+
     <color name="grigio1">#828282</color>
     <color name="GoldScuro">#BB9351</color>
 </resources>

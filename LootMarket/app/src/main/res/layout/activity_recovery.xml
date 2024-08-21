@@ -8,12 +8,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignupActivity"
-    android:background="@color/Gold">
+    android:background="@color/LightGold">
 
     <ImageView
-        android:layout_width="210dp"
-        android:layout_height="210dp"
-        android:src="@drawable/logofinaletondo"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/lootmarket_logo_rotondo_lightgold"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
         android:id="@+id/logoPaginaRecovery">
@@ -26,7 +26,7 @@
         android:layout_marginTop="245dp"
         android:layout_marginStart="20dp"
         android:textSize="24sp"
-        android:textColor="@color/viola1"
+        android:textColor="@color/LightRed"
         android:fontFamily="@font/roboto_bold">
     </TextView>
     <TextView
@@ -37,7 +37,7 @@
         android:layout_marginTop="290dp"
         android:layout_marginStart="20dp"
         android:textSize="18sp"
-        android:textColor="@color/viola1"
+        android:textColor="@color/LightRed"
         android:fontFamily="@font/roboto_medium">
     </TextView>
     <androidx.cardview.widget.CardView
@@ -54,9 +54,9 @@
             android:layout_height="40dp"
             android:id="@+id/editTextEmailPaginaRecovery"
             android:padding="12dp"
+            android:background="@color/GoldBackground"
             android:hint="latuaemail@email.com"
             android:textSize="14sp"
-            android:layout_marginTop="1dp"
             android:maxLines="1"
             android:fontFamily="@font/roboto_medium"
             android:textColor="@color/grigio1"/>
@@ -68,6 +68,7 @@
         app:cardCornerRadius="10dp"
         android:layout_marginTop="430dp"
         android:layout_marginStart="20dp"
+        android:backgroundTint="@color/Red"
         android:layout_marginEnd="20dp"
         android:id="@+id/cardBottoneRecuperaPaginaRecovery">
         <Button
@@ -75,9 +76,10 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:textAlignment="center"
-
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:text="Recupera Password"
-            android:background="@color/viola1"
+            android:backgroundTint="@color/LightRed"
             android:textAllCaps="false"
             android:textSize="18sp">
         </Button>
@@ -106,6 +108,6 @@
         android:textAllCaps="false"
         android:maxLines="1"
         android:background="@android:color/transparent"
-        android:textColor="@color/viola1">
+        android:textColor="@color/LightRed">
     </Button>
 </RelativeLayout>

@@ -10,7 +10,7 @@
         android:bottom="5dp"
         android:top="5dp">   <!-- adjust borders width here -->
         <shape android:shape="rectangle">
-            <solid android:color="@color/viola1" />  <!-- background color -->
+            <solid android:color="@color/Red" />  <!-- background color -->
         </shape>
     </item>
 </layer-list>
