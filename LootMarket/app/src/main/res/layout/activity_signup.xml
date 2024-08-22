@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,118 +11,157 @@
     android:background="@color/LightGold">
 
     <ImageView
+        android:id="@+id/logoPaginaSignup"
         android:layout_width="250dp"
         android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/lootmarket_logo_rotondo_lightgold"
-        android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/logoPaginaSignup">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
     </ImageView>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Registrati"
         android:id="@+id/testoRegistratiPaginaSignup"
-        android:layout_marginTop="245dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Registrati"
+        android:textColor="@color/LightRed"
         android:textSize="24sp"
-        android:textColor="@color/LightRed"
-        android:fontFamily="@font/roboto_bold">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoPaginaSignup">
     </TextView>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email"
         android:id="@+id/testoEmailLabelPaginaSignup"
-        android:layout_marginTop="290dp"
-        android:layout_marginStart="20dp"
-        android:textSize="18sp"
-        android:textColor="@color/LightRed"
-        android:fontFamily="@font/roboto_medium">
-    </TextView>
-    <androidx.cardview.widget.CardView
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="320dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_centerHorizontal="true"
-        app:cardCornerRadius="11dp"
-        android:id="@+id/cardEmailPaginaSignup">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/editTextEmailPaginaSignup"
-            android:padding="12dp"
-            android:hint="latuaemail@email.com"
-            android:textSize="14sp"
-            android:background="@color/GoldBackground"
-            android:maxLines="1"
-            android:inputType="textEmailAddress"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/grigio1"/>
-    </androidx.cardview.widget.CardView>
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password"
-        android:id="@+id/testoPasswordLabelPaginaSignup"
-        android:layout_marginTop="380dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
-        android:textSize="18sp"
-        android:textColor="@color/LightRed"
-        android:fontFamily="@font/roboto_medium">
-    </TextView>
-    <androidx.cardview.widget.CardView
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="410dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        app:cardCornerRadius="11dp"
-        android:id="@+id/cardPasswordPaginaSignup">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:inputType="textPassword"
-            android:id="@+id/editTextPasswordPaginaSignup"
-            android:padding="12dp"
-            android:hint="LaTuaPassword"
-            android:textSize="14sp"
-            android:background="@color/GoldBackground"
-            android:maxLines="1"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/grigio1"/>
-    </androidx.cardview.widget.CardView>
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="460dp"
-        android:layout_marginStart="20dp"
-        android:id="@+id/checkboxTerminiPaginaSignup">
-    </CheckBox>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="475dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginEnd="20dp"
-        android:textColor="@color/LightRed"
         android:fontFamily="@font/roboto_medium"
-        android:id="@+id/testoTerminiPaginaSignup"
-        android:text="Accetto i termini e le condizioni d’uso e vendita di Loot Market.">
+        android:text="Email"
+        android:textColor="@color/LightRed"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testoRegistratiPaginaSignup">
     </TextView>
+
     <androidx.cardview.widget.CardView
-        android:layout_width="380dp"
+        android:id="@+id/cardEmailPaginaSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_centerHorizontal="true"
+        app:cardCornerRadius="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testoEmailLabelPaginaSignup">
+
+        <EditText
+            android:id="@+id/editTextEmailPaginaSignup"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/GoldBackground"
+            android:fontFamily="@font/roboto_medium"
+            android:hint="latuaemail@email.com"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:padding="12dp"
+            android:textColor="@color/grigio1"
+            android:textSize="14sp" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/testoPasswordLabelPaginaSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Password"
+        android:textColor="@color/LightRed"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardEmailPaginaSignup">
+    </TextView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardPasswordPaginaSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_centerHorizontal="true"
+        app:cardCornerRadius="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testoPasswordLabelPaginaSignup">
+
+        <EditText
+            android:id="@+id/editTextPasswordPaginaSignup"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/GoldBackground"
+            android:fontFamily="@font/roboto_medium"
+            android:hint="LaTuaPassword"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:padding="12dp"
+            android:textColor="@color/grigio1"
+            android:textSize="14sp" />
+    </androidx.cardview.widget.CardView>
+
+    <CheckBox
+        android:id="@+id/checkboxTerminiPaginaSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardPasswordPaginaSignup">
+    </CheckBox>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardTestoTerminiPaginaSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="65dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="16dp"
+        android:elevation="0dp"
+        android:outlineSpotShadowColor="@color/LightGold"
+        android:backgroundTint="@color/LightGold"
+        app:layout_constraintStart_toEndOf="@+id/checkboxTerminiPaginaSignup"
+        app:layout_constraintTop_toBottomOf="@+id/cardPasswordPaginaSignup">
+
+        <TextView
+            android:id="@+id/testoTerminiPaginaSignup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Accetto i termini e le condizioni d’uso e vendita di Loot Market."
+            android:textColor="@color/LightRed">
+            </TextView>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardBottoneRegistratiPaginaSignup"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        app:cardCornerRadius="10dp"
-        android:layout_marginTop="530dp"
+        android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="@color/Red"
-        android:id="@+id/cardBottoneRegistratiPaginaSignup">
+        app:cardCornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardTestoTerminiPaginaSignup">
 
         <Button
             android:id="@+id/bottoneRegistratiPaginaSignup"
@@ -130,36 +169,41 @@
             android:layout_height="45dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:text="Continua"
             android:backgroundTint="@color/LightRed"
+            android:text="Continua"
             android:textAllCaps="false"
-            android:textSize="18sp">
-        </Button>
+            android:textSize="18sp"></Button>
     </androidx.cardview.widget.CardView>
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hai già un account?"
-        android:textSize="18sp"
         android:id="@+id/testoDomandaPaginaSignup"
-        android:layout_marginTop="600dp"
-        android:layout_marginStart="20dp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/roboto_medium">
-    </TextView>
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="585dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="20dp"
-        android:text="@string/bottoneAccediPaginaSignup"
-        android:id="@+id/bottoneAccediPaginaSignup"
+        android:layout_marginTop="22dp"
+        android:layout_marginStart="20dp"
         android:fontFamily="@font/roboto_medium"
+        android:text="Hai già un account?"
+        android:textColor="@color/black"
         android:textSize="18sp"
-        android:textAllCaps="false"
-        android:maxLines="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardBottoneRegistratiPaginaSignup">
+    </TextView>
+
+    <Button
+        android:id="@+id/bottoneAccediPaginaSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_alignParentRight="true"
         android:background="@android:color/transparent"
-        android:textColor="@color/LightRed">
+        android:fontFamily="@font/roboto_medium"
+        android:maxLines="1"
+        android:text="@string/bottoneAccediPaginaSignup"
+        android:textAllCaps="false"
+        android:textColor="@color/LightRed"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardBottoneRegistratiPaginaSignup">
     </Button>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

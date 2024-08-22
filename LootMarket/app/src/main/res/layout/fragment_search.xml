@@ -36,16 +36,240 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/cardFiltroFumettiFrammentoSearch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardSearchBarFrammentoSearch"
+        app:cardCornerRadius="45dp"
+        android:backgroundTint="@color/GoldBackground">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:src="@drawable/baseline_auto_stories_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </ImageView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textViewFiltroFumettiFrammentoSearch"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Fumetti &amp; Manga"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:textColor="@color/DarkRed"
+        android:fontFamily="@font/roboto_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardFiltroFumettiFrammentoSearch">
+    </TextView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/cardFiltroActionFiguresFrammentoSearch"
+        app:layout_constraintStart_toEndOf="@+id/cardFiltroFumettiFrammentoSearch"
+        app:layout_constraintTop_toBottomOf="@+id/cardSearchBarFrammentoSearch"
+        app:cardCornerRadius="45dp"
+        android:backgroundTint="@color/GoldBackground">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:src="@drawable/baseline_man_4_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </ImageView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textViewFiltroActionFiguresFrammentoSearch"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Action Figures"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:textColor="@color/DarkRed"
+        android:fontFamily="@font/roboto_medium"
+        app:layout_constraintStart_toEndOf="@id/textViewFiltroFumettiFrammentoSearch"
+        app:layout_constraintTop_toBottomOf="@+id/cardFiltroFumettiFrammentoSearch">
+    </TextView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/cardFiltroCarteFrammentoSearch"
+        app:layout_constraintStart_toEndOf="@+id/cardFiltroActionFiguresFrammentoSearch"
+        app:layout_constraintTop_toBottomOf="@+id/cardSearchBarFrammentoSearch"
+        app:cardCornerRadius="45dp"
+        android:backgroundTint="@color/GoldBackground">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:src="@drawable/baseline_screenshot_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </ImageView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textViewFiltroCarteFrammentoSearch"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Carte collezionabili"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:textColor="@color/DarkRed"
+        android:fontFamily="@font/roboto_medium"
+        app:layout_constraintStart_toEndOf="@id/textViewFiltroActionFiguresFrammentoSearch"
+        app:layout_constraintTop_toBottomOf="@+id/cardFiltroFumettiFrammentoSearch">
+    </TextView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/cardFiltroTavoleFrammentoSearch"
+        app:layout_constraintStart_toEndOf="@+id/cardFiltroCarteFrammentoSearch"
+        app:layout_constraintTop_toBottomOf="@+id/cardSearchBarFrammentoSearch"
+        app:cardCornerRadius="45dp"
+        android:backgroundTint="@color/GoldBackground">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:src="@drawable/baseline_brush_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </ImageView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textViewFiltroTavoleFrammentoSearch"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Tavole Originali"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:textColor="@color/DarkRed"
+        android:fontFamily="@font/roboto_medium"
+        app:layout_constraintStart_toEndOf="@id/textViewFiltroCarteFrammentoSearch"
+        app:layout_constraintTop_toBottomOf="@+id/cardFiltroFumettiFrammentoSearch">
+    </TextView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/cardFiltroGadgetFrammentoSearch"
+        app:layout_constraintStart_toEndOf="@+id/cardFiltroTavoleFrammentoSearch"
+        app:layout_constraintTop_toBottomOf="@+id/cardSearchBarFrammentoSearch"
+        app:cardCornerRadius="45dp"
+        android:backgroundTint="@color/GoldBackground">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:src="@drawable/baseline_catching_pokemon_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </ImageView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textViewFiltroGadgetFrammentoSearch"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Gadget e altro"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:textColor="@color/DarkRed"
+        android:fontFamily="@font/roboto_medium"
+        app:layout_constraintStart_toEndOf="@id/textViewFiltroTavoleFrammentoSearch"
+        app:layout_constraintTop_toBottomOf="@+id/cardFiltroFumettiFrammentoSearch">
+    </TextView>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerViewFrammentoSearch"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardSearchBarFrammentoSearch"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFiltroFumettiFrammentoSearch"
         app:layout_constraintVertical_bias="0.0" />
 
 
