@@ -17,7 +17,8 @@
         android:layout_centerHorizontal="true"
         android:src="@drawable/lootmarket_logo_rotondo_lightgold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
     </ImageView>
 
     <TextView
@@ -172,7 +173,9 @@
             android:backgroundTint="@color/LightRed"
             android:text="Continua"
             android:textAllCaps="false"
-            android:textSize="18sp"></Button>
+            android:textColor="@color/LightGold"
+            android:textSize="18sp">
+        </Button>
     </androidx.cardview.widget.CardView>
 
     <TextView

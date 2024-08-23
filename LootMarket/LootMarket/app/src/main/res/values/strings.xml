@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">LootMarket</string>
-    <string name="bottonePasswordDimenticataPaginaAccedi"><u>Password dimenticata?</u></string>
-    <string name="bottoneRegistratiPaginaAccedi"><u>Registrati!</u></string>
-    <string name="bottoneAccediPaginaSignup"><u>Accedi!</u></string>
-    <string name="bottoneIndietroPaginaRecovery"><u>Torna indietro!</u></string>
-</resources>

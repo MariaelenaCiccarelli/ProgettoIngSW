@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="10dp">
 
 
 
@@ -31,6 +31,7 @@
                 android:layout_height="25dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Titolo Asta"
+                android:layout_marginStart="5dp"
                 android:textColor="@color/DarkRed"
                 android:maxLines="1"
                 android:textStyle="bold"

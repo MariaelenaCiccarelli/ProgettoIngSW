@@ -27,7 +27,8 @@ class HomeFragment: Fragment() {
             150F,
             3,
             "prova",
-            "Action figure originale in vinile di Naruto Uzumaki"
+            "Action figure originale in vinile di Naruto Uzumaki",
+            "Action Figures"
         )
         var auction2 = Auction(
             0,
@@ -35,7 +36,8 @@ class HomeFragment: Fragment() {
             15000F,
             20,
             "prova",
-            "Carta originale pazza incredibile di yu-gi-oh"
+            "Carta originale pazza incredibile di yu-gi-oh",
+            "Carte Collezionabili"
         )
         var auction3 = Auction(
             0,
@@ -43,7 +45,8 @@ class HomeFragment: Fragment() {
             150.00F,
             0,
             "prova",
-            "Me lo ha portato mio zio dal Giappone giuro su mio zio"
+            "Me lo ha portato mio zio dal Giappone giuro su mio zio",
+            "Gadget"
         )
         var auction4 = Auction(
             0,
@@ -51,7 +54,9 @@ class HomeFragment: Fragment() {
             150.00F,
             0,
             "prova",
-            "Me lo ha portato mio zio dal Giappone giuro su mio zio"
+            "Me lo ha portato mio zio dal Giappone giuro su mio zio",
+            "Gadget"
+
         )
         var auction5 = Auction(
             0,
@@ -59,7 +64,8 @@ class HomeFragment: Fragment() {
             150.00F,
             0,
             "prova",
-            "Me lo ha portato mio zio dal Giappone giuro su mio zio"
+            "Me lo ha portato mio zio dal Giappone giuro su mio zio",
+            "Gadget"
         )
         var auction6 = Auction(
             0,
@@ -67,7 +73,8 @@ class HomeFragment: Fragment() {
             150.00F,
             0,
             "prova",
-            "Me lo ha portato mio zio dal Giappone giuro su mio zio"
+            "Me lo ha portato mio zio dal Giappone giuro su mio zio",
+            "Gadget"
         )
         var auction7 = Auction(
             0,
@@ -75,7 +82,8 @@ class HomeFragment: Fragment() {
             150.00F,
             0,
             "prova",
-            "Me lo ha portato mio zio dal Giappone giuro su mio zio"
+            "Me lo ha portato mio zio dal Giappone giuro su mio zio",
+            "Gadget"
         )
 
         var auctions: List<Auction>
