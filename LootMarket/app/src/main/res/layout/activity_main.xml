@@ -83,7 +83,7 @@
             android:background="@color/GoldBackground"
             android:maxLines="1"
             android:padding="12dp"
-            android:textColor="@color/grigio1"
+            android:textColor="@color/DarkRed"
             android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
 
@@ -124,7 +124,7 @@
             android:background="@color/GoldBackground"
             android:maxLines="1"
             android:padding="12dp"
-            android:textColor="@color/grigio1"
+            android:textColor="@color/DarkRed"
             android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
 
@@ -168,7 +168,7 @@
             android:backgroundTint="@color/LightRed"
             android:text="Accedi"
             android:textAllCaps="false"
-            android:textColor="@color/LightGold"
+            android:textColor="@color/GoldBackground"
             android:textSize="18sp">
         </Button>
     </androidx.cardview.widget.CardView>
@@ -179,7 +179,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_medium"
         android:text="Non hai un account?"
-        android:textColor="@color/black"
+        android:textColor="@color/DarkRed"
         android:layout_marginTop="17dp"
         android:textSize="18sp"
         android:layout_marginStart="30dp"

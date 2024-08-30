@@ -46,13 +46,14 @@
         app:layout_constraintEnd_toStartOf="@id/cardFiltroActionFiguresFrammentoSearch"
         app:layout_constraintTop_toBottomOf="@+id/cardSearchBarFrammentoSearch"
         app:cardCornerRadius="45dp"
-        android:backgroundTint="@color/GoldBackground">
+        app:cardBackgroundColor = "@color/GoldBackground">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/immagineFiltroFumettiFrammentoSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
@@ -92,13 +93,14 @@
         app:layout_constraintStart_toEndOf="@+id/cardFiltroFumettiFrammentoSearch"
         app:layout_constraintTop_toBottomOf="@+id/cardSearchBarFrammentoSearch"
         app:cardCornerRadius="45dp"
-        android:backgroundTint="@color/GoldBackground">
+        app:cardBackgroundColor = "@color/GoldBackground">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/immagineFiltroActionFiguresFrammentoSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
@@ -138,13 +140,14 @@
         app:layout_constraintStart_toEndOf="@+id/cardFiltroActionFiguresFrammentoSearch"
         app:layout_constraintTop_toBottomOf="@+id/cardSearchBarFrammentoSearch"
         app:cardCornerRadius="45dp"
-        android:backgroundTint="@color/GoldBackground">
+        app:cardBackgroundColor="@color/GoldBackground">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/immagineFiltroCarteFrammentoSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="7dp"
@@ -185,13 +188,14 @@
         app:layout_constraintStart_toEndOf="@+id/cardFiltroCarteFrammentoSearch"
         app:layout_constraintTop_toBottomOf="@+id/cardSearchBarFrammentoSearch"
         app:cardCornerRadius="45dp"
-        android:backgroundTint="@color/GoldBackground">
+        app:cardBackgroundColor = "@color/GoldBackground">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/immagineFiltroTavoleFrammentoSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"
@@ -227,7 +231,7 @@
         android:layout_height="60dp"
         android:layout_marginEnd="5dp"
         android:layout_marginTop="10dp"
-        android:backgroundTint="@color/GoldBackground"
+        app:cardBackgroundColor = "@color/GoldBackground"
         app:cardCornerRadius="45dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cardFiltroTavoleFrammentoSearch"
@@ -238,6 +242,7 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/immagineFiltroGadgetFrammentoSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="6dp"

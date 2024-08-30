@@ -1,7 +1,28 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.LootMarket" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/Red</item>
+        <item name="colorPrimaryVariant">@color/Gold</item>
+        <item name="colorOnBackground">@color/LightGold</item>
+        <item name="colorOnContainer">@color/GoldBackground</item>
+        <item name="colorSecondary">@color/GoldScuro</item>
+        <item name="android:textColorPrimary">@color/DarkRed</item>
+        <item name="colorTertiary">@color/LightRed</item>
+        <item name="android:statusBarColor">@color/Gold</item>
+    </style>
+
+    <style name="Theme.LootMarket" parent="Base.Theme.LootMarket" />
+
+    <style name="Theme.App.Splashscreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/DarkBlue</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splashscreen_lootmarket_logo_rotondo_lightgold</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.LootMarket</item>
+    </style>
+
+    <style name="Theme.BottomNavigationNavBar" parent="Base.Theme.LootMarket" />
+
+    <style name = "App.custom.Indicator" parent= "Widget.Material3.BottomNavigationView.ActiveIndicator">
+
+        <item name="android:color">@color/Ice</item>
     </style>
 </resources>

@@ -13,4 +13,11 @@
 
     <color name="grigio1">#828282</color>
     <color name="GoldScuro">#BB9351</color>
+
+
+    <color name="DarkBlue">#152a4a</color>
+    <color name="DarkBlue2">#293c59</color>
+    <color name="Ice">#e1f5f7</color>
+
+
 </resources>

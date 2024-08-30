@@ -71,7 +71,7 @@
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:padding="12dp"
-            android:textColor="@color/grigio1"
+            android:textColor="@color/DarkRed"
             android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
 
@@ -112,7 +112,7 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:padding="12dp"
-            android:textColor="@color/grigio1"
+            android:textColor="@color/DarkRed"
             android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
 
@@ -173,7 +173,7 @@
             android:backgroundTint="@color/LightRed"
             android:text="Continua"
             android:textAllCaps="false"
-            android:textColor="@color/LightGold"
+            android:textColor="@color/GoldBackground"
             android:textSize="18sp">
         </Button>
     </androidx.cardview.widget.CardView>
@@ -186,7 +186,7 @@
         android:layout_marginStart="20dp"
         android:fontFamily="@font/roboto_medium"
         android:text="Hai già un account?"
-        android:textColor="@color/black"
+        android:textColor="@color/DarkRed"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardBottoneRegistratiPaginaSignup">

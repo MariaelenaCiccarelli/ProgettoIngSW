@@ -1,5 +1,6 @@
 package com.danilo.lootmarket
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Window
 import android.widget.Toast
@@ -46,7 +47,7 @@ class HomeActivity: AppCompatActivity() {
 
 
             bottomNavigationView = findViewById(R.id.bottom_navigation)
-             bottomNavigationView.setOnItemSelectedListener { menuItem ->
+            bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when(menuItem.itemId) {
                 R.id.bottom_home -> {
                     replaceFragment(HomeFragment())
@@ -59,7 +60,9 @@ class HomeActivity: AppCompatActivity() {
                 }
 
                 R.id.bottom_add -> {
-                    Toast.makeText(this, "Upload Image & Video", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, AddAuctionActivity::class.java)
+
+                    startActivity(intent)
                     true
                 }
 
@@ -85,12 +88,16 @@ class HomeActivity: AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit()
 
     }
-}
-    /*
+
     override fun onResume(){
         super.onResume()
-        auctionsAdapter.refreshData()
+        bottomNavigationView.getMenu().findItem(R.id.bottom_home).setChecked(true)
+
     }
 
-     */
+}
+
+
+
+
 

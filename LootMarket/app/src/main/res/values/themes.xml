@@ -1,10 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.LootMarket" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/Red</item>
         <item name="colorPrimaryVariant">@color/Gold</item>
+        <item name="colorOnBackground">@color/LightGold</item>
+        <item name="colorOnContainer">@color/GoldBackground</item>
+        <item name="colorSecondary">@color/Red</item>
+        <item name="android:textColorPrimary">@color/DarkRed</item>
+        <item name="colorTertiary">@color/LightRed</item>
         <item name="android:statusBarColor">@color/Gold</item>
+
+
 
     </style>
 

@@ -50,22 +50,22 @@ class HomeFragment: Fragment() {
         )
         var auction4 = Auction(
             0,
-            "Pennino Originale Giuro di Masashi Kishimoto",
-            150.00F,
+            "Tavola Stupenda One Piece",
+            100.00F,
             0,
             "prova",
-            "Me lo ha portato mio zio dal Giappone giuro su mio zio",
-            "Gadget"
+            "C'è il One Piece",
+            "Tavole"
 
         )
         var auction5 = Auction(
             0,
-            "Pennino Originale Giuro di Masashi Kishimoto",
-            150.00F,
+            "Volume 33 Boruto",
+            60.00F,
             0,
             "prova",
-            "Me lo ha portato mio zio dal Giappone giuro su mio zio",
-            "Gadget"
+            "Nessuno lo vuole",
+            "Fumetti"
         )
         var auction6 = Auction(
             0,

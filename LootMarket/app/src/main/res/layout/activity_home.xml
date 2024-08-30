@@ -67,8 +67,8 @@ tools:context=".HomeFragment">
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/bottom_menu"
             android:background="@color/GoldScuro"
-            app:itemIconTint="@color/white"
-            app:itemTextColor="@color/white"
+            app:itemIconTint="@color/GoldBackground"
+            app:itemTextColor="@color/GoldBackground"
             app:itemIconSize="30dp"
             app:itemActiveIndicatorStyle="@style/App.custom.Indicator"/>
 
