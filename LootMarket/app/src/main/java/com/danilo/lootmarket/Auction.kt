@@ -1,3 +1,8 @@
 package com.danilo.lootmarket
 
-data class Auction(val id: Int, val titoloAsta: String,val ultimaOfferta: Float, val tempoRimanente: Int, val immagineProdotto: String, val testoDescrizione: String, val Categoria: String )
+import android.graphics.drawable.Drawable
+import java.time.LocalDate
+import java.time.ZonedDateTime
+import java.util.Date
+
+data class Auction(val id: Int, val titoloAsta: String, val ultimaOfferta: Float, val DataScadenza: ZonedDateTime, val immagineProdotto: Drawable, val testoDescrizione: String, val Categoria: String )

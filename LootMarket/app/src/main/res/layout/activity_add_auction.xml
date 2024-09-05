@@ -22,7 +22,7 @@
                 android:id="@+id/imageViewBackButtonPaginaAddAuction"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="35dp"
                 android:src="@drawable/baseline_arrow_back_ios_new_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"></ImageView>
@@ -31,28 +31,415 @@
                 android:id="@+id/textViewBackHomePaginaAddAuction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="40dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Torna alla Homepage"
                 android:textColor="@color/GoldBackground"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/imageViewBackButtonPaginaAddAuction"
-                app:layout_constraintTop_toTopOf="parent"></TextView>
+                app:layout_constraintTop_toTopOf="parent">
+            </TextView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:id="@+id/scrollViewPaginaAddAuction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/cardTopPaginaAddAuction"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="300dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/textViewTitoloPaginaAddAuction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="Crea una nuova asta"
                 android:layout_marginStart="15dp"
-                android:textColor="@color/GoldBackground"
-                android:textSize="22sp"
+                android:textColor="@color/LightRed"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewBackHomePaginaAddAuction" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewTipoAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/textViewTitoloPaginaAddAuction"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"
+                android:text="Tipo Asta*"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="18sp"
+                android:textColor="@color/LightRed">
+            </TextView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardSpinnerTipoAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/textViewTipoAstaPaginaAddAuction"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/GoldBackground"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_centerHorizontal="true"
+                app:cardCornerRadius="11dp">
+
+                <Spinner
+                    android:id="@+id/spinnerTipoAstaPaginaAddAuction"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
+                </Spinner>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/textViewTitoloAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cardSpinnerTipoAstaPaginaAddAuction"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Titolo Asta*"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="18sp"
+                android:textColor="@color/LightRed">
+            </TextView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardEditTextTitoloAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/textViewTitoloAstaPaginaAddAuction"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/GoldBackground"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_centerHorizontal="true"
+                app:cardCornerRadius="11dp">
+
+                <EditText
+                    android:id="@+id/editTextTitoloAstaPaginaAddAuction"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:hint="Titolo della tua asta"
+                    android:maxLines="1"
+                    android:padding="12dp"
+                    android:textColor="@color/DarkRed"
+                    android:textSize="14sp">
+                </EditText>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/textViewCategoriaAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cardEditTextTitoloAstaPaginaAddAuction"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Categoria Asta*"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="18sp"
+                android:textColor="@color/LightRed">
+            </TextView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardSpinnerCategoriaAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/textViewCategoriaAstaPaginaAddAuction"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/GoldBackground"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_centerHorizontal="true"
+                app:cardCornerRadius="11dp">
+
+                <Spinner
+                    android:id="@+id/spinnerCategoriaAstaPaginaAddAuction"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp">
+                </Spinner>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/textViewPrezzoAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cardSpinnerCategoriaAstaPaginaAddAuction"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Prezzo di Partenza Asta*"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="18sp"
+                android:textColor="@color/LightRed">
+            </TextView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardEditTextPrezzoAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/textViewPrezzoAstaPaginaAddAuction"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/GoldBackground"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_centerHorizontal="true"
+                app:cardCornerRadius="11dp">
+
+                <EditText
+                    android:id="@+id/editTextPrezzoAstaPaginaAddAuction"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:hint="Prezzo di partenza della tua asta"
+                    android:maxLines="1"
+                    android:padding="12dp"
+                    android:textColor="@color/DarkRed"
+                    android:textSize="14sp"
+                    android:inputType="numberDecimal">
+                </EditText>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/textViewSogliaMinimaAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cardEditTextPrezzoAstaPaginaAddAuction"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Soglia Minima Asta"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="18sp"
+                android:textColor="@color/LightRed">
+            </TextView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardEditTextSogliaMinimaAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/textViewSogliaMinimaAstaPaginaAddAuction"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/GoldBackground"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_centerHorizontal="true"
+                app:cardCornerRadius="11dp">
+
+                <EditText
+                    android:id="@+id/editTextSogliaMinimaoAstaPaginaAddAuction"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:hint="Soglia minima della tua asta"
+                    android:maxLines="1"
+                    android:padding="12dp"
+                    android:textColor="@color/DarkRed"
+                    android:textSize="14sp"
+                    android:inputType="numberDecimal">
+                </EditText>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/textViewScadenzaAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cardEditTextSogliaMinimaAstaPaginaAddAuction"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Scadenza Asta*"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="18sp"
+                android:textColor="@color/LightRed">
+            </TextView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardDatePickerScadenzaAstaPaginaAddAuction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/textViewScadenzaAstaPaginaAddAuction"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/GoldBackground"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_centerHorizontal="true"
+                app:cardCornerRadius="11dp">
+
+
+                <DatePicker
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/datePickerScadenzaPaginaAddAuction"
+                    android:layout_height="wrap_content"
+                    android:datePickerMode="calendar"
+                    android:background="@color/GoldBackground">
+                </DatePicker>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/textViewDescrizioneAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cardDatePickerScadenzaAstaPaginaAddAuction"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Descrizione Asta (max 500 caratteri)*"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="18sp"
+                android:textColor="@color/LightRed">
+            </TextView>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardEditTextDescrizioneAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/textViewDescrizioneAstaPaginaAddAuction"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/GoldBackground"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:cardCornerRadius="11dp"
+                android:layout_centerHorizontal="false">
+
+                <EditText
+                    android:id="@+id/editTextDescrizioneAstaPaginaAddAuction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:hint="Descrizione della tua asta"
+                    android:maxLines="5"
+                    android:background="@color/GoldBackground"
+                    android:padding="12dp"
+                    android:textColor="@color/DarkRed"
+                    android:textSize="14sp"
+                    android:gravity="top"
+                    android:maxLength="500">
+                </EditText>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/textViewImmagineAstaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cardEditTextDescrizioneAstaPaginaAddAuction"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Inserisci un'immagine del prodotto*"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="18sp"
+                android:textColor="@color/LightRed">
+            </TextView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cardImageViewAddImageButtonPaginaAddAuction"
+                app:layout_constraintTop_toBottomOf="@id/textViewImmagineAstaPaginaAddAuction"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                app:strokeColor="@color/DarkRed"
+                app:strokeWidth="2dp"
+                app:cardCornerRadius="11dp">
+
+                <ImageView
+                    android:id="@+id/imageViewAddImageButtonPaginaAddAuction"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/baseline_add_box_24_secondcolor"
+                    android:background="@color/GoldBackground">
+                </ImageView>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardImageViewAddedImagePaginaAddAuction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cardImageViewAddImageButtonPaginaAddAuction"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/GoldBackground"
+                app:cardCornerRadius="11dp"
+                app:strokeColor="@color/DarkRed"
+                app:strokeWidth="2dp">
+
+                <ImageView
+                    android:id="@+id/imageViewAddedImagePaginaAddAuction"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp">
+                </ImageView>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardBottoneConfermaPaginaAddAuction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/Red"
+                android:layout_centerHorizontal="true"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintTop_toBottomOf="@id/cardImageViewAddedImagePaginaAddAuction">
+
+                <Button
+                    android:id="@+id/bottoneConfermaPaginaAddAuction"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:backgroundTint="@color/LightRed"
+                    android:text="Conferma"
+                    android:textAllCaps="false"
+                    android:textColor="@color/GoldBackground"
+                    android:textSize="18sp">
+                </Button>
+            </androidx.cardview.widget.CardView>
+
+
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+
+
+    </ScrollView>
+
 
 
 

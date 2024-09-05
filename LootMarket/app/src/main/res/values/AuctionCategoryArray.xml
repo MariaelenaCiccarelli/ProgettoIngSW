@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="auction_category_array">
+        <item>Fumetti &amp; Manga</item>
+        <item>Action Figures</item>
+        <item>Carte Collezionabili</item>
+        <item>Tavole Originali</item>
+        <item>Gadget e altro</item>
+    </string-array>
+</resources>

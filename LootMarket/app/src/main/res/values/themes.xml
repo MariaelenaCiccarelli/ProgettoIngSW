@@ -3,6 +3,7 @@
     <style name="Base.Theme.LootMarket" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/Red</item>
         <item name="colorPrimaryVariant">@color/Gold</item>
+        <item name="android:colorBackground">@color/GoldBackground</item>
         <item name="colorOnBackground">@color/LightGold</item>
         <item name="colorOnContainer">@color/GoldBackground</item>
         <item name="colorSecondary">@color/Red</item>

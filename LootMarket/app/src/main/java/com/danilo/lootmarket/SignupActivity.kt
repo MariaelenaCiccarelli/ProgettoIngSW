@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.danilo.lootmarket.databinding.ActivitySignupBinding
+import java.util.regex.Pattern
 
 class SignupActivity: AppCompatActivity() {
 
@@ -24,9 +25,13 @@ class SignupActivity: AppCompatActivity() {
             var email = binding.editTextEmailPaginaSignup.text.toString()
             var password = binding.editTextPasswordPaginaSignup.text.toString()
             var checked = binding.checkboxTerminiPaginaSignup.isChecked
+            val patternMail = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\$")
+
 
             if((email == "")||(password=="")||(checked==false)){
                 Toast.makeText(this, "Compila tutti i campi e accetta i termini!", Toast.LENGTH_SHORT).show()
+            }else if(!(patternMail.matcher(email).matches())){
+                Toast.makeText(this, "Formato email non valido", Toast.LENGTH_SHORT).show()
             }else{
                 val intent = Intent(this, DataProfileActivity::class.java)
                 startActivity(intent)

@@ -1,11 +1,18 @@
 package com.danilo.lootmarket
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.fragment.app.Fragment
 import com.danilo.lootmarket.databinding.FragmentHomeBinding
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.util.Date
 
 
 class HomeFragment: Fragment() {
@@ -19,14 +26,15 @@ class HomeFragment: Fragment() {
         savedInstanceState: Bundle?
 
 
+
     ): View? {
         // Inflate the layout for this fragment
         var auction1 = Auction(
             0,
             "Naruto",
             150F,
-            3,
-            "prova",
+            ZonedDateTime.now(),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Drawable),
             "Action figure originale in vinile di Naruto Uzumaki",
             "Action Figures"
         )
@@ -34,8 +42,8 @@ class HomeFragment: Fragment() {
             0,
             "Drago Bianco Occhi Blu Rara Ghost",
             15000F,
-            20,
-            "prova",
+            ZonedDateTime.of(2024, 9, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "Carta originale pazza incredibile di yu-gi-oh",
             "Carte Collezionabili"
         )
@@ -43,8 +51,8 @@ class HomeFragment: Fragment() {
             0,
             "Pennino Originale Giuro di Masashi Kishimoto",
             150.00F,
-            0,
-            "prova",
+            ZonedDateTime.of(2024, 10, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "Me lo ha portato mio zio dal Giappone giuro su mio zio",
             "Gadget"
         )
@@ -52,8 +60,8 @@ class HomeFragment: Fragment() {
             0,
             "Tavola Stupenda One Piece",
             100.00F,
-            0,
-            "prova",
+            ZonedDateTime.of(2024, 9, 6, 23, 59, 59, 59, ZoneId.of("GMT")),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "C'è il One Piece",
             "Tavole"
 
@@ -62,8 +70,8 @@ class HomeFragment: Fragment() {
             0,
             "Volume 33 Boruto",
             60.00F,
-            0,
-            "prova",
+            ZonedDateTime.of(2024, 9, 7, 23, 59, 59, 59, ZoneId.of("GMT")),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "Nessuno lo vuole",
             "Fumetti"
         )
@@ -71,8 +79,8 @@ class HomeFragment: Fragment() {
             0,
             "Pennino Originale Giuro di Masashi Kishimoto",
             150.00F,
-            0,
-            "prova",
+            ZonedDateTime.of(2024, 9, 10, 23, 59, 59, 59, ZoneId.of("GMT")),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "Me lo ha portato mio zio dal Giappone giuro su mio zio",
             "Gadget"
         )
@@ -80,8 +88,8 @@ class HomeFragment: Fragment() {
             0,
             "Pennino Originale Giuro di Masashi Kishimoto",
             150.00F,
-            0,
-            "prova",
+            ZonedDateTime.of(2024, 11, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Drawable),
             "Me lo ha portato mio zio dal Giappone giuro su mio zio",
             "Gadget"
         )
@@ -92,6 +100,8 @@ class HomeFragment: Fragment() {
 
         binding = FragmentHomeBinding.inflate(layoutInflater)
         //setContentView(binding.root)
+
+        var data = Date(10, 10,10)
 
         auctionsAdapter = AuctionsAdapter(auctions, this.requireContext())
 

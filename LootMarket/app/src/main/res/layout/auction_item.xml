@@ -82,7 +82,6 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/naruto2"
                     android:id="@+id/immagineAuctionItem">
                 </ImageView>
             </com.google.android.material.card.MaterialCardView>
