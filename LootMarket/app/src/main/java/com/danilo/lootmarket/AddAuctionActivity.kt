@@ -117,20 +117,20 @@ class AddAuctionActivity: AppCompatActivity() {
 
         binding.bottoneConfermaPaginaAddAuction.setOnClickListener{
             var titolo = binding.editTextTitoloAstaPaginaAddAuction.text.toString()
-            var prezzo: Float = binding.editTextPrezzoAstaPaginaAddAuction.text.toString().toFloat()
+            var prezzo = binding.editTextPrezzoAstaPaginaAddAuction.text.toString()
             var descrizione = binding.editTextDescrizioneAstaPaginaAddAuction.text.toString()
             var immagine = binding.imageViewAddedImagePaginaAddAuction.drawable
             var categoria = binding.textViewCategoriaAstaPaginaAddAuction.text.toString()
 
 
 
-            if((titolo == "")|| (prezzo.toString() =="")||(descrizione == "")||(immagine == null)){
+            if((titolo == "")|| (prezzo =="")||(descrizione == "")||(immagine == null)){
                 Toast.makeText(this, "Compila tutti i campi obbligatori!", Toast.LENGTH_SHORT).show()
             }else{
                 var momentoScadenza = ZonedDateTime.of(binding.datePickerScadenzaPaginaAddAuction.year, binding.datePickerScadenzaPaginaAddAuction.month, binding.datePickerScadenzaPaginaAddAuction.dayOfMonth, 23, 59,59,59, ZoneId.of("GMT") )
-                var auction = Auction(10,titolo, prezzo, momentoScadenza, immagine, descrizione, categoria)
+                var auction = Auction(10,titolo, prezzo.toFloat(), momentoScadenza, immagine, descrizione, categoria)
                 Toast.makeText(this, "Creazione Asta avvenuta con successo!", Toast.LENGTH_SHORT).show()
-                Toast.makeText(this, auction.titoloAsta, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, auction.ultimaOfferta.toString(), Toast.LENGTH_SHORT).show()
                 finish()
             }
         }

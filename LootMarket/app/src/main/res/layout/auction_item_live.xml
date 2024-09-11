@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    android:backgroundTint="@color/GoldBackground"
+    android:id="@+id/cardAuctionItem"
+    app:cardUseCompatPadding="true">
+
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="135dp"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/testoTitoloAstaAuctionLiveItem"
+                android:layout_width="230dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="7dp"
+                android:fontFamily="@font/roboto_medium"
+                android:maxLines="2"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:text="Titolo Asta"
+                android:textColor="@color/DarkRed"
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintBottom_toTopOf="@id/testoUltimaOffertaAuctionLiveItem"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cardImmagineAuctionLiveItem"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/testoUltimaOffertaAuctionLiveItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="35dp"
+                android:fontFamily="@font/roboto_medium"
+                android:maxLines="1"
+                android:text="Ultima Offerta: 40€"
+                android:textColor="@color/LightRed"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/testoTempoRimanenteAuctionLiveItem"
+                app:layout_constraintStart_toEndOf="@id/cardImmagineAuctionLiveItem"
+                app:layout_constraintTop_toTopOf="parent"></TextView>
+            <TextView
+                android:id="@+id/testoTempoRimanenteAuctionLiveItem"
+                app:layout_constraintStart_toEndOf="@id/cardImmagineAuctionLiveItem"
+                app:layout_constraintTop_toBottomOf="@id/testoUltimaOffertaAuctionLiveItem"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="40h rim."
+                android:maxLines="1"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/LightRed"
+                android:layout_alignParentRight="true"
+                android:textAlignment="textEnd"
+                android:textSize="14sp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:backgroundTint="@color/GoldBackground"
+                app:cardCornerRadius="16dp"
+                android:elevation="4dp"
+                android:id="@+id/cardImmagineAuctionLiveItem"
+                app:strokeColor="@color/DarkRed"
+                app:strokeWidth="2dp">
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/immagineAuctionLiveItem">
+                </ImageView>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/testoUltimaOffertaAuctionLiveItem"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constrainedHeight="true"
+                app:cardCornerRadius="50dp"
+                android:elevation="4dp"
+                android:id="@+id/cardBollinoAuctionLiveItem"
+                app:cardBackgroundColor="@color/Red"
+                app:strokeColor="@color/DarkRed"
+                app:strokeWidth="2dp">
+                <ImageView
+                    android:paddingTop="8dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="10dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/baseline_gavel_24_secondcolor"
+                    android:id="@+id/BollinoAuctionLiveItem">
+                </ImageView>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/testoAutoreAuctionLiveItem"
+                app:layout_constraintTop_toBottomOf="@id/testoTempoRimanenteAuctionLiveItem"
+                app:layout_constraintStart_toEndOf="@id/cardImmagineAuctionLiveItem"
+                android:text="Nome Autore"
+                android:layout_marginStart="10dp"
+                android:maxLines="1"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginTop="7dp"
+                android:textColor="@color/DarkRed"
+                android:layout_alignParentRight="true"
+                android:textAlignment="textEnd"
+                android:textSize="14sp">
+            </TextView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

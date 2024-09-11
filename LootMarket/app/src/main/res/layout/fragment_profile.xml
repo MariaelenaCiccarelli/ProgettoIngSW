@@ -3,15 +3,626 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".HomeActivity"
+    android:background="@color/LightGold">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Profile Fragment"
-        android:textSize="36sp"
-        android:textColor="@color/Gold"
-        android:gravity="center"/>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textViewNomeUtenteFrammentoProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="NomeUtente"
+            android:textColor="@color/DarkRed"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardImmagineFrammentoProfilo">
+        </TextView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardImmagineFrammentoProfilo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/GoldBackground"
+            app:cardCornerRadius="100dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/DarkRed"
+            app:strokeWidth="2dp">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/baseline_person_24"></ImageView>
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardBottoneModificaFrammentoProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:layout_marginStart="20dp"
+            android:backgroundTint="@color/Red"
+            android:layout_centerHorizontal="true"
+            app:cardCornerRadius="11dp"
+            app:layout_constraintStart_toEndOf="@id/cardImmagineFrammentoProfilo"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bottoneConfermaPaginaAddAuction"
+                android:layout_width="88dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/LightRed"
+                android:text="Modifica Profilo"
+                android:textAllCaps="false"
+                android:textColor="@color/GoldBackground"
+                android:textSize="10sp"></com.google.android.material.button.MaterialButton>
+        </androidx.cardview.widget.CardView>
+
+
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dividerFrammentoProfile"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/textViewNomeUtenteFrammentoProfile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:dividerColor="@color/Red">
+
+        </com.google.android.material.divider.MaterialDivider>
+
+        <ScrollView
+            android:id="@+id/scrollViewFrammentoProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/dividerFrammentoProfile"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:clipToPadding="false"
+            android:fillViewport="true">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="0dp"
+                app:cardBackgroundColor="@color/GoldBackground">
+
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textViewITuoiDatiFrammentoProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="I tuoi dati"
+                        android:textColor="@color/DarkRed"
+                        android:textSize="22sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+                    </TextView>
+
+
+                    <TextView
+                        android:id="@+id/textViewLabelCodiceFiscaleFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Codice Fiscale"
+                        android:textColor="@color/LightRed"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewITuoiDatiFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/textViewValueCodiceFiscaleFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="CodiceFiscaleUtente"
+                        android:textColor="@color/DarkRed"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelCodiceFiscaleFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/textViewLabelMailFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Email"
+                        android:textColor="@color/LightRed"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewValueCodiceFiscaleFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/textViewValueMailFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="EmailUtente"
+                        android:textColor="@color/DarkRed"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelMailFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/textViewLabelDataNascitaFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Data di Nascita"
+                        android:textColor="@color/LightRed"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewValueMailFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/textViewValueDataNascitaFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="DataNascitaUtente"
+                        android:textColor="@color/DarkRed"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelDataNascitaFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/textViewLabelNazioneFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Nazione"
+                        android:textColor="@color/LightRed"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewValueDataNascitaFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardSpinnerNazioneFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_height="45dp"
+                        android:layout_centerHorizontal="true"
+                        app:cardCornerRadius="11dp"
+                        android:backgroundTint="@color/Gold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelNazioneFrammentoProfile">
+
+                        <Spinner
+                            android:id="@+id/spinnerNazioneFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textAlignment="center">
+                        </Spinner>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/textViewLabelNumeroCellulareFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Numero Cellulare"
+                        android:textColor="@color/LightRed"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cardSpinnerNazioneFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextNumeroCellulareFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelNumeroCellulareFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:backgroundTint="@color/GoldBackground"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+
+                        <EditText
+                            android:id="@+id/editTextNumeroCellulareFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="Il tuo numero di cellulare"
+                            android:maxLines="1"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:inputType="phone"
+                            android:textAlignment="center"
+                            android:text="NumeroCellulareUtente"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="500"
+                            tools:ignore="RtlCompat">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/textViewLabelIndirizzoSpedizioneFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Indirizzo di Spedizione"
+                        android:textColor="@color/LightRed"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextNumeroCellulareFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextViaSpedizioneFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelIndirizzoSpedizioneFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:backgroundTint="@color/GoldBackground"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+
+                        <EditText
+                            android:id="@+id/editTextViaSpedizioneFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="La tua via di spedizione"
+                            android:maxLines="1"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:inputType="text"
+                            android:textAlignment="center"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="50"
+                            tools:ignore="RtlCompat">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextCittaSpedizioneFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextViaSpedizioneFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:backgroundTint="@color/GoldBackground"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+
+                        <EditText
+                            android:id="@+id/editTextCittaSpedizioneFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="La tua città di spedizione"
+                            android:maxLines="1"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:inputType="text"
+                            android:textAlignment="center"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="50"
+                            tools:ignore="RtlCompat">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextProvinciaSpedizioneFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextCittaSpedizioneFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:backgroundTint="@color/GoldBackground"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+
+                        <EditText
+                            android:id="@+id/editTextProvinciaSpedizioneFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="La tua provincia di spedizione"
+                            android:maxLines="1"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:inputType="text"
+                            android:textAlignment="center"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="50"
+                            tools:ignore="RtlCompat">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextCAPSpedizioneFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextProvinciaSpedizioneFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:backgroundTint="@color/Gold"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+
+                        <EditText
+                            android:id="@+id/editTextCAPSpedizioneFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="Il tuo CAP di spedizione"
+                            android:maxLines="1"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:inputType="number"
+                            android:textAlignment="center"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="50"
+                            tools:ignore="RtlCompat">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/textViewLabelIndirizzoFatturazioneFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Indirizzo di Fatturazione"
+                        android:textColor="@color/LightRed"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextCAPSpedizioneFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextViaFatturazioneFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelIndirizzoFatturazioneFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:backgroundTint="@color/Gold"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+
+                        <EditText
+                            android:id="@+id/editTextViaFatturazioneFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="La tua via di fatturazione"
+                            android:maxLines="1"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:inputType="text"
+                            android:textAlignment="center"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="50"
+                            tools:ignore="RtlCompat">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextCittaFatturazioneFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextViaFatturazioneFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:backgroundTint="@color/Gold"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+
+                        <EditText
+                            android:id="@+id/editTextCittaFatturazioneFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="La tua città di fatturazione"
+                            android:maxLines="1"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:inputType="text"
+                            android:textAlignment="center"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="50"
+                            tools:ignore="RtlCompat">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextProvinciaFatturazioneFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextCittaFatturazioneFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:backgroundTint="@color/Gold"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+
+                        <EditText
+                            android:id="@+id/editTextProvinciaFatturazioneFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="La tua provincia di fatturazione"
+                            android:maxLines="1"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:inputType="text"
+                            android:textAlignment="center"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="50"
+                            tools:ignore="RtlCompat">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextCAPFatturazioneFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextProvinciaFatturazioneFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:backgroundTint="@color/Gold"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+
+                        <EditText
+                            android:id="@+id/editTextCAPFatturazioneFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="Il tuo CAP di fatturazione"
+                            android:maxLines="1"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:inputType="number"
+                            android:textAlignment="center"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="50"
+                            tools:ignore="RtlCompat">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </ScrollView>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

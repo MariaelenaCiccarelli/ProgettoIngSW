@@ -23,7 +23,7 @@
     </item>
 
     <item
-        android:id ="@+id/bottom_reels"
+        android:id ="@+id/bottom_auctions"
         android:title="Auctions"
         android:icon="@drawable/baseline_gavel_24">
 

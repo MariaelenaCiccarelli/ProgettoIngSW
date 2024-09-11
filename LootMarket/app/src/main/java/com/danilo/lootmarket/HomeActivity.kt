@@ -66,7 +66,7 @@ class HomeActivity: AppCompatActivity() {
                     true
                 }
 
-                R.id.bottom_reels -> {
+                R.id.bottom_auctions -> {
                     replaceFragment(AuctionsFragment())
                     true
                 }

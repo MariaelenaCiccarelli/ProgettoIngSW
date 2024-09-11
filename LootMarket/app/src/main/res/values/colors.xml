@@ -7,6 +7,8 @@
     <color name="LogoGold">#fad354</color>
 
     <color name="GoldBackground">#FFF6DD</color>
+    <color name="RedBackground">#C5715A</color>
+
     <color name="Red">#a91010</color>
     <color name="DarkRed">#4d251b</color>
     <color name="LightRed">#c01b1b</color>
@@ -18,6 +20,5 @@
     <color name="DarkBlue">#152a4a</color>
     <color name="DarkBlue2">#293c59</color>
     <color name="Ice">#e1f5f7</color>
-
 
 </resources>
