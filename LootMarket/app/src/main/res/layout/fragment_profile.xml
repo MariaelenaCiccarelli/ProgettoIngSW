@@ -39,8 +39,8 @@
             app:strokeWidth="2dp">
 
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:src="@drawable/baseline_person_24"></ImageView>
         </com.google.android.material.card.MaterialCardView>
 
@@ -48,7 +48,7 @@
             android:id="@+id/cardBottoneModificaFrammentoProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="30dp"
             android:layout_marginStart="20dp"
             android:backgroundTint="@color/Red"
             android:layout_centerHorizontal="true"
@@ -58,7 +58,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bottoneConfermaPaginaAddAuction"
-                android:layout_width="88dp"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:backgroundTint="@color/LightRed"
@@ -82,6 +82,8 @@
 
         </com.google.android.material.divider.MaterialDivider>
 
+
+
         <ScrollView
             android:id="@+id/scrollViewFrammentoProfile"
             android:layout_width="match_parent"
@@ -96,8 +98,6 @@
                 android:layout_height="match_parent"
                 app:cardCornerRadius="0dp"
                 app:cardBackgroundColor="@color/GoldBackground">
-
-
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -156,7 +156,7 @@
                         android:id="@+id/textViewLabelMailFrammentoProfile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Email"
                         android:textColor="@color/LightRed"
@@ -190,7 +190,7 @@
                         android:id="@+id/textViewLabelDataNascitaFrammentoProfile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Data di Nascita"
                         android:textColor="@color/LightRed"
@@ -224,7 +224,7 @@
                         android:id="@+id/textViewLabelNazioneFrammentoProfile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Nazione"
                         android:textColor="@color/LightRed"
@@ -243,8 +243,8 @@
                         android:id="@+id/cardSpinnerNazioneFrammentoProfile"
                         android:layout_width="match_parent"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
                         android:layout_height="45dp"
                         android:layout_centerHorizontal="true"
                         app:cardCornerRadius="11dp"
@@ -265,7 +265,7 @@
                         android:id="@+id/textViewLabelNumeroCellulareFrammentoProfile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Numero Cellulare"
                         android:textColor="@color/LightRed"
@@ -289,8 +289,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:backgroundTint="@color/GoldBackground"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
                         app:cardCornerRadius="11dp"
                         android:layout_centerHorizontal="false">
 
@@ -318,7 +318,7 @@
                         android:id="@+id/textViewLabelIndirizzoSpedizioneFrammentoProfile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Indirizzo di Spedizione"
                         android:textColor="@color/LightRed"
@@ -342,8 +342,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:backgroundTint="@color/GoldBackground"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
                         app:cardCornerRadius="11dp"
                         android:layout_centerHorizontal="false">
 
@@ -375,8 +375,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:backgroundTint="@color/GoldBackground"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
                         app:cardCornerRadius="11dp"
                         android:layout_centerHorizontal="false">
 
@@ -408,8 +408,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:backgroundTint="@color/GoldBackground"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
                         app:cardCornerRadius="11dp"
                         android:layout_centerHorizontal="false">
 
@@ -440,8 +440,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:backgroundTint="@color/Gold"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
                         app:cardCornerRadius="11dp"
                         android:layout_centerHorizontal="false">
 
@@ -468,7 +468,7 @@
                         android:id="@+id/textViewLabelIndirizzoFatturazioneFrammentoProfile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Indirizzo di Fatturazione"
                         android:textColor="@color/LightRed"
@@ -480,9 +480,6 @@
                         android:layout_marginEnd="10dp"
                         android:textAlignment="center">
                     </TextView>
-
-
-
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardEditTextViaFatturazioneFrammentoProfile"
                         android:layout_width="match_parent"
@@ -492,8 +489,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:backgroundTint="@color/Gold"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
                         app:cardCornerRadius="11dp"
                         android:layout_centerHorizontal="false">
 
@@ -525,8 +522,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:backgroundTint="@color/Gold"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
                         app:cardCornerRadius="11dp"
                         android:layout_centerHorizontal="false">
 
@@ -558,8 +555,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:backgroundTint="@color/Gold"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
                         app:cardCornerRadius="11dp"
                         android:layout_centerHorizontal="false">
 
@@ -590,8 +587,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:backgroundTint="@color/Gold"
                         android:layout_marginTop="10dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
                         app:cardCornerRadius="11dp"
                         android:layout_centerHorizontal="false">
 
@@ -614,13 +611,628 @@
                         </EditText>
                     </androidx.cardview.widget.CardView>
 
+                    <TextView
+                        android:id="@+id/textViewLabelSitowebFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Sito web"
+                        android:textColor="@color/LightRed"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextCAPFatturazioneFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextSitowebFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelSitowebFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:backgroundTint="@color/GoldBackground"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+
+                        <EditText
+                            android:id="@+id/editTextSitowebFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="L'indirizzo del tuo sito web"
+                            android:maxLines="1"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:inputType="text"
+                            android:textAlignment="center"
+                            android:text="SitoWebUtente"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="500"
+                            tools:ignore="RtlCompat">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/textViewLabelSocialFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Social"
+                        android:textColor="@color/LightRed"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextSitowebFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardImageViewFacebookIconFrammentoProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelSocialFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/cardEditTextSocialFacebookFrammentoProfile"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="10dp"
+                        app:strokeColor="@color/DarkRed"
+                        app:cardCornerRadius="11dp"
+                        app:cardElevation="2dp"
+                        app:cardBackgroundColor="@color/GoldBackground">
+
+                        <ImageView
+                            android:id="@+id/imageViewFacebookIconFrammentoProfile"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/facebook_icon">
+                        </ImageView>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextSocialFacebookFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelSocialFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:backgroundTint="@color/GoldBackground"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="70dp"
+                        android:layout_marginEnd="40dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+
+                        <EditText
+                            android:id="@+id/editTextSocialFacebookFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="La tua pagina Facebook"
+                            android:maxLines="1"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:inputType="text"
+                            android:textAlignment="center"
+                            android:text="PaginaFacebookUtente"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="500"
+                            tools:ignore="RtlCompat">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="13.5dp"
+                        app:layout_constraintTop_toBottomOf="@id/cardImageViewFacebookIconFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/cardEditTextSocialInstagramFrammentoProfile"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="10dp"
+                        app:strokeColor="@color/DarkRed"
+                        app:cardCornerRadius="11dp"
+                        app:cardElevation="2dp"
+                        app:cardBackgroundColor="@color/GoldBackground">
+                        <ImageView
+                            android:id="@+id/imageViewInstagramIconFrammentoProfile"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+
+                            android:src="@drawable/instagram_icon">
+                        </ImageView>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextSocialInstagramFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextSocialFacebookFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:backgroundTint="@color/GoldBackground"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="70dp"
+                        android:layout_marginEnd="40dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+
+                        <EditText
+                            android:id="@+id/editTextSocialInstagramFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="La tuo profilo Instagram"
+                            android:maxLines="1"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:inputType="text"
+                            android:textAlignment="center"
+                            android:text="ProfiloInstagramUtente"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="500"
+                            tools:ignore="RtlCompat">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/textViewLabelBiografiaFrammentoProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Biografia"
+                        android:textColor="@color/DarkRed"
+                        android:textSize="22sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextSocialInstagramFrammentoProfile">
+                    </TextView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextBiografiaFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelBiografiaFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:backgroundTint="@color/GoldBackground"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+                        <EditText
+                            android:id="@+id/editTextBiografiaFrammentoProfile"
+                             android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="La tua biografia"
+                            android:maxLines="5"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="500">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardBottonePassaABusinessFrammentoProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextBiografiaFrammentoProfile"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="300dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:backgroundTint="@color/Red"
+                        android:layout_centerHorizontal="true"
+                        app:cardCornerRadius="11dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/bottonePassaABusinessFrammentoProfile"
+                            android:layout_width="200dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="5dp"
+                            android:backgroundTint="@color/LightRed"
+                            android:text="Passa a Business"
+                            android:textAllCaps="false"
+                            android:textColor="@color/GoldBackground"
+                            android:textSize="15sp">
+                        </com.google.android.material.button.MaterialButton>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/textViewLabelInfoBusinessFrammentoProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Info Business"
+                        android:textColor="@color/DarkRed"
+                        android:textSize="22sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cardEditTextBiografiaFrammentoProfile">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/textViewLabelRagioneSocialeFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Ragione Sociale"
+                        android:textColor="@color/LightRed"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelInfoBusinessFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/textViewValueRagioneSocialeFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="RagioneSocialeUtente"
+                        android:textColor="@color/DarkRed"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelRagioneSocialeFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/textViewLabelPartitaIvaFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Partiva Iva"
+                        android:textColor="@color/LightRed"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewValueRagioneSocialeFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/textViewValuePartivaIvaFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="RagioneSocialeUtente"
+                        android:textColor="@color/DarkRed"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelPartitaIvaFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/textViewLabelNumeroAziendaleFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Numero Aziendale"
+                        android:textColor="@color/LightRed"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewValuePartivaIvaFrammentoProfile"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textAlignment="center">
+                    </TextView>
+
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardEditTextNumeroAziendaleFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/textViewLabelNumeroAziendaleFrammentoProfile"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="300dp"
+                        android:backgroundTint="@color/GoldBackground"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="40dp"
+                        app:cardCornerRadius="11dp"
+                        android:layout_centerHorizontal="false">
+
+                        <EditText
+                            android:id="@+id/editTextNumeroAziendaleFrammentoProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:hint="Il tuo numero aziendale"
+                            android:maxLines="1"
+                            android:background="@color/Gold"
+                            android:padding="12dp"
+                            android:inputType="phone"
+                            android:textAlignment="center"
+                            android:text="NumeroAziendaleUtente"
+                            android:textColor="@color/DarkRed"
+                            android:textSize="14sp"
+                            android:gravity="top"
+                            android:maxLength="500"
+                            tools:ignore="RtlCompat">
+                        </EditText>
+                    </androidx.cardview.widget.CardView>
+
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
         </ScrollView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardOverlayFrammentoProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardCornerRadius="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:strokeColor="@color/DarkRed"
+            app:strokeWidth="2dp"
+            app:cardBackgroundColor="@color/GoldOverlay">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textViewLabelOverlayInfoBusinessFrammentoProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Info Business"
+                    android:textColor="@color/DarkRed"
+                    android:textSize="30sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/textViewLabelOverlayRagioneSocialeFrammentoProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Ragione Sociale"
+                    android:textColor="@color/LightRed"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewLabelOverlayInfoBusinessFrammentoProfile"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:textAlignment="textStart">
+                </TextView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardEditTextOverlayRagioneSocialeFrammentoProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/textViewLabelOverlayRagioneSocialeFrammentoProfile"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginBottom="300dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    app:cardCornerRadius="11dp"
+                    android:layout_centerHorizontal="false">
+
+                    <EditText
+                        android:id="@+id/editTextOverlayRagioneSocialeFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:hint="La tua ragione sociale"
+                        android:maxLines="1"
+                        android:textColorHint="@color/GoldBackground"
+                        android:background="@color/GoldScuro"
+                        android:padding="12dp"
+                        android:inputType="text"
+                        android:textAlignment="center"
+                        android:textColor="@color/GoldBackground"
+                        android:textSize="16sp"
+                        android:gravity="top"
+                        android:maxLength="500"
+                        tools:ignore="RtlCompat">
+                    </EditText>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/textViewLabelOverlayPartitaIvaFrammentoProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Partita Iva"
+                    android:textColor="@color/LightRed"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cardEditTextOverlayRagioneSocialeFrammentoProfile"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:textAlignment="textStart">
+                </TextView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardEditTextOverlayPartitaIvaFrammentoProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/textViewLabelOverlayPartitaIvaFrammentoProfile"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:backgroundTint="@color/LightGold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    app:cardCornerRadius="11dp"
+                    android:layout_centerHorizontal="false">
+
+                    <EditText
+                        android:id="@+id/editTextOverlayPartivaIvaFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:hint="La tua partita Iva"
+                        android:textColorHint="@color/GoldBackground"
+                        android:maxLines="1"
+                        android:background="@color/GoldScuro"
+                        android:padding="12dp"
+                        android:inputType="text"
+                        android:textAlignment="center"
+                        android:textColor="@color/GoldBackground"
+                        android:textSize="16sp"
+                        android:gravity="top"
+                        android:maxLength="500"
+                        tools:ignore="RtlCompat">
+                    </EditText>
+                </androidx.cardview.widget.CardView>
+
+
+                <TextView
+                    android:id="@+id/textViewLabelOverlayNumeroAziendaleFrammentoProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Numero Aziendale"
+                    android:textColor="@color/LightRed"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cardEditTextOverlayPartitaIvaFrammentoProfile"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:textAlignment="textStart">
+                </TextView>
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardEditTextOverlayNumeroAziendaleFrammentoProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/textViewLabelOverlayNumeroAziendaleFrammentoProfile"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:backgroundTint="@color/Red"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    app:cardCornerRadius="11dp"
+                    android:layout_centerHorizontal="false">
+
+                    <EditText
+                        android:id="@+id/editTextOverlayNumeroAziendaleFrammentoProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColorHint="@color/GoldBackground"
+                        android:hint="Il tuo numero aziendale"
+                        android:maxLines="1"
+                        android:background="@color/GoldScuro"
+                        android:padding="12dp"
+                        android:inputType="phone"
+                        android:textAlignment="center"
+                        android:textColor="@color/GoldBackground"
+                        android:textSize="16sp"
+                        android:gravity="top"
+                        android:maxLength="500"
+                        tools:ignore="RtlCompat">
+                    </EditText>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardBottoneOverlayFrammentoProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/cardEditTextOverlayNumeroAziendaleFrammentoProfile"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:backgroundTint="@color/Red"
+                    android:layout_centerHorizontal="true"
+                    app:cardCornerRadius="11dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/bottoneOverlayFrammentoProfile"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="5dp"
+                        android:backgroundTint="@color/LightRed"
+                        android:text="Conferma"
+                        android:textAllCaps="false"
+                        android:textColor="@color/GoldBackground"
+                        android:textSize="18sp">
+                    </com.google.android.material.button.MaterialButton>
+                </androidx.cardview.widget.CardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

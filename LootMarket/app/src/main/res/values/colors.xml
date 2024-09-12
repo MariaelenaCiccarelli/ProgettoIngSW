@@ -3,6 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="Gold">#EBCA71</color>
+    <color name="GoldOverlay">#CCEBCA71</color>
+
     <color name="LightGold">#e4d3a4</color>
     <color name="LogoGold">#fad354</color>
 
