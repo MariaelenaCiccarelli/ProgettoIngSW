@@ -13,7 +13,7 @@ import com.danilo.lootmarket.databinding.ActivityHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity: AppCompatActivity() {
-   // private lateinit var binding: ActivityHomeBinding
+    private lateinit var binding: ActivityHomeBinding
 
     //private lateinit var auctionsAdapter : AuctionsAdapter
 
@@ -22,7 +22,9 @@ class HomeActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_home)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        //setContentView(R.layout.activity_home)
 
         /*
         var auction1 = Auction(0, "Naruto", 150F, 3, "prova", "Action figure originale in vinile di Naruto Uzumaki")
@@ -79,7 +81,15 @@ class HomeActivity: AppCompatActivity() {
                 else -> false
             }
         }
+
+        binding.NotificationButtonPaginaHome.setOnClickListener{
+            val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+        }
+
+
         replaceFragment(HomeFragment())
+
 
 
     }
