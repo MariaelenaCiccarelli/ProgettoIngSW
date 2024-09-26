@@ -9,3 +9,5 @@ TODO
 
 Backend to-do:
 1) se l'ultima offerta è fatta da te, esce nella pagina "dettagli asta"
+2) nell'area utente terzi, il backend dovrà mandare all'app solo le aste non scadute
+3) nell'area utente terzi, il backend dovrà ricevere dall'app l'id del profilo che l'utente sta per visitare e l'id dell'utente per vedere se ha fatto qualche offerta alle aste ceh vedrà comparire
