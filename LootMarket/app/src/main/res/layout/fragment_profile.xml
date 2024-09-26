@@ -39,10 +39,33 @@
             app:strokeWidth="2dp">
 
             <ImageView
-                android:id="@+id/imaveViewImmagineUtenteFrammentoProfile"
+                android:id="@+id/imageViewImmagineUtenteFrammentoProfile"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
                 android:src="@drawable/baseline_person_24"></ImageView>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cardBottoneCambiaImmagineFrammentoProfile"
+            app:cardBackgroundColor="@color/LightRed"
+            app:cardCornerRadius="25dp"
+            app:strokeWidth="2dp"
+            app:strokeColor="@color/DarkRed"
+            app:layout_constraintStart_toStartOf="@id/cardImmagineFrammentoProfilo"
+            app:layout_constraintTop_toTopOf="@id/cardImmagineFrammentoProfilo"
+            android:layout_marginTop="90dp"
+            android:layout_marginStart="90dp"
+            android:visibility="invisible">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="6dp"
+                android:layout_margin="0dp"
+                android:id="@+id/imageViewBottoneCambiaImmagineFrammentoProfile"
+                android:src="@drawable/baseline_mode_edit_24">
+            </ImageView>
+
         </com.google.android.material.card.MaterialCardView>
 
         <androidx.cardview.widget.CardView
@@ -1159,7 +1182,7 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:hint="La tua ragione sociale"
                                 android:maxLines="1"
-                                android:textColorHint="@color/GoldBackground"
+                                android:textColorHint="@color/Gold"
                                 android:background="@color/GoldScuro"
                                 android:padding="12dp"
                                 android:inputType="text"
@@ -1209,7 +1232,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_medium"
                                 android:hint="La tua partita Iva"
-                                android:textColorHint="@color/GoldBackground"
+                                android:textColorHint="@color/Gold"
                                 android:maxLines="1"
                                 android:background="@color/GoldScuro"
                                 android:padding="12dp"
@@ -1262,7 +1285,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_medium"
-                                android:textColorHint="@color/GoldBackground"
+                                android:textColorHint="@color/Gold"
                                 android:hint="Il tuo numero aziendale"
                                 android:maxLines="1"
                                 android:background="@color/GoldScuro"

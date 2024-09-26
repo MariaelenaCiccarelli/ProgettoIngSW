@@ -41,66 +41,73 @@ class SearchFragment : Fragment() {
         var auction1 = Auction(
             0,
             "Naruto",
-            150F,
+            150.00,
             ZonedDateTime.now(),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Drawable),
             "Action figure originale in vinile di Naruto Uzumaki",
-            "Action Figures"
+            "Action Figures",
+            "Asta inversa"
         )
         var auction2 = Auction(
             0,
             "Drago Bianco Occhi Blu Rara Ghost",
-            15000F,
+            15000.00,
             ZonedDateTime.of(2024, 9, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "Carta originale pazza incredibile di yu-gi-oh",
-            "Carte Collezionabili"
+            "Carte Collezionabili",
+            "Asta a tempo fisso"
         )
         var auction3 = Auction(
             0,
             "Pennino Originale Giuro di Masashi Kishimoto",
-            150.00F,
+            150.00,
             ZonedDateTime.of(2024, 10, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "Me lo ha portato mio zio dal Giappone giuro su mio zio",
-            "Gadget"
+            "Gadget",
+            "Asta inversa"
         )
         var auction4 = Auction(
             0,
             "Tavola Stupenda One Piece",
-            100.00F,
+            100.00,
             ZonedDateTime.of(2024, 9, 6, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "C'è il One Piece",
-            "Tavole"
+            "Tavole",
+            "Asta inversa"
 
         )
         var auction5 = Auction(
             0,
             "Volume 33 Boruto",
-            60.00F,
+            60.00,
             ZonedDateTime.of(2024, 9, 7, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "Nessuno lo vuole",
-            "Fumetti"
+            "Fumetti",
+            "Asta inversa"
         )
         var auction6 = Auction(
             0,
             "Pennino Originale Giuro di Masashi Kishimoto",
-            150.00F,
+            150.00,
             ZonedDateTime.of(2024, 9, 10, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "Me lo ha portato mio zio dal Giappone giuro su mio zio",
-            "Gadget"
+            "Gadget",
+            "Asta inversa"
         )
         var auction7 = Auction(
             0,
             "Pennino Originale Giuro di Masashi Kishimoto",
-            150.00F,
+            150.00,
             ZonedDateTime.of(2024, 11, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Drawable),
             "Me lo ha portato mio zio dal Giappone giuro su mio zio",
-            "Gadget"
+            "Gadget",
+            "Asta inversa"
         )
 
         var auctions: List<Auction>
@@ -333,6 +340,13 @@ class SearchFragment : Fragment() {
             }
 
         })
+
+        auctionsAdapter.onItemClick = {
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id))
+            transaction?.disallowAddToBackStack()
+            transaction?.commit()
+        }
 
         //val view = inflater.inflate(R.layout.fragment_home, container, false)
         return binding.root

@@ -21,6 +21,7 @@ class HomeActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val idUtente: String = intent.getStringExtra("id").toString()
         enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -52,29 +53,28 @@ class HomeActivity: AppCompatActivity() {
             bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when(menuItem.itemId) {
                 R.id.bottom_home -> {
-                    replaceFragment(HomeFragment())
+                    replaceFragment(HomeFragment(), "HomeFragment")
                     true
                 }
 
                 R.id.bottom_seach -> {
-                    replaceFragment(SearchFragment())
+                    replaceFragment(SearchFragment(), "SearchFragment")
                     true
                 }
 
                 R.id.bottom_add -> {
                     val intent = Intent(this, AddAuctionActivity::class.java)
-
                     startActivity(intent)
                     true
                 }
 
                 R.id.bottom_auctions -> {
-                    replaceFragment(AuctionsFragment())
+                    replaceFragment(AuctionsFragment(), "AuctionsFragment")
                     true
                 }
 
                 R.id.bottom_profile -> {
-                    replaceFragment(ProfileFragment())
+                    replaceFragment(ProfileFragment(), "ProfileFragment")
                     true
                 }
 
@@ -88,21 +88,28 @@ class HomeActivity: AppCompatActivity() {
         }
 
 
-        replaceFragment(HomeFragment())
+        replaceFragment(HomeFragment(), "HomeFragment")
 
 
 
     }
 
-    private fun replaceFragment(fragment: Fragment){
-        supportFragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit()
+    private fun replaceFragment(fragment: Fragment, tag: String){
+        supportFragmentManager.beginTransaction().replace(R.id.frame_container, fragment, tag).commit()
 
     }
 
     override fun onResume(){
         super.onResume()
-        bottomNavigationView.getMenu().findItem(R.id.bottom_home).setChecked(true)
-
+        if(supportFragmentManager.fragments.last().tag == "HomeFragment"){
+            bottomNavigationView.getMenu().findItem(R.id.bottom_home).setChecked(true)
+        }else if(supportFragmentManager.fragments.last().tag == "SearchFragment"){
+            bottomNavigationView.getMenu().findItem(R.id.bottom_seach).setChecked(true)
+        }else if(supportFragmentManager.fragments.last().tag == "AuctionsFragment"){
+            bottomNavigationView.getMenu().findItem(R.id.bottom_auctions).setChecked(true)
+        }else if(supportFragmentManager.fragments.last().tag == "ProfileFragment"){
+            bottomNavigationView.getMenu().findItem(R.id.bottom_profile).setChecked(true)
+        }
     }
 
 }

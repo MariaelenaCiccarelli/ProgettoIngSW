@@ -3,6 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="Gold">#EBCA71</color>
+    <color name="CardGold">#fceab8</color>
+    <color name="CardGold2">#A45E1C</color>
+
+
     <color name="GoldOverlay">#CCEBCA71</color>
     <color name="WhiteOverlay">#4D292929</color>
 

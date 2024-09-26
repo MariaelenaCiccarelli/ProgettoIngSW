@@ -25,7 +25,7 @@
             android:layout_marginBottom="5dp"
             app:strokeColor="@color/Red"
             app:strokeWidth="3dp"
-            app:cardBackgroundColor="@color/RedBackground">
+            app:cardBackgroundColor="@color/GoldBackground">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/RecyclerViewFrammentoSubscribedAuctions"

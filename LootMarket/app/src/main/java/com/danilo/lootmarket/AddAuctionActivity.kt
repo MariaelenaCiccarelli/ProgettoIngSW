@@ -121,6 +121,7 @@ class AddAuctionActivity: AppCompatActivity() {
             var descrizione = binding.editTextDescrizioneAstaPaginaAddAuction.text.toString()
             var immagine = binding.imageViewAddedImagePaginaAddAuction.drawable
             var categoria = binding.textViewCategoriaAstaPaginaAddAuction.text.toString()
+            var tipo = binding.spinnerTipoAstaPaginaAddAuction.selectedItem.toString()
 
 
 
@@ -128,7 +129,7 @@ class AddAuctionActivity: AppCompatActivity() {
                 Toast.makeText(this, "Compila tutti i campi obbligatori!", Toast.LENGTH_SHORT).show()
             }else{
                 var momentoScadenza = ZonedDateTime.of(binding.datePickerScadenzaPaginaAddAuction.year, binding.datePickerScadenzaPaginaAddAuction.month, binding.datePickerScadenzaPaginaAddAuction.dayOfMonth, 23, 59,59,59, ZoneId.of("GMT") )
-                var auction = Auction(10,titolo, prezzo.toFloat(), momentoScadenza, immagine, descrizione, categoria)
+                var auction = Auction(10,titolo, prezzo.toDouble(), momentoScadenza, immagine, descrizione, categoria, tipo)
                 Toast.makeText(this, "Creazione Asta avvenuta con successo!", Toast.LENGTH_SHORT).show()
                 Toast.makeText(this, auction.ultimaOfferta.toString(), Toast.LENGTH_SHORT).show()
                 finish()

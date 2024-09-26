@@ -32,8 +32,12 @@ class MainActivity : AppCompatActivity() {
             var passwordUtente = binding.editTextPasswordPaginaAccedi.text.toString()
             if((mailUtente == "") && (passwordUtente == "")){
                 Toast.makeText(this, "Accesso eseguito", Toast.LENGTH_SHORT).show()
+                //crea utente
+                val id: String = "AAA"
                 val intent = Intent(this, HomeActivity::class.java)
+                intent.putExtra("id", id)
                 startActivity(intent)
+
             }
             else{
                 Toast.makeText(this, "Credenziali errate", Toast.LENGTH_SHORT).show()

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import com.danilo.lootmarket.databinding.FragmentProfileBinding
@@ -20,6 +21,15 @@ import java.time.LocalDate
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
+
+    val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        val galleryUri = it
+        try {
+            binding.imageViewImmagineUtenteFrammentoProfile.setImageURI(galleryUri)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,6 +107,14 @@ class ProfileFragment : Fragment() {
             binding.cardOverlayFrammentoProfile.isVisible = false
             binding.cardBackgroundOverlayFrammentoProfile.isVisible = false
             binding.cardBottoneModificaFrammentoProfile.isVisible = true
+
+            binding.editTextOverlayRagioneSocialeFrammentoProfile.setText("")
+            binding.editTextOverlayNumeroAziendaleFrammentoProfile.setText("")
+            binding.editTextOverlayPartivaIvaFrammentoProfile.setText("")
+
+        }
+        binding.cardBottoneCambiaImmagineFrammentoProfile.setOnClickListener{
+            galleryLauncher.launch("image/*")
         }
 
         return binding.root
@@ -116,7 +134,7 @@ class ProfileFragment : Fragment() {
 
         fun setDatiBase(utente: UserBase){
             //Settaggio campi
-            binding.imaveViewImmagineUtenteFrammentoProfile.setImageDrawable(utente.immagine)
+            binding.imageViewImmagineUtenteFrammentoProfile.setImageDrawable(utente.immagine)
             binding.textViewNomeUtenteFrammentoProfile.text = utente.nome
             binding.textViewValueCodiceFiscaleFrammentoProfile.text = utente.codiceFiscale
             binding.textViewValueMailFrammentoProfile.text = utente.mail
@@ -143,6 +161,7 @@ class ProfileFragment : Fragment() {
 
     fun attivaCampi(isBusiness: Boolean){
 
+        binding.cardBottoneCambiaImmagineFrammentoProfile.isVisible= true
         binding.spinnerNazioneFrammentoProfile.setBackgroundColor(Color.parseColor("#EBCA71"))
         binding.spinnerNazioneFrammentoProfile.isEnabled= true
 
@@ -197,6 +216,7 @@ class ProfileFragment : Fragment() {
     fun disattivaCampi(isBusiness: Boolean){
         binding.spinnerNazioneFrammentoProfile.setBackgroundColor(Color.parseColor("#FFF6DD"))
         binding.spinnerNazioneFrammentoProfile.isEnabled= false
+        binding.cardBottoneCambiaImmagineFrammentoProfile.isVisible= false
 
         binding.editTextNumeroCellulareFrammentoProfile.setBackgroundColor(Color.parseColor("#FFF6DD"))
         binding.editTextNumeroCellulareFrammentoProfile.isEnabled= false

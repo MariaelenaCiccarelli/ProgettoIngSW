@@ -27,7 +27,7 @@ class SubscribedAuctionsFragment : Fragment() {
         var auction1 = AuctionViewHistory(
             0,
             "Naruto",
-            150F,
+            150.00,
             ZonedDateTime.now(),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Drawable),
             "Naruto",
@@ -37,7 +37,7 @@ class SubscribedAuctionsFragment : Fragment() {
         var auction2 = AuctionViewHistory(
             0,
             "Drago Bianco Occhi Blu Rara Ghost",
-            15000F,
+            15000.00,
             ZonedDateTime.of(2024, 9, 12, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "Sasuke",
@@ -47,7 +47,7 @@ class SubscribedAuctionsFragment : Fragment() {
         var auction3 = AuctionViewHistory(
             0,
             "Pennino Originale Giuro di Masashi Kishimoto",
-            150.00F,
+            150.00,
             ZonedDateTime.of(2024, 10, 11, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "Mattia Brescia",
@@ -57,7 +57,7 @@ class SubscribedAuctionsFragment : Fragment() {
         var auction4 = AuctionViewHistory(
             0,
             "Tavola Stupenda One Piece",
-            100.00F,
+            100.00,
             ZonedDateTime.now().plusDays(1),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "Sergio di Martino",
@@ -67,7 +67,7 @@ class SubscribedAuctionsFragment : Fragment() {
         var auction5 = AuctionViewHistory(
             0,
             "Volume 33 Boruto",
-            60.00F,
+            60.00,
             ZonedDateTime.of(2024, 9, 7, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "Luigi Libero Lucio Starace",
@@ -76,7 +76,7 @@ class SubscribedAuctionsFragment : Fragment() {
         var auction6 = AuctionViewHistory(
             0,
             "Pennino Originale Giuro di Masashi Kishimoto",
-            150.00F,
+            150.00,
             ZonedDateTime.of(2024, 9, 10, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
             "Mariaelena Ciccarelli",
@@ -85,7 +85,7 @@ class SubscribedAuctionsFragment : Fragment() {
         var auction7 = AuctionViewHistory(
             0,
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            150.00F,
+            150.00,
             ZonedDateTime.of(2024, 11, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Drawable),
             "Danilo Pellecchia",
@@ -103,6 +103,13 @@ class SubscribedAuctionsFragment : Fragment() {
 
         binding.RecyclerViewFrammentoSubscribedAuctions.layoutManager = LinearLayoutManager(this.requireContext())
         binding.RecyclerViewFrammentoSubscribedAuctions.adapter = auctionsLiveAdapter
+
+        auctionsLiveAdapter.onItemClick = {
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id))
+            transaction?.disallowAddToBackStack()
+            transaction?.commit()
+        }
 
 
 

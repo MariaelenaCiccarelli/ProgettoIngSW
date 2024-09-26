@@ -82,6 +82,26 @@
                     android:id="@+id/immagineAuctionItem">
                 </ImageView>
             </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cardBollinoInversaAuctionItem"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="25dp"
+                app:cardCornerRadius="25dp"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/DarkRed"
+                app:cardBackgroundColor="@color/LightRed"
+                android:visibility="invisible">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/imageViewBollinoInversaAuctionItem"
+                    android:src="@drawable/baseline_currency_exchange_24"
+                    android:padding="5dp"
+                    >
+                </ImageView>
+            </com.google.android.material.card.MaterialCardView>
 
 
             <TextView

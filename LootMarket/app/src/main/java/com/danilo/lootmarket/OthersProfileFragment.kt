@@ -9,17 +9,18 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.fragment.app.Fragment
 import com.danilo.lootmarket.databinding.FragmentHomeBinding
+import com.danilo.lootmarket.databinding.FragmentOthersProfileBinding
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.Date
 
 
-class HomeFragment: Fragment() {
+class OthersProfileFragment: Fragment() {
 
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentOthersProfileBinding
 
-    private lateinit var auctionsAdapter: AuctionsAdapter
+    private lateinit var auctionsLiveAdapter: AuctionsLiveAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,102 +30,94 @@ class HomeFragment: Fragment() {
 
     ): View? {
         // Inflate the layout for this fragment
-        var auction1 = Auction(
+        var auction1 = AuctionViewHistory(
             0,
             "Naruto",
             150.00,
             ZonedDateTime.now(),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Drawable),
-            "Action figure originale in vinile di Naruto Uzumaki",
-            "Action Figures",
-            "Asta inversa"
+            "Prova",
+            true
         )
-        var auction2 = Auction(
+        var auction2 = AuctionViewHistory(
             1,
             "Drago Bianco Occhi Blu Rara Ghost",
             15000.00,
             ZonedDateTime.of(2024, 9, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
-            "Carta originale pazza incredibile di yu-gi-oh",
-            "Carte Collezionabili",
-            "Asta a tempo fisso"
+            "Prova",
+            false
         )
-        var auction3 = Auction(
+        var auction3 = AuctionViewHistory(
             2,
             "Pennino Originale Giuro di Masashi Kishimoto",
             150.00,
             ZonedDateTime.of(2024, 10, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
-            "Me lo ha portato mio zio dal Giappone giuro su mio zio",
-            "Gadget",
-            "Asta a tempo fisso"
+            "Prova",
+            false
         )
-        var auction4 = Auction(
+        var auction4 = AuctionViewHistory(
             3,
             "Tavola Stupenda One Piece",
             100.00,
             ZonedDateTime.of(2024, 9, 6, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
-            "C'è il One Piece",
-            "Tavole",
-            "Asta a tempo fisso"
-
+            "Prova",
+            true
         )
-        var auction5 = Auction(
+        var auction5 = AuctionViewHistory(
             4,
             "Volume 33 Boruto",
             60.00,
             ZonedDateTime.of(2024, 9, 7, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
-            "Nessuno lo vuole",
-            "Fumetti",
-            "Asta a tempo fisso"
+            "Prova",
+            true
         )
-        var auction6 = Auction(
+        var auction6 = AuctionViewHistory(
             5,
             "Pennino Originale Giuro di Masashi Kishimoto",
             150.00,
             ZonedDateTime.of(2024, 9, 10, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
-            "Me lo ha portato mio zio dal Giappone giuro su mio zio",
-            "Gadget",
-            "Asta inversa"
+            "Prova",
+            false
         )
-        var auction7 = Auction(
+        var auction7 = AuctionViewHistory(
             6,
             "Pennino Originale Giuro di Masashi Kishimoto",
             150.00,
             ZonedDateTime.of(2024, 11, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
             (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Drawable),
-            "Me lo ha portato mio zio dal Giappone giuro su mio zio",
-            "Gadget",
-            "Asta inversa"
+            "Prova",
+            false
         )
 
-        var auctions: List<Auction>
+        var auctions: List<AuctionViewHistory>
         auctions = listOf(auction1, auction2, auction3, auction4, auction5, auction6, auction7)
 
 
-        binding = FragmentHomeBinding.inflate(layoutInflater)
+        binding = FragmentOthersProfileBinding.inflate(layoutInflater)
         //setContentView(binding.root)
-        auctionsAdapter = AuctionsAdapter(auctions, this.requireContext())
 
-        binding.RecyclerViewFrammentoHome.layoutManager = LinearLayoutManager(this.requireContext())
-        binding.RecyclerViewFrammentoHome.adapter = auctionsAdapter
+        //
+        auctionsLiveAdapter = AuctionsLiveAdapter(auctions, this.requireContext(), false)
 
-        auctionsAdapter.onItemClick = {
+        binding.RecyclerViewAsteFrammentoOthersProfile.layoutManager = LinearLayoutManager(this.requireContext())
+        binding.RecyclerViewAsteFrammentoOthersProfile.adapter = auctionsLiveAdapter
+
+        binding.cardBackButtonFrammentoAuctionDetails.setOnClickListener{
+            parentFragmentManager.popBackStack()
+        }
+
+        auctionsLiveAdapter.onItemClick = {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id))
             transaction?.addToBackStack(this.toString())
             transaction?.commit()
         }
-
         //val view = inflater.inflate(R.layout.fragment_home, container, false)
         return binding.root
     }
 }
-
-
-
-
-

@@ -108,7 +108,7 @@
             android:layout_height="40dp"
             android:background="@color/GoldBackground"
             android:fontFamily="@font/roboto_medium"
-            android:hint="LaTuaPassword"
+            android:hint="*******"
             android:inputType="textPassword"
             android:maxLines="1"
             android:padding="12dp"

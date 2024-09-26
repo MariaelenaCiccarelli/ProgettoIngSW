@@ -21,6 +21,7 @@ import java.time.temporal.ChronoUnit
 import java.time.temporal.Temporal
 import java.time.temporal.TemporalUnit
 import java.util.Date
+import java.util.Locale
 
 class AuctionsLiveAdapter (private var auctionsViewHistory: List<AuctionViewHistory>, context: Context, var autoreVisibile: Boolean = true): RecyclerView.Adapter<AuctionsLiveAdapter.AuctionViewHolder>(){
 
@@ -34,6 +35,8 @@ class AuctionsLiveAdapter (private var auctionsViewHistory: List<AuctionViewHist
 
     }
 
+    var onItemClick: ((AuctionViewHistory)-> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AuctionViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.auction_item_live, parent, false)
         return AuctionViewHolder(view)
@@ -43,7 +46,7 @@ class AuctionsLiveAdapter (private var auctionsViewHistory: List<AuctionViewHist
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val auction = auctionsViewHistory[position]
         holder.testoTitoloView.text = auction.titoloAsta
-        holder.testoUltimaOffertaView.text = "Ultima Offerta: €"+ auction.ultimaOfferta.toString()
+        holder.testoUltimaOffertaView.text = "Ultima Offerta: €"+ "%,.2f".format(Locale.ITALIAN,auction.ultimaOfferta)
         if(autoreVisibile) {
             holder.testoAutoreView.text = auction.autore
         }else{
@@ -68,9 +71,12 @@ class AuctionsLiveAdapter (private var auctionsViewHistory: List<AuctionViewHist
             } else {
                 holder.testoTempoRimanenteView.text = ">1h rimanente"
             }
-
+        }
+        holder.itemView.setOnClickListener{
+            onItemClick?.invoke(auction)
         }
     }
+
 
     override fun getItemCount(): Int = auctionsViewHistory.size
 
