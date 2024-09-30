@@ -5,6 +5,10 @@ Repository collaborativa per il progetto Loot Market dedicato all'esame di Ingeg
 TODO
 1) Decidere se, dalla home, con il tasto "indietro" si deve andare alla pagina di accesso (se l'app non ricorda le credenziali) oppure se chiudere l'applicazione
 
+Frontend To-Do:
+1) Se un utente ha fatto un'offerta per una determinata asta NON si può disiscrivere
+2) Lo storico riceve TUTTE le iscrizioni, e sarà il frontend a smistarle nelle 3 categorie
+
 Backend to-do:
 1) se l'ultima offerta è fatta da te, esce nella pagina "dettagli asta"
 2) nell'area utente terzi, il backend dovrà mandare all'app solo le aste non scadute
