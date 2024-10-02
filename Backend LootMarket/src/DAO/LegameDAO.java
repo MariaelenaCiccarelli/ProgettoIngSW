@@ -1,25 +1,28 @@
 package DAO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public interface LegameDAO {
 
     void leggiLegamiDB(ArrayList<Integer> idAste,
-                       ArrayList<String> emailUtenti,
+                       ArrayList<String> emailOfferenti,
                        ArrayList<Double> offerte,
-                       ArrayList<LocalDateTime> timestamp);
+                       ArrayList<LocalDate> date,
+                       ArrayList<LocalTime> ore);
 
     void aggiungiLegameDB(int idAsta,
-                          String emailUtente,
+                          String emailOfferente,
                           double offerta,
                           LocalDateTime timestamp);
 
     void eliminaLegameDB(int idAsta,
-                         String emailUtente);
+                         String emailOfferente);
 
     void modificaUltimaOffertaLegameDB(int idAsta,
-                                       String emailUtente,
+                                       String emailOfferente,
                                        double offerta,
                                        LocalDateTime timestamp);
 }

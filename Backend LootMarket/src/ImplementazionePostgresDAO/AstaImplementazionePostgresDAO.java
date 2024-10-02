@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class AstaImplementazionePostgresDAO implements AstaDAO {
@@ -49,7 +50,14 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
                 titoli.add(rs.getString("Titolo"));
                 categorie.add(rs.getString("Categoria"));
                 prezziPartenza.add(rs.getDouble("Prezzo di Partenza"));
-
+                dateScadenza.add(LocalDateTime.of(rs.getDate("Data di Scadenza").toLocalDate(), LocalTime.of(23,59)));
+                descrizioni.add(rs.getString("Descrizione"));
+                immaginiProdotti.add(rs.getBytes("Immagine Prodotto"));
+                ultimeOfferte.add(rs.getDouble("Ultima Offerta"));
+                soglieMinime.add(rs.getDouble("Soglia Minima"));
+                tipiAste.add(rs.getString("Tipo di Asta"));
+                emailVincitori.add(rs.getString("Email Vincitore"));
+                costiFinali.add(rs.getDouble("Costo Finale"));
             }
         }catch(Exception e){
             System.out.println("Errore: "+e.getMessage());
@@ -70,15 +78,41 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
                                double sogliaMinima,
                                String tipoAsta) {
 
+        try{
+            PreparedStatement aggiungiAstaStatement = connection.prepareStatement("INSERT INTO \"Aste\"" + "(\"Id Asta\", \"Email Creatore\", \"Titolo\", \"Categoria\", " +
+                    "\"Prezzo di Partenza\", \"Data di Scadenza\", \"Descrizione\", \"Immagine Prodotto\", \"Ultima Offerta\", \"Soglia Minima\", \"Tipo di Asta\" , \"Email Vincitore\", " +
+                    "\"Costo Finale\")" + "VALUES('"+idAsta+"','"+emailCreatore+"', '"+titolo+"','"+categoria+"', '"+prezzoPartenza+"', '"+dataScadenza+"', '"+descrizione+"', '"+immagineProdotto+"', '"+ultimaOfferta+"', '"+sogliaMinima+"', '"+tipoAsta+");");
+            aggiungiAstaStatement.executeUpdate();
+            connection.close();
+        }catch(Exception e){
+            System.out.println("Errore: "+e.getMessage());
+        }
+
     }
 
     @Override
     public void concludiAstaDB(String idAsta, String emailVincitore, double costoFinale) {
 
+        try{
+            PreparedStatement concludiAstaStatement = connection.prepareStatement("UPDATE \"Aste\" SET (\"Email Vincitore\" = '"+emailVincitore+"' , \"Costo Finale\" = '"+costoFinale+"') WHERE \"Id Asta\" = '"+idAsta+"'");
+            concludiAstaStatement.executeUpdate();
+            connection.close();
+        }catch(Exception e){
+            System.out.println("Errore: "+e.getMessage());
+        }
+
     }
 
     @Override
     public void modificaUltimaOffertaAstaDB(String idAsta, double ultimaOfferta) {
+
+        try{
+            PreparedStatement modificaUltimaOffertaStatement = connection.prepareStatement("UPDATE \"Aste\" SET \"Ultima Offerta\" = '"+ultimaOfferta+"' WHERE \"Id Asta\" = '"+idAsta+"'");
+            modificaUltimaOffertaStatement.executeUpdate();
+            connection.close();
+        }catch(Exception e){
+            System.out.println("Errore: "+e.getMessage());
+        }
 
     }
 }
