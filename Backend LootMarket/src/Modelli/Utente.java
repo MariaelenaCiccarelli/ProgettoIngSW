@@ -14,7 +14,7 @@ public class Utente {
     private String nazione;
     private String numeroCellulare;
     private LocalDate dataNascita;
-    private ArrayList<String> contatti;
+    private Contatti contatti;
     private byte[] immagineProfilo;
     private String biografia;
     private Indirizzo indirizzoSpedizione;

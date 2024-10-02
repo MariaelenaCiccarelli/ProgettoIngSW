@@ -1,5 +1,6 @@
 package DAO;
 
+import Modelli.Contatti;
 import Modelli.Indirizzo;
 
 import java.time.LocalDate;
@@ -15,7 +16,7 @@ public interface UtenteDAO {
                        ArrayList<String> nazioni,
                        ArrayList<String> numeriCellulare,
                        ArrayList<LocalDate> dateNascita,
-                       ArrayList<String> contatti,
+                       ArrayList<Contatti> contatti,
                        ArrayList<String> biografie,
                        ArrayList<byte[]> immaginiProfilo,
                        ArrayList<Indirizzo> indirizziFatturazione,
@@ -33,7 +34,7 @@ public interface UtenteDAO {
                           String nazione,
                           String numeroCellulare,
                           LocalDate dataNascita,
-                          String contatti,
+                          Contatti contatti,
                           String biografia,
                           byte[] immagineProfilo,
                           Indirizzo indirizzoFatturazione,
@@ -45,7 +46,7 @@ public interface UtenteDAO {
     void modificaUtenteDB(String email,
                           String nazione,
                           String numeroCellulare,
-                          String contatti,
+                          Contatti contatti,
                           String biografia,
                           byte[] immagineProfilo,
                           Indirizzo indirizzoFatturazione,
