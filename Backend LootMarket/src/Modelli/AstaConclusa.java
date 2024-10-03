@@ -29,4 +29,96 @@ public class AstaConclusa implements Asta{
         this.emailVincitore = emailVincitore;
         this.costoFinale = costoFinale;
     }
+
+    public int getIdAsta() {
+        return idAsta;
+    }
+
+    public void setIdAsta(int idAsta) {
+        this.idAsta = idAsta;
+    }
+
+    public String getEmailCreatore() {
+        return emailCreatore;
+    }
+
+    public void setEmailCreatore(String emailCreatore) {
+        this.emailCreatore = emailCreatore;
+    }
+
+    public String getTitolo() {
+        return titolo;
+    }
+
+    public void setTitolo(String titolo) {
+        this.titolo = titolo;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public double getPrezzoPartenza() {
+        return prezzoPartenza;
+    }
+
+    public void setPrezzoPartenza(double prezzoPartenza) {
+        this.prezzoPartenza = prezzoPartenza;
+    }
+
+    public LocalDateTime getDataScadenza() {
+        return dataScadenza;
+    }
+
+    public void setDataScadenza(LocalDateTime dataScadenza) {
+        this.dataScadenza = dataScadenza;
+    }
+
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+
+    public byte[] getImmagineProdotto() {
+        return immagineProdotto;
+    }
+
+    public void setImmagineProdotto(byte[] immagineProdotto) {
+        this.immagineProdotto = immagineProdotto;
+    }
+
+    public double getUltimaOfferta() {
+        return costoFinale;
+    }
+
+    public void setUltimaOfferta(double ultimaOfferta) {}
+
+    public double getSogliaMinima() {
+        return 0;
+    }
+
+    public void setSogliaMinima(double sogliaMinima) {}
+
+    public String getEmailVincitore() {
+        return emailVincitore;
+    }
+
+    public void setEmailVincitore(String emailVincitore) {
+        this.emailVincitore = emailVincitore;
+    }
+
+    public double getCostoFinale() {
+        return costoFinale;
+    }
+
+    public void setCostoFinale(double costoFinale) {
+        this.costoFinale = costoFinale;
+    }
 }

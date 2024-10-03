@@ -51,8 +51,38 @@ public class Controller {
         }
     }
 
-    private void aggiungiLegamiDAO(){
+    private void aggiungiLegamiDAO(int idAsta, String emailOfferente, double offerta, LocalDateTime timestamp){
+        Legame legame;
+        if(offerta == -1){
+            legame = new Iscrizione(emailOfferente, idAsta);
+        }else{
+            legame = new Offerta(emailOfferente, idAsta, offerta, timestamp.toLocalDate(), timestamp.toLocalTime());
+        }
 
+        databaseLegami.add(legame);
+        LegameDAO legameDAO = new LegameImplementazionePostgresDAO();
+        legameDAO.aggiungiLegameDB(idAsta, emailOfferente, offerta, timestamp);
+    }
+
+    private void eliminaLegameDAO(int idAsta, String emailOfferente){
+        int i = 0;
+        while((idAsta != databaseLegami.get(i).getIdAsta() && emailOfferente != databaseLegami.get(i).getEmailUtente()) && i < databaseLegami.size()){
+            databaseLegami.remove(i);
+            i++;
+        }
+        LegameDAO legameDAO = new LegameImplementazionePostgresDAO();
+        legameDAO.eliminaLegameDB(idAsta, emailOfferente);
+    }
+
+    private void modificaUltimaOffertaLegameDAO(int idAsta, String emailOfferente, double offerta, LocalDateTime timestamp){
+        int i = 0;
+        while((idAsta != databaseLegami.get(i).getIdAsta() && emailOfferente != databaseLegami.get(i).getEmailUtente()) && i < databaseLegami.size()){
+            databaseLegami.get(i).setOfferta(offerta);
+            databaseLegami.get(i).setTimestamp(timestamp);
+            i++;
+        }
+        LegameDAO legameDAO = new LegameImplementazionePostgresDAO();
+        legameDAO.modificaUltimaOffertaLegameDB(idAsta, emailOfferente, offerta, timestamp);
     }
 
     //ASTE
@@ -90,6 +120,40 @@ public class Controller {
 
             databaseAste.add(asta);
         }
+    }
+
+    private void aggiungiAstaDAO(int idAsta,
+                                 String emailCreatore,
+                                 String titolo,
+                                 String categoria,
+                                 double prezzoPartenza,
+                                 LocalDateTime dataScadenza,
+                                 String descrizione,
+                                 byte[] immagineProdotto,
+                                 double ultimaOfferta,
+                                 double sogliaMinima,
+                                 String tipoAsta){
+        Asta asta;
+        if(tipoAsta.equals("Asta a Tempo Fisso")){
+            asta = new AstaTempoFisso(idAsta, emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima);
+        }else{
+            asta = new AstaInversa(idAsta, emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta);
+        }
+
+        databaseAste.add(asta);
+        AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
+        astaDAO.aggiungiAstaDB(idAsta, emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima, tipoAsta);
+    }
+
+    private  void concludiAstaDAO(int idAsta, String emailVincitore, double costoFinale){
+        int i = 0;
+        while(idAsta != databaseAste.get(i).getIdAsta() && i < databaseAste.size()){
+            Asta astaConclusa = new AstaConclusa(idAsta, databaseAste.get(i).getEmailCreatore(), databaseAste.get(i).getTitolo(), databaseAste.get(i).getCategoria(), databaseAste.get(i).getPrezzoPartenza(), databaseAste.get(i).getDataScadenza(), databaseAste.get(i).getDescrizione(), databaseAste.get(i).getImmagineProdotto(), emailVincitore, costoFinale);
+            databaseAste.remove(i);
+            databaseAste.add(astaConclusa);
+        }
+        AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
+        astaDAO.concludiAstaDB(idAsta, emailVincitore, costoFinale);
     }
 
     //UTENTI

@@ -31,11 +31,11 @@ public interface AstaDAO {
                         double sogliaMinima,
                         String tipoAsta);
 
-    void concludiAstaDB(String idAsta,
+    void concludiAstaDB(int idAsta,
                         String emailVincitore,
                         double costoFinale);
 
-    void modificaUltimaOffertaAstaDB(String idAsta,
+    void modificaUltimaOffertaAstaDB(int idAsta,
                                      double ultimaOfferta);
 
 }

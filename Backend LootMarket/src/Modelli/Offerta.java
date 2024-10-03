@@ -18,4 +18,36 @@ public class Offerta implements Legame {
         this.offerta = offerta;
         this.timestamp = LocalDateTime.of(data, ora);
     }
+
+    public double getOfferta() {
+        return offerta;
+    }
+
+    public void setOfferta(double offerta) {
+        this.offerta = offerta;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getEmailUtente() {
+        return emailUtente;
+    }
+
+    public void setEmailUtente(String emailUtente) {
+        this.emailUtente = emailUtente;
+    }
+
+    public int getIdAsta() {
+        return idAsta;
+    }
+
+    public void setIdAsta(int idAsta) {
+        this.idAsta = idAsta;
+    }
 }

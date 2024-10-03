@@ -91,7 +91,7 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
     }
 
     @Override
-    public void concludiAstaDB(String idAsta, String emailVincitore, double costoFinale) {
+    public void concludiAstaDB(int idAsta, String emailVincitore, double costoFinale) {
 
         try{
             PreparedStatement concludiAstaStatement = connection.prepareStatement("UPDATE \"Aste\" SET (\"Email Vincitore\" = '"+emailVincitore+"' , \"Costo Finale\" = '"+costoFinale+"') WHERE \"Id Asta\" = '"+idAsta+"'");
@@ -104,7 +104,7 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
     }
 
     @Override
-    public void modificaUltimaOffertaAstaDB(String idAsta, double ultimaOfferta) {
+    public void modificaUltimaOffertaAstaDB(int idAsta, double ultimaOfferta) {
 
         try{
             PreparedStatement modificaUltimaOffertaStatement = connection.prepareStatement("UPDATE \"Aste\" SET \"Ultima Offerta\" = '"+ultimaOfferta+"' WHERE \"Id Asta\" = '"+idAsta+"'");
