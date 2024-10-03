@@ -26,6 +26,7 @@ public class Controller {
         leggiDB();
     }
 
+    //LEGAMI
     private void leggiLegamiDAO(){
         ArrayList<Integer> idAste = new ArrayList<>();
         ArrayList<String> emailOfferenti = new ArrayList<>();
@@ -50,6 +51,11 @@ public class Controller {
         }
     }
 
+    private void aggiungiLegamiDAO(){
+
+    }
+
+    //ASTE
     private void leggiAsteDAO(){
         ArrayList<Integer> idAste = new ArrayList<>();
         ArrayList<String> emailCreatori = new ArrayList<>();
@@ -86,6 +92,7 @@ public class Controller {
         }
     }
 
+    //UTENTI
     private void leggiUtentiDAO(){
         ArrayList<String> emails = new ArrayList<>();
         ArrayList<char[]> passwords = new ArrayList<>();
@@ -120,6 +127,7 @@ public class Controller {
             databaseUtenti.add(utente);
         }
     }
+
 
     private void leggiDB(){
         leggiAsteDAO();
