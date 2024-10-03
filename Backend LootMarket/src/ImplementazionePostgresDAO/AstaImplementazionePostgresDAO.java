@@ -50,7 +50,7 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
                 titoli.add(rs.getString("Titolo"));
                 categorie.add(rs.getString("Categoria"));
                 prezziPartenza.add(rs.getDouble("Prezzo di Partenza"));
-                dateScadenza.add(LocalDateTime.of(rs.getDate("Data di Scadenza").toLocalDate(), LocalTime.of(23,59)));
+                dateScadenza.add(LocalDateTime.of(rs.getDate("Data di Scadenza").toLocalDate(), LocalTime.of(23,59, 59)));
                 descrizioni.add(rs.getString("Descrizione"));
                 immaginiProdotti.add(rs.getBytes("Immagine Prodotto"));
                 ultimeOfferte.add(rs.getDouble("Ultima Offerta"));

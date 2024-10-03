@@ -41,7 +41,7 @@ public class LegameImplementazionePostgresDAO implements LegameDAO {
                 emailOfferenti.add(rs.getString("Email Offerente"));
                 offerte.add(rs.getDouble("Offerta"));
                 date.add(rs.getDate("Data").toLocalDate());
-                ore.add(rs.getTime("Data").toLocalTime());
+                ore.add(rs.getTime("Ora").toLocalTime());
             }
         }catch(Exception e){
             System.out.println("Errore: "+e.getMessage());
