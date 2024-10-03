@@ -20,4 +20,19 @@ public class Utente {
     private Indirizzo indirizzoSpedizione;
     private Indirizzo indirizzoFatturazione;
 
+    public Utente(String email, char[] password, String nome, String cognome, String codiceFiscale, String nazione, String numeroCellulare, LocalDate dataNascita, Contatti contatti, byte[] immagineProfilo, String biografia, Indirizzo indirizzoSpedizione, Indirizzo indirizzoFatturazione) {
+        this.email = email;
+        this.password = password;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.codiceFiscale = codiceFiscale;
+        this.nazione = nazione;
+        this.numeroCellulare = numeroCellulare;
+        this.dataNascita = dataNascita;
+        this.contatti = contatti;
+        this.immagineProfilo = immagineProfilo;
+        this.biografia = biografia;
+        this.indirizzoSpedizione = indirizzoSpedizione;
+        this.indirizzoFatturazione = indirizzoFatturazione;
+    }
 }
