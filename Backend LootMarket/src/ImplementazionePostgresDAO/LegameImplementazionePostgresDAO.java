@@ -56,8 +56,8 @@ public class LegameImplementazionePostgresDAO implements LegameDAO {
                                  LocalDateTime timestamp) {
 
         try{
-            PreparedStatement aggiungiLegameStatement = connection.prepareStatement("INSERT INTO \"Legami\"" + "(\"Id Asta\", \"Email Offerente\", \"Offerta\", \"Data\")" +
-                    "VALUES('"+idAsta+"','"+emailOfferente+"', '"+offerta+"','"+timestamp+"';");
+            PreparedStatement aggiungiLegameStatement = connection.prepareStatement("INSERT INTO \"Legami\"" + "(\"Id Asta\", \"Email Offerente\", \"Offerta\", \"Data\", \"Ora\")" +
+                    "VALUES('"+idAsta+"','"+emailOfferente+"', '"+offerta+"','"+timestamp.toLocalDate()+"', '"+timestamp.toLocalTime()+"';");
             aggiungiLegameStatement.executeUpdate();
             aggiungiLegameStatement.executeUpdate();
             connection.close();
@@ -87,7 +87,7 @@ public class LegameImplementazionePostgresDAO implements LegameDAO {
                                               LocalDateTime timestamp) {
 
         try{
-            PreparedStatement modificaUltimaOffertaLegameStatement = connection.prepareStatement("UPDATE \"Legami\" SET (\"Email Offerente\" = '"+emailOfferente+"' , \"Offerta\" = '"+offerta+"', \"Data\" = '"+timestamp+"') WHERE \"Id Asta\" = '"+idAsta+"'");
+            PreparedStatement modificaUltimaOffertaLegameStatement = connection.prepareStatement("UPDATE \"Legami\" SET (\"Email Offerente\" = '"+emailOfferente+"' , \"Offerta\" = '"+offerta+"', \"Data\" = '"+timestamp.toLocalDate()+"', \"Ora\" = '"+timestamp.toLocalTime()+"') WHERE \"Id Asta\" = '"+idAsta+"'");
             modificaUltimaOffertaLegameStatement.executeUpdate();
             connection.close();
         }catch(Exception e){
