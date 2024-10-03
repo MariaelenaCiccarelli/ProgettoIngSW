@@ -131,8 +131,6 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
     @Override
     public void upgradeUtenteDB(String email, String ragioneSociale, String partitaIva, String numeroAziendale) {
         try {
-
-
             PreparedStatement upgradeUtenteStatemente = connection.prepareStatement("UPDATE \"Utenti\" SET " +
                     "\"Ragione Sociale\"='"+ragioneSociale+"', \"Partita Iva\" ='"+ragioneSociale+"', \"Numero Aziendale\" ='"+numeroAziendale+"' WHERE \"Email\" ='"+email+"'");
 
