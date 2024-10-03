@@ -10,7 +10,7 @@ public class ConnessioneDatabase {
     public Connection connection;
     private String nome = "postgres";
     private String password = "delfino";
-    private String url = "jdbc:postgresql://localhost:5432/Database LootMarket";
+    private String url = "jdbc:postgresql://localhost:5432/LootMarket";
     private String driver = "org.postgresql.Driver";
 
     // COSTRUTTORE

@@ -1,6 +1,8 @@
 package Modelli;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Offerta implements Legame {
 
@@ -10,11 +12,10 @@ public class Offerta implements Legame {
     String emailUtente;
     int idAsta;
 
-    public Offerta(String emailUtente, int IdAsta, double offerta, LocalDateTime timestamp) {
+    public Offerta(String emailUtente, int IdAsta, double offerta, LocalDate data, LocalTime ora) {
         this.emailUtente = emailUtente;
         this.idAsta = IdAsta;
         this.offerta = offerta;
-        this.timestamp = timestamp;
-
+        this.timestamp = LocalDateTime.of(data, ora);
     }
 }

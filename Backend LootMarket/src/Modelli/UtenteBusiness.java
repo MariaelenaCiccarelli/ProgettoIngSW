@@ -15,4 +15,28 @@ public class UtenteBusiness extends Utente {
         this.partitaIva = partitaIva;
         this.numeroAziendale = numeroAziendale;
     }
+
+    public String getRagioneSociale() {
+        return ragioneSociale;
+    }
+
+    public void setRagioneSociale(String ragioneSociale) {
+        this.ragioneSociale = ragioneSociale;
+    }
+
+    public String getPartitaIva() {
+        return partitaIva;
+    }
+
+    public void setPartitaIva(String partitaIva) {
+        this.partitaIva = partitaIva;
+    }
+
+    public String getNumeroAziendale() {
+        return numeroAziendale;
+    }
+
+    public void setNumeroAziendale(String numeroAziendale) {
+        this.numeroAziendale = numeroAziendale;
+    }
 }
