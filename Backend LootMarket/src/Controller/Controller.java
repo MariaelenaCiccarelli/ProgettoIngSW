@@ -66,7 +66,7 @@ public class Controller {
 
     private void eliminaLegameDAO(int idAsta, String emailOfferente){
         int i = 0;
-        while((idAsta != databaseLegami.get(i).getIdAsta() && emailOfferente != databaseLegami.get(i).getEmailUtente()) && i < databaseLegami.size()){
+        while((idAsta != databaseLegami.get(i).getIdAsta() && !emailOfferente.equals(databaseLegami.get(i).getEmailUtente())) && i < databaseLegami.size()){
             databaseLegami.remove(i);
             i++;
         }
@@ -76,7 +76,7 @@ public class Controller {
 
     private void modificaUltimaOffertaLegameDAO(int idAsta, String emailOfferente, double offerta, LocalDateTime timestamp){
         int i = 0;
-        while((idAsta != databaseLegami.get(i).getIdAsta() && emailOfferente != databaseLegami.get(i).getEmailUtente()) && i < databaseLegami.size()){
+        while((idAsta != databaseLegami.get(i).getIdAsta() && !emailOfferente.equals(databaseLegami.get(i).getEmailUtente())) && i < databaseLegami.size()){
             databaseLegami.get(i).setOfferta(offerta);
             databaseLegami.get(i).setTimestamp(timestamp);
             i++;
@@ -109,7 +109,7 @@ public class Controller {
             Asta asta;
 
             if (costiFinali.get(i) == -1) {
-                if (tipiAste.get(i) == "Asta a Tempo Fisso") {
+                if (tipiAste.get(i).equals("Asta a Tempo Fisso")) {
                     asta = new AstaTempoFisso(idAste.get(i), emailCreatori.get(i), titoli.get(i), categorie.get(i), prezziPartenza.get(i), dateScadenza.get(i), descrizioni.get(i), immaginiProdotti.get(i), ultimeOfferte.get(i), soglieMinime.get(i));
                 } else {
                     asta = new AstaInversa(idAste.get(i), emailCreatori.get(i), titoli.get(i), categorie.get(i), prezziPartenza.get(i), dateScadenza.get(i), descrizioni.get(i), immaginiProdotti.get(i), ultimeOfferte.get(i));
@@ -145,15 +145,36 @@ public class Controller {
         astaDAO.aggiungiAstaDB(idAsta, emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima, tipoAsta);
     }
 
-    private  void concludiAstaDAO(int idAsta, String emailVincitore, double costoFinale){
-        int i = 0;
-        while(idAsta != databaseAste.get(i).getIdAsta() && i < databaseAste.size()){
+    private void concludiAstaDAO(int idAsta, String emailVincitore, double costoFinale){
+        int i = getIndiceAstaById(idAsta);
+        if(i != -1) {
             Asta astaConclusa = new AstaConclusa(idAsta, databaseAste.get(i).getEmailCreatore(), databaseAste.get(i).getTitolo(), databaseAste.get(i).getCategoria(), databaseAste.get(i).getPrezzoPartenza(), databaseAste.get(i).getDataScadenza(), databaseAste.get(i).getDescrizione(), databaseAste.get(i).getImmagineProdotto(), emailVincitore, costoFinale);
             databaseAste.remove(i);
             databaseAste.add(astaConclusa);
+            AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
+            astaDAO.concludiAstaDB(idAsta, emailVincitore, costoFinale);
         }
-        AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
-        astaDAO.concludiAstaDB(idAsta, emailVincitore, costoFinale);
+    }
+
+    private void modificaUltimaOffertaAstaDAO(int idAsta, double ultimaOfferta){
+        int i = getIndiceAstaById(idAsta);
+        if(i != -1){
+            databaseAste.get(i).setUltimaOfferta(ultimaOfferta);
+            AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
+            astaDAO.modificaUltimaOffertaAstaDB(idAsta, ultimaOfferta);
+        }
+    }
+
+    //ritorna -1 se asta non presente
+    private int getIndiceAstaById(int idAsta) {
+        int i = 0;
+        while(idAsta != databaseAste.get(i).getIdAsta() && i < databaseAste.size()){
+            i++;
+        }
+        if(idAsta == databaseAste.get(i).getIdAsta()){
+            return i;
+        }
+        return -1;
     }
 
     //UTENTI
@@ -182,7 +203,7 @@ public class Controller {
         for(int i = 0; i < emails.size(); i++){
             Utente utente;
 
-            if(numeriAziendali.get(i).equals("")){
+            if(numeriAziendali.get(i).isEmpty()){
                 utente = new Utente(emails.get(i), passwords.get(i), nomi.get(i), cognomi.get(i), codiciFiscali.get(i), nazioni.get(i), numeriCellulare.get(i), dateNascita.get(i), contatti.get(i), immaginiProfilo.get(i), biografie.get(i), indirizziFatturazione.get(i), indirizziSpedizione.get(i));
             }else{
                 utente = new UtenteBusiness(emails.get(i), passwords.get(i), nomi.get(i), cognomi.get(i), codiciFiscali.get(i), nazioni.get(i), numeriCellulare.get(i), dateNascita.get(i), contatti.get(i), immaginiProfilo.get(i), biografie.get(i), indirizziFatturazione.get(i), indirizziSpedizione.get(i), ragioniSociali.get(i), partiteIva.get(i), numeriAziendali.get(i));
@@ -192,7 +213,99 @@ public class Controller {
         }
     }
 
+    private void aggiungiUtenteDAO(String email, char[] password, String nome, String cognome, String codiceFiscale, String nazione, String numeroCellulare, LocalDate dataNascita, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione){
+        Utente utente = new Utente(email, password, nome, cognome, codiceFiscale, nazione, numeroCellulare, dataNascita, contatti, immagineProfilo , biografia, indirizzoFatturazione, indirizzoSpedizione);
+        databaseUtenti.add(utente);
+        UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
+        utenteDAO.aggiungiUtenteDB(email, password, nome, cognome, codiceFiscale, nazione, numeroCellulare, dataNascita, contatti, biografia, immagineProfilo, indirizzoFatturazione, indirizzoSpedizione, "", "", "");
+    }
 
+    private void modificaUtenteDAO(String email, String nazione, String numeroCellulare, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String numeroAziendale){
+        int i = getIndiceUtenteByEmail(email);
+        if(i != -1){
+            databaseUtenti.get(i).setNazione(nazione);
+            databaseUtenti.get(i).setNumeroCellulare(numeroCellulare);
+            databaseUtenti.get(i).setContatti(contatti);
+            databaseUtenti.get(i).setBiografia(biografia);
+            databaseUtenti.get(i).setImmagineProfilo(immagineProfilo);
+            databaseUtenti.get(i).setIndirizzoFatturazione(indirizzoFatturazione);
+            databaseUtenti.get(i).setIndirizzoSpedizione(indirizzoSpedizione);
+            if(databaseUtenti.get(i) instanceof UtenteBusiness utenteBusiness){
+                utenteBusiness.setNumeroAziendale(numeroAziendale);
+            }
+            UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
+            utenteDAO.modificaUtenteDB(email, nazione, numeroCellulare, contatti, biografia, immagineProfilo, indirizzoFatturazione, indirizzoSpedizione, numeroAziendale);
+        }
+    }
+
+    private void upgradeUtenteDAO(String email, String ragioneSociale, String partitaIva, String numeroAziendale){
+        int i = getIndiceUtenteByEmail(email);
+        if(i != -1){
+            UtenteBusiness utenteBusiness = new UtenteBusiness(databaseUtenti.get(i), ragioneSociale, partitaIva, numeroAziendale);
+            databaseUtenti.remove(i);
+            databaseUtenti.add(utenteBusiness);
+            UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
+            utenteDAO.upgradeUtenteDB(email, ragioneSociale, partitaIva, numeroAziendale);
+        }
+    }
+
+    //ritorna -1 se asta non presente
+    private int getIndiceUtenteByEmail(String email) {
+        int i = 0;
+        while(!email.equals(databaseUtenti.get(i).getEmail()) && i < databaseUtenti.size()){
+            i++;
+        }
+        if(email.equals(databaseUtenti.get(i).getEmail())){
+            return i;
+        }
+        return -1;
+    }
+
+    private int nuovaOfferta(String email, int idAsta, double nuovaOfferta){
+        int i = getIndiceAstaById(idAsta);
+        int k = getIndiceUtenteByEmail(email);
+        if(i != -1 && k!= -1){
+            Asta asta = databaseAste.get(i);
+            if(asta instanceof AstaTempoFisso){
+                if(nuovaOfferta > asta.getUltimaOfferta()){
+                    int j = getIndiceLegameByEmailAndIdAsta(email, idAsta);
+                    if(j != -1){
+                        aggiungiLegamiDAO(idAsta, email, nuovaOfferta, LocalDateTime.now());
+                    }else{
+                        modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
+                    }
+                    modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
+                    return 1;
+                }
+            }else{
+                if(nuovaOfferta < asta.getUltimaOfferta()){
+                    int j = getIndiceLegameByEmailAndIdAsta(email, idAsta);
+                    if(j != -1){
+                        aggiungiLegamiDAO(idAsta, email, nuovaOfferta, LocalDateTime.now());
+                    }else{
+                        modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
+                    }
+                    modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
+                    return 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+    //ritorna -1 se asta non presente
+    private int getIndiceLegameByEmailAndIdAsta(String email, int idAsta) {
+        int i = 0;
+        while(!email.equals(databaseLegami.get(i).getEmailUtente()) && idAsta != databaseLegami.get(i).getIdAsta() && i < databaseLegami.size()){
+            i++;
+        }
+        if(email.equals(databaseLegami.get(i).getEmailUtente()) && idAsta == databaseLegami.get(i).getIdAsta()){
+            return i;
+        }
+        return -1;
+    }
+
+    //LETTURA DB
     private void leggiDB(){
         leggiAsteDAO();
         leggiLegamiDAO();

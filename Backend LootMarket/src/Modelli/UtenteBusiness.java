@@ -16,6 +16,13 @@ public class UtenteBusiness extends Utente {
         this.numeroAziendale = numeroAziendale;
     }
 
+    public UtenteBusiness(Utente utente, String ragioneSociale, String partitaIva, String numeroAziendale){
+        super(utente.getEmail(), utente.getPassword(), utente.getNome(), utente.getCognome(), utente.getCodiceFiscale(), utente.getNazione(), utente.getNumeroCellulare(), utente.getDataNascita(), utente.getContatti(), utente.getImmagineProfilo(), utente.getBiografia(), utente.getIndirizzoSpedizione(), utente.getIndirizzoFatturazione());
+        this.ragioneSociale = ragioneSociale;
+        this.partitaIva = partitaIva;
+        this.numeroAziendale = numeroAziendale;
+    }
+
     public String getRagioneSociale() {
         return ragioneSociale;
     }
