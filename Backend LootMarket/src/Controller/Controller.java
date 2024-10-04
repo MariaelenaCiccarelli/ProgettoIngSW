@@ -261,7 +261,7 @@ public class Controller {
         return -1;
     }
 
-    private int nuovaOfferta(String email, int idAsta, double nuovaOfferta){
+    private String nuovaOfferta(String email, int idAsta, double nuovaOfferta){
         int i = getIndiceAstaById(idAsta);
         int k = getIndiceUtenteByEmail(email);
         if(i != -1 && k!= -1){
@@ -275,7 +275,10 @@ public class Controller {
                         modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
                     }
                     modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
-                    return 1;
+                    return "Offerta avvenuta con successo!";
+                }
+                else{
+                    return "OOPS! Offerta non valida.";
                 }
             }else{
                 if(nuovaOfferta < asta.getUltimaOfferta()){
@@ -286,11 +289,32 @@ public class Controller {
                         modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
                     }
                     modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
-                    return 1;
+                    return "Offerta avvenuta con successo!";
+                }else{
+                    return "OOPS! Offerta non valida.";
                 }
             }
+        }else{
+            return "OOPS! Asta non trovata.";
         }
-        return -1;
+    }
+
+    private ArrayList<Asta> recuperaAsteHome(int indice){
+        ArrayList<Asta> arrayRitorno = new ArrayList<>();
+        int i = -(10*indice);
+        int j = 0;
+        int indiceAsta = databaseAste.size() - 1;
+        while((i < 10) && ((indiceAsta - j) > 0)){
+            Asta asta = databaseAste.get(indiceAsta - j);
+            if(!(asta instanceof AstaConclusa)){
+                i++;
+                if(i >= 0){
+                    arrayRitorno.add(asta);
+                }
+            }
+            j++;
+        }
+        return arrayRitorno;
     }
 
     //ritorna -1 se asta non presente
