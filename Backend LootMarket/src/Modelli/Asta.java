@@ -54,4 +54,6 @@ public interface Asta {
 
     public void setSogliaMinima(double sogliaMinima);
 
+    public int presentaOfferta(double offerta);
+
 }

@@ -118,4 +118,14 @@ public class AstaTempoFisso implements Asta {
     public void setSogliaMinima(double sogliaMinima) {
         this.sogliaMinima = sogliaMinima;
     }
+
+    //ritorna -1 se la presentazione dell'offerta non va a buon fine, 1 se invece va tutto bene
+    public int presentaOfferta(double offerta){
+        if(offerta > this.ultimaOfferta){
+            setUltimaOfferta(offerta);
+            return 1;
+        }else{
+            return -1;
+        }
+    }
 }

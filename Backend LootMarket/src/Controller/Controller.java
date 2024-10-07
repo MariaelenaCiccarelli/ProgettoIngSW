@@ -145,6 +145,21 @@ public class Controller {
         astaDAO.aggiungiAstaDB(idAsta, emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima, tipoAsta);
     }
 
+    private void checkAsteScadute(){
+        for(int i = 0; i < databaseAste.size(); i++){
+            Asta asta = databaseAste.get(i);
+            String emailVincitore;
+            if(asta.getDataScadenza().isBefore(LocalDateTime.now())){
+                int j = 0;
+                while((j < databaseLegami.size()) && (databaseLegami.get(j).getOfferta() != asta.getUltimaOfferta())){
+                    j++;
+                }
+                emailVincitore =  databaseLegami.get(j).getEmailUtente();
+                concludiAstaDAO(asta.getIdAsta(), emailVincitore, asta.getUltimaOfferta());
+            }
+        }
+    }
+
     private void concludiAstaDAO(int idAsta, String emailVincitore, double costoFinale){
         int i = getIndiceAstaById(idAsta);
         if(i != -1) {
@@ -159,7 +174,6 @@ public class Controller {
     private void modificaUltimaOffertaAstaDAO(int idAsta, double ultimaOfferta){
         int i = getIndiceAstaById(idAsta);
         if(i != -1){
-            databaseAste.get(i).setUltimaOfferta(ultimaOfferta);
             AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
             astaDAO.modificaUltimaOffertaAstaDB(idAsta, ultimaOfferta);
         }
@@ -261,42 +275,57 @@ public class Controller {
         return -1;
     }
 
-    private String nuovaOfferta(String email, int idAsta, double nuovaOfferta){
+    //ritorna -1 se la presentazione dell'offerta non va a buon fine, 1 se invece va tutto bene
+    private int nuovaOfferta(String email, int idAsta, double nuovaOfferta){
+        int i = getIndiceAstaById(idAsta);
+        int k = getIndiceUtenteByEmail(email);
+        if(i != -1 && k!= -1) {
+            Asta asta = databaseAste.get(i);
+            if (asta.presentaOfferta(nuovaOfferta) == -1) {
+                return -1;
+            } else {
+                int j = getIndiceLegameByEmailAndIdAsta(email, idAsta);
+                if (j != -1) {
+                    aggiungiLegamiDAO(idAsta, email, nuovaOfferta, LocalDateTime.now());
+                } else {
+                    modificaUltimaOffertaLegameDAO(idAsta, email, nuovaOfferta, LocalDateTime.now());
+                }
+                modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
+                return 1;
+            }
+        }
+        return -1;
+    }
+
+    //ritorna -1 se l'iscrizione non va a buon fine, 1 se invece va tutto bene
+    private int iscrizione(String email, int idAsta){
         int i = getIndiceAstaById(idAsta);
         int k = getIndiceUtenteByEmail(email);
         if(i != -1 && k!= -1){
-            Asta asta = databaseAste.get(i);
-            if(asta instanceof AstaTempoFisso){
-                if(nuovaOfferta > asta.getUltimaOfferta()){
-                    int j = getIndiceLegameByEmailAndIdAsta(email, idAsta);
-                    if(j != -1){
-                        aggiungiLegamiDAO(idAsta, email, nuovaOfferta, LocalDateTime.now());
-                    }else{
-                        modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
-                    }
-                    modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
-                    return "Offerta avvenuta con successo!";
-                }
-                else{
-                    return "OOPS! Offerta non valida.";
+            aggiungiLegamiDAO(idAsta, email, -1, LocalDateTime.now());
+            return 1;
+        }
+        return -1;
+    }
+
+    //ritorna -1 se la disiscrizione non va a buon fine, 1 se invece va tutto bene
+    private int disiscrizione(String email, int idAsta){
+        int i = getIndiceAstaById(idAsta);
+        int k = getIndiceUtenteByEmail(email);
+        if(i != -1 && k!= -1){
+            int j = getIndiceLegameByEmailAndIdAsta(email, idAsta);
+            if(j != -1){
+                if(databaseLegami.get(j).getOfferta() == -1){
+                    eliminaLegameDAO(idAsta, email);
+                    return 1;
+                }else{
+                    return -1;
                 }
             }else{
-                if(nuovaOfferta < asta.getUltimaOfferta()){
-                    int j = getIndiceLegameByEmailAndIdAsta(email, idAsta);
-                    if(j != -1){
-                        aggiungiLegamiDAO(idAsta, email, nuovaOfferta, LocalDateTime.now());
-                    }else{
-                        modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
-                    }
-                    modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
-                    return "Offerta avvenuta con successo!";
-                }else{
-                    return "OOPS! Offerta non valida.";
-                }
+                return -1;
             }
-        }else{
-            return "OOPS! Asta non trovata.";
         }
+        return -1;
     }
 
     private ArrayList<Asta> recuperaAsteHome(int indice){
@@ -315,6 +344,58 @@ public class Controller {
             j++;
         }
         return arrayRitorno;
+    }
+
+    private Asta ottieniDettagliAsta(int idAsta, String emailUtente, String nomeAutore, int tipoAsta, int statusLegame){
+        Asta astaRitorno = databaseAste.get(getIndiceAstaById(idAsta));
+        Utente utenteAutore = databaseUtenti.get(getIndiceUtenteByEmail(astaRitorno.getEmailCreatore()));
+        nomeAutore = utenteAutore.getNome() + " " + utenteAutore.getCognome();
+        tipoAsta = getTipoAsta(astaRitorno);
+
+        //statusLegame -1 non è iscritto, 1 iscritto, 2 se ha presentato offerta (include anche iscrizione)
+        int j = getIndiceLegameByEmailAndIdAsta(emailUtente, idAsta);
+        if(j == -1){
+            statusLegame = j;
+        }else{
+            if(databaseLegami.get(j) instanceof Iscrizione){
+                statusLegame = 1;
+            }else{
+                statusLegame = 2;
+            }
+        }
+        return astaRitorno;
+    }
+
+    private Utente getUtenteByEmail(String email){
+        int i = getIndiceUtenteByEmail(email);
+        if(i != -1){
+            return databaseUtenti.get(i);
+        }else{
+            return null;
+        }
+    }
+
+    private ArrayList<Asta> getAsteByEmailUtente(String email){
+        ArrayList<Asta> arrayRitorno = new ArrayList<>();
+        for(int i = 0; i < databaseLegami.size(); i++){
+            if(databaseLegami.get(i).getEmailUtente().equals(email)){
+                arrayRitorno.add(databaseAste.get(getIndiceAstaById(databaseLegami.get(i).getIdAsta())));
+            }
+        }
+        return arrayRitorno;
+    }
+
+    //ritorna 0 se è un'asta a tempo fisso, 1 asta inversa, -1 asta conclusa, 2 se non trova nulla
+    private int getTipoAsta(Asta asta){
+        if(asta instanceof AstaTempoFisso){
+            return 0;
+        }else if(asta instanceof AstaInversa){
+            return 1;
+        }else if(asta instanceof AstaConclusa){
+            return -1;
+        }else{
+            return 2;
+        }
     }
 
     //ritorna -1 se asta non presente
