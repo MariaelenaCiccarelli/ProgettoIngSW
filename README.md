@@ -8,6 +8,7 @@ TODO
 Frontend To-Do:
 1) Se un utente ha fatto un'offerta per una determinata asta NON si può disiscrivere
 2) Lo storico riceve TUTTE le iscrizioni, e sarà il frontend a smistarle nelle 3 categorie
+3) Gestire l'impossibilità di disiscrizione ad un'asta se si è presentata anche solo un'offerta
 
 Backend to-do:
 1) se l'ultima offerta è fatta da te, esce nella pagina "dettagli asta"
