@@ -66,8 +66,7 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
     }
 
     @Override
-    public void aggiungiAstaDB(int idAsta,
-                               String emailCreatore,
+    public void aggiungiAstaDB(String emailCreatore,
                                String titolo,
                                String categoria,
                                double prezzoPartenza,
@@ -79,9 +78,10 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
                                String tipoAsta) {
 
         try{
-            PreparedStatement aggiungiAstaStatement = connection.prepareStatement("INSERT INTO \"Aste\"" + "(\"Id Asta\", \"Email Creatore\", \"Titolo\", \"Categoria\", " +
+            String stringa = new String("");
+            PreparedStatement aggiungiAstaStatement = connection.prepareStatement("INSERT INTO \"Aste\"" + "(\"Email Creatore\", \"Titolo\", \"Categoria\", " +
                     "\"Prezzo di Partenza\", \"Data di Scadenza\", \"Descrizione\", \"Immagine Prodotto\", \"Ultima Offerta\", \"Soglia Minima\", \"Tipo di Asta\" , \"Email Vincitore\", " +
-                    "\"Costo Finale\")" + "VALUES('"+idAsta+"','"+emailCreatore+"', '"+titolo+"','"+categoria+"', '"+prezzoPartenza+"', '"+dataScadenza+"', '"+descrizione+"', '"+immagineProdotto+"', '"+ultimaOfferta+"', '"+sogliaMinima+"', '"+tipoAsta+");");
+                    "\"Costo Finale\")" + "VALUES('"+emailCreatore+"', '"+titolo+"','"+categoria+"', '"+prezzoPartenza+"', '"+dataScadenza+"', '"+descrizione+"', '"+immagineProdotto+"', '"+ultimaOfferta+"', '"+sogliaMinima+"', '"+tipoAsta+"', '"+stringa+"', '"+-1+"');");
             aggiungiAstaStatement.executeUpdate();
             connection.close();
         }catch(Exception e){
@@ -94,7 +94,11 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
     public void concludiAstaDB(int idAsta, String emailVincitore, double costoFinale) {
 
         try{
-            PreparedStatement concludiAstaStatement = connection.prepareStatement("UPDATE \"Aste\" SET (\"Email Vincitore\" = '"+emailVincitore+"' , \"Costo Finale\" = '"+costoFinale+"') WHERE \"Id Asta\" = '"+idAsta+"'");
+            PreparedStatement concludiAstaStatement = connection.prepareStatement("UPDATE \"Aste\" SET \"Email Vincitore\" = ? , \"Costo Finale\" = ?, \"Tipo di Asta\" = ? WHERE \"Id Asta\" = ?");
+            concludiAstaStatement.setString(1, emailVincitore);
+            concludiAstaStatement.setDouble(2, costoFinale);
+            concludiAstaStatement.setString(3, "Asta Conclusa");
+            concludiAstaStatement.setInt(4, idAsta);
             concludiAstaStatement.executeUpdate();
             connection.close();
         }catch(Exception e){
@@ -107,7 +111,9 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
     public void modificaUltimaOffertaAstaDB(int idAsta, double ultimaOfferta) {
 
         try{
-            PreparedStatement modificaUltimaOffertaStatement = connection.prepareStatement("UPDATE \"Aste\" SET \"Ultima Offerta\" = '"+ultimaOfferta+"' WHERE \"Id Asta\" = '"+idAsta+"'");
+            PreparedStatement modificaUltimaOffertaStatement = connection.prepareStatement("UPDATE \"Aste\" SET \"Ultima Offerta\" = ? WHERE \"Id Asta\" = ?");
+            modificaUltimaOffertaStatement.setDouble(1, ultimaOfferta);
+            modificaUltimaOffertaStatement.setInt(2, idAsta);
             modificaUltimaOffertaStatement.executeUpdate();
             connection.close();
         }catch(Exception e){

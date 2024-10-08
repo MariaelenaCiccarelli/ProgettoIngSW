@@ -27,7 +27,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
 
     @Override
     public void leggiUtentiDB(ArrayList<String> emails,
-                              ArrayList<char[]> passwords,
+                              ArrayList<String> passwords,
                               ArrayList<String> nomi,
                               ArrayList<String> cognomi,
                               ArrayList<String> codiciFiscali,
@@ -48,7 +48,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
 
             while(rs.next()){
                 emails.add(rs.getString("Email"));
-                passwords.add(rs.getString("Password").toCharArray());
+                passwords.add(rs.getString("Password"));
                 nomi.add((rs.getString("Nome")));
                 cognomi.add(rs.getString("Cognome"));
                 codiciFiscali.add((rs.getString("Codice Fiscale")));
@@ -74,7 +74,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
     }
 
     @Override
-    public void aggiungiUtenteDB(String email, char[] password, String nome, String cognome, String codiceFiscale, String nazione, String numeroCellulare, LocalDate dataNascita, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String ragioneSociale, String partitaIva, String numeroAziendale) {
+    public void aggiungiUtenteDB(String email, String password, String nome, String cognome, String codiceFiscale, String nazione, String numeroCellulare, LocalDate dataNascita, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String ragioneSociale, String partitaIva, String numeroAziendale) {
         try {
 
 

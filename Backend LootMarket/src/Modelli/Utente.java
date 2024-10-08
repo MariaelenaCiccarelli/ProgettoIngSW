@@ -7,7 +7,7 @@ public class Utente {
 
     //ATTRIBUTI
     private String email;
-    private char[] password;
+    private String password;
     private String nome;
     private String cognome;
     private String codiceFiscale;
@@ -20,7 +20,7 @@ public class Utente {
     private Indirizzo indirizzoSpedizione;
     private Indirizzo indirizzoFatturazione;
 
-    public Utente(String email, char[] password, String nome, String cognome, String codiceFiscale, String nazione, String numeroCellulare, LocalDate dataNascita, Contatti contatti, byte[] immagineProfilo, String biografia, Indirizzo indirizzoSpedizione, Indirizzo indirizzoFatturazione) {
+    public Utente(String email, String password, String nome, String cognome, String codiceFiscale, String nazione, String numeroCellulare, LocalDate dataNascita, Contatti contatti, byte[] immagineProfilo, String biografia, Indirizzo indirizzoSpedizione, Indirizzo indirizzoFatturazione) {
         this.email = email;
         this.password = password;
         this.nome = nome;
@@ -45,11 +45,11 @@ public class Utente {
         this.email = email;
     }
 
-    public char[] getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(char[] password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

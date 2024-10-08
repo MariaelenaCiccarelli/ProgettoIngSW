@@ -19,8 +19,7 @@ public interface AstaDAO {
                      ArrayList<String> emailVincitori,
                      ArrayList<Double> costiFinali);
 
-    void aggiungiAstaDB(int idAsta,
-                        String emailCreatore,
+    void aggiungiAstaDB(String emailCreatore,
                         String titolo,
                         String categoria,
                         double prezzoPartenza,

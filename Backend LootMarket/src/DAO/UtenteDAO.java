@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public interface UtenteDAO {
 
     void leggiUtentiDB(ArrayList<String> emails,
-                       ArrayList<char[]> passwords,
+                       ArrayList<String> passwords,
                        ArrayList<String> nomi,
                        ArrayList<String> cognomi,
                        ArrayList<String> codiciFiscali,
@@ -27,7 +27,7 @@ public interface UtenteDAO {
 
 
     void aggiungiUtenteDB(String email,
-                          char[] password,
+                          String password,
                           String nome,
                           String cognome,
                           String codiceFiscale,

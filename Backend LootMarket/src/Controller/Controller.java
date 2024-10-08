@@ -27,7 +27,7 @@ public class Controller {
     }
 
     //LEGAMI
-    private void leggiLegamiDAO(){
+    public void leggiLegamiDAO(){
         ArrayList<Integer> idAste = new ArrayList<>();
         ArrayList<String> emailOfferenti = new ArrayList<>();
         ArrayList<Double> offerte = new ArrayList<>();
@@ -51,7 +51,7 @@ public class Controller {
         }
     }
 
-    private void aggiungiLegamiDAO(int idAsta, String emailOfferente, double offerta, LocalDateTime timestamp){
+    public void aggiungiLegamiDAO(int idAsta, String emailOfferente, double offerta, LocalDateTime timestamp){
         Legame legame;
         if(offerta == -1){
             legame = new Iscrizione(emailOfferente, idAsta);
@@ -64,7 +64,7 @@ public class Controller {
         legameDAO.aggiungiLegameDB(idAsta, emailOfferente, offerta, timestamp);
     }
 
-    private void eliminaLegameDAO(int idAsta, String emailOfferente){
+    public void eliminaLegameDAO(int idAsta, String emailOfferente){
         int i = 0;
         while((idAsta != databaseLegami.get(i).getIdAsta() && !emailOfferente.equals(databaseLegami.get(i).getEmailUtente())) && i < databaseLegami.size()){
             databaseLegami.remove(i);
@@ -74,7 +74,7 @@ public class Controller {
         legameDAO.eliminaLegameDB(idAsta, emailOfferente);
     }
 
-    private void modificaUltimaOffertaLegameDAO(int idAsta, String emailOfferente, double offerta, LocalDateTime timestamp){
+    public void modificaUltimaOffertaLegameDAO(int idAsta, String emailOfferente, double offerta, LocalDateTime timestamp){
         int i = 0;
         while((idAsta != databaseLegami.get(i).getIdAsta() && !emailOfferente.equals(databaseLegami.get(i).getEmailUtente())) && i < databaseLegami.size()){
             databaseLegami.get(i).setOfferta(offerta);
@@ -86,7 +86,7 @@ public class Controller {
     }
 
     //ASTE
-    private void leggiAsteDAO(){
+    public void leggiAsteDAO(){
         ArrayList<Integer> idAste = new ArrayList<>();
         ArrayList<String> emailCreatori = new ArrayList<>();
         ArrayList<String> titoli = new ArrayList<>();
@@ -122,18 +122,18 @@ public class Controller {
         }
     }
 
-    private void aggiungiAstaDAO(int idAsta,
-                                 String emailCreatore,
-                                 String titolo,
-                                 String categoria,
-                                 double prezzoPartenza,
-                                 LocalDateTime dataScadenza,
-                                 String descrizione,
-                                 byte[] immagineProdotto,
-                                 double ultimaOfferta,
-                                 double sogliaMinima,
-                                 String tipoAsta){
+    public void aggiungiAstaDAO(String emailCreatore,
+                                String titolo,
+                                String categoria,
+                                double prezzoPartenza,
+                                LocalDateTime dataScadenza,
+                                String descrizione,
+                                byte[] immagineProdotto,
+                                double ultimaOfferta,
+                                double sogliaMinima,
+                                String tipoAsta){
         Asta asta;
+        int idAsta = databaseAste.size();
         if(tipoAsta.equals("Asta a Tempo Fisso")){
             asta = new AstaTempoFisso(idAsta, emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima);
         }else{
@@ -142,10 +142,26 @@ public class Controller {
 
         databaseAste.add(asta);
         AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
-        astaDAO.aggiungiAstaDB(idAsta, emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima, tipoAsta);
+        astaDAO.aggiungiAstaDB(emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima, tipoAsta);
     }
 
-    private void checkAsteScadute(){
+    //ritorna -1 se errore, 1 se va a buon fine
+    public int creaAsta(String emailCreatore,
+                        String titolo,
+                        String categoria,
+                        double prezzoPartenza,
+                        LocalDateTime dataScadenza,
+                        String descrizione,
+                        byte[] immagineProdotto,
+                        double ultimaOfferta,
+                        double sogliaMinima,
+                        String tipoAsta){
+        aggiungiAstaDAO(emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima, tipoAsta);
+        int idAsta = databaseAste.size()-1;
+        return iscrizione(emailCreatore, idAsta);
+    }
+
+    public void checkAsteScadute(){
         for(int i = 0; i < databaseAste.size(); i++){
             Asta asta = databaseAste.get(i);
             String emailVincitore;
@@ -160,7 +176,7 @@ public class Controller {
         }
     }
 
-    private void concludiAstaDAO(int idAsta, String emailVincitore, double costoFinale){
+    public void concludiAstaDAO(int idAsta, String emailVincitore, double costoFinale){
         int i = getIndiceAstaById(idAsta);
         if(i != -1) {
             Asta astaConclusa = new AstaConclusa(idAsta, databaseAste.get(i).getEmailCreatore(), databaseAste.get(i).getTitolo(), databaseAste.get(i).getCategoria(), databaseAste.get(i).getPrezzoPartenza(), databaseAste.get(i).getDataScadenza(), databaseAste.get(i).getDescrizione(), databaseAste.get(i).getImmagineProdotto(), emailVincitore, costoFinale);
@@ -171,7 +187,7 @@ public class Controller {
         }
     }
 
-    private void modificaUltimaOffertaAstaDAO(int idAsta, double ultimaOfferta){
+    public void modificaUltimaOffertaAstaDAO(int idAsta, double ultimaOfferta){
         int i = getIndiceAstaById(idAsta);
         if(i != -1){
             AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
@@ -180,7 +196,7 @@ public class Controller {
     }
 
     //ritorna -1 se asta non presente
-    private int getIndiceAstaById(int idAsta) {
+    public int getIndiceAstaById(int idAsta) {
         int i = 0;
         while(idAsta != databaseAste.get(i).getIdAsta() && i < databaseAste.size()){
             i++;
@@ -192,9 +208,9 @@ public class Controller {
     }
 
     //UTENTI
-    private void leggiUtentiDAO(){
+    public void leggiUtentiDAO(){
         ArrayList<String> emails = new ArrayList<>();
-        ArrayList<char[]> passwords = new ArrayList<>();
+        ArrayList<String> passwords = new ArrayList<>();
         ArrayList<String> nomi = new ArrayList<>();
         ArrayList<String> cognomi = new ArrayList<>();
         ArrayList<String> codiciFiscali = new ArrayList<>();
@@ -227,14 +243,14 @@ public class Controller {
         }
     }
 
-    private void aggiungiUtenteDAO(String email, char[] password, String nome, String cognome, String codiceFiscale, String nazione, String numeroCellulare, LocalDate dataNascita, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione){
+    public void aggiungiUtenteDAO(String email, String password, String nome, String cognome, String codiceFiscale, String nazione, String numeroCellulare, LocalDate dataNascita, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione){
         Utente utente = new Utente(email, password, nome, cognome, codiceFiscale, nazione, numeroCellulare, dataNascita, contatti, immagineProfilo , biografia, indirizzoFatturazione, indirizzoSpedizione);
         databaseUtenti.add(utente);
         UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
         utenteDAO.aggiungiUtenteDB(email, password, nome, cognome, codiceFiscale, nazione, numeroCellulare, dataNascita, contatti, biografia, immagineProfilo, indirizzoFatturazione, indirizzoSpedizione, "", "", "");
     }
 
-    private void modificaUtenteDAO(String email, String nazione, String numeroCellulare, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String numeroAziendale){
+    public void modificaUtenteDAO(String email, String nazione, String numeroCellulare, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String numeroAziendale){
         int i = getIndiceUtenteByEmail(email);
         if(i != -1){
             databaseUtenti.get(i).setNazione(nazione);
@@ -252,7 +268,7 @@ public class Controller {
         }
     }
 
-    private void upgradeUtenteDAO(String email, String ragioneSociale, String partitaIva, String numeroAziendale){
+    public void upgradeUtenteDAO(String email, String ragioneSociale, String partitaIva, String numeroAziendale){
         int i = getIndiceUtenteByEmail(email);
         if(i != -1){
             UtenteBusiness utenteBusiness = new UtenteBusiness(databaseUtenti.get(i), ragioneSociale, partitaIva, numeroAziendale);
@@ -264,7 +280,7 @@ public class Controller {
     }
 
     //ritorna -1 se asta non presente
-    private int getIndiceUtenteByEmail(String email) {
+    public int getIndiceUtenteByEmail(String email) {
         int i = 0;
         while(!email.equals(databaseUtenti.get(i).getEmail()) && i < databaseUtenti.size()){
             i++;
@@ -276,29 +292,33 @@ public class Controller {
     }
 
     //ritorna -1 se la presentazione dell'offerta non va a buon fine, 1 se invece va tutto bene
-    private int nuovaOfferta(String email, int idAsta, double nuovaOfferta){
+    public int nuovaOfferta(String email, int idAsta, double nuovaOfferta){
         int i = getIndiceAstaById(idAsta);
         int k = getIndiceUtenteByEmail(email);
         if(i != -1 && k!= -1) {
             Asta asta = databaseAste.get(i);
-            if (asta.presentaOfferta(nuovaOfferta) == -1) {
-                return -1;
-            } else {
-                int j = getIndiceLegameByEmailAndIdAsta(email, idAsta);
-                if (j != -1) {
-                    aggiungiLegamiDAO(idAsta, email, nuovaOfferta, LocalDateTime.now());
+            if(asta instanceof AstaTempoFisso astaTempoFisso){
+                if (astaTempoFisso.presentaOfferta(nuovaOfferta) == -1) {
+                    return -1;
                 } else {
-                    modificaUltimaOffertaLegameDAO(idAsta, email, nuovaOfferta, LocalDateTime.now());
+                    int j = getIndiceLegameByEmailAndIdAsta(email, idAsta);
+                    if (j != -1) {
+                        aggiungiLegamiDAO(idAsta, email, nuovaOfferta, LocalDateTime.now());
+                    } else {
+                        modificaUltimaOffertaLegameDAO(idAsta, email, nuovaOfferta, LocalDateTime.now());
+                    }
+                    modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
+                    return 1;
                 }
-                modificaUltimaOffertaAstaDAO(idAsta, nuovaOfferta);
-                return 1;
+            }else{
+                return -1;
             }
         }
         return -1;
     }
 
     //ritorna -1 se l'iscrizione non va a buon fine, 1 se invece va tutto bene
-    private int iscrizione(String email, int idAsta){
+    public int iscrizione(String email, int idAsta){
         int i = getIndiceAstaById(idAsta);
         int k = getIndiceUtenteByEmail(email);
         if(i != -1 && k!= -1){
@@ -309,7 +329,7 @@ public class Controller {
     }
 
     //ritorna -1 se la disiscrizione non va a buon fine, 1 se invece va tutto bene
-    private int disiscrizione(String email, int idAsta){
+    public int disiscrizione(String email, int idAsta){
         int i = getIndiceAstaById(idAsta);
         int k = getIndiceUtenteByEmail(email);
         if(i != -1 && k!= -1){
@@ -328,7 +348,7 @@ public class Controller {
         return -1;
     }
 
-    private ArrayList<Asta> recuperaAsteHome(int indice){
+    public ArrayList<Asta> recuperaAsteHome(int indice){
         ArrayList<Asta> arrayRitorno = new ArrayList<>();
         int i = -(10*indice);
         int j = 0;
@@ -346,7 +366,7 @@ public class Controller {
         return arrayRitorno;
     }
 
-    private Asta ottieniDettagliAsta(int idAsta, String emailUtente, String nomeAutore, int tipoAsta, int statusLegame){
+    public Asta ottieniDettagliAsta(int idAsta, String emailUtente, String nomeAutore, int tipoAsta, int statusLegame){
         Asta astaRitorno = databaseAste.get(getIndiceAstaById(idAsta));
         Utente utenteAutore = databaseUtenti.get(getIndiceUtenteByEmail(astaRitorno.getEmailCreatore()));
         nomeAutore = utenteAutore.getNome() + " " + utenteAutore.getCognome();
@@ -366,7 +386,7 @@ public class Controller {
         return astaRitorno;
     }
 
-    private Utente getUtenteByEmail(String email){
+    public Utente getUtenteByEmail(String email){
         int i = getIndiceUtenteByEmail(email);
         if(i != -1){
             return databaseUtenti.get(i);
@@ -375,7 +395,7 @@ public class Controller {
         }
     }
 
-    private ArrayList<Asta> getAsteByEmailUtente(String email){
+    public ArrayList<Asta> getAsteByEmailUtente(String email){
         ArrayList<Asta> arrayRitorno = new ArrayList<>();
         for(int i = 0; i < databaseLegami.size(); i++){
             if(databaseLegami.get(i).getEmailUtente().equals(email)){
@@ -386,7 +406,7 @@ public class Controller {
     }
 
     //ritorna 0 se è un'asta a tempo fisso, 1 asta inversa, -1 asta conclusa, 2 se non trova nulla
-    private int getTipoAsta(Asta asta){
+    public int getTipoAsta(Asta asta){
         if(asta instanceof AstaTempoFisso){
             return 0;
         }else if(asta instanceof AstaInversa){
@@ -399,7 +419,7 @@ public class Controller {
     }
 
     //ritorna -1 se asta non presente
-    private int getIndiceLegameByEmailAndIdAsta(String email, int idAsta) {
+    public int getIndiceLegameByEmailAndIdAsta(String email, int idAsta) {
         int i = 0;
         while(!email.equals(databaseLegami.get(i).getEmailUtente()) && idAsta != databaseLegami.get(i).getIdAsta() && i < databaseLegami.size()){
             i++;

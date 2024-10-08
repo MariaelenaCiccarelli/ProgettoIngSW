@@ -121,4 +121,5 @@ public class AstaConclusa implements Asta{
     public void setCostoFinale(double costoFinale) {
         this.costoFinale = costoFinale;
     }
+
 }
