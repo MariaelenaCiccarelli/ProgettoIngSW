@@ -31,6 +31,8 @@ public class Main {
             System.out.println("4) Presenta un'offerta ad un'asta");
             System.out.println("5) Recupera 10 aste");
             System.out.println("6) Concludi Asta");
+            System.out.println("7) Modifica utente");
+            System.out.println("8) Passaggio utente a Business");
             input = scanner.nextInt();
             if(input == 1){
                 controller.creaAsta("danilo@mail.it", "Action Figure Naruto", "Action Figure", 50.00, LocalDateTime.now().plusDays(6), "Action figure bellissimissima di Naruto Uzumaki", immagineProdotto, 50.00, 0, "Asta Inversa");
@@ -39,7 +41,7 @@ public class Main {
             }else if(input == 3){
                 controller.iscrizione("danilo@mail.it", 0);
             }else if(input == 4){
-                int x = controller.nuovaOfferta("danilo@mail.it", 18, 20.00);
+                int x = controller.nuovaOfferta("danilo@mail.it", 18, 10.00);
                 if(x==1){
                     System.out.println("Tuuttok!");
                 }else{
@@ -54,6 +56,10 @@ public class Main {
                 }
             }else if(input == 6){
                 controller.concludiAstaDAO(15, "danilo@mail.it", 100.00);
+            }else if(input == 7){
+                controller.modificaUtenteDAO("mariaelena@mail.com", "Germania", "0000", contatti, "nuova bio", immagineProdotto, indirizzo, indirizzo, "01939492841");
+            }else if(input == 8){
+                controller.upgradeUtenteDAO("danilo@mail.it", "ragione sociale 1", "00001", "42893595");
             }else{
                 System.out.println("Ciao!");
             }

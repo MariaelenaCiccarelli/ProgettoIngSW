@@ -119,8 +119,24 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
 
 
             PreparedStatement updateUtenteStatement = connection.prepareStatement("UPDATE \"Utenti\" SET " +
-                    "\"Nazione\" = '"+nazione+"', \"Numero di Cellulare\" = '"+numeroCellulare+"', \"Sito Web\" = '"+contatti.getSitoWeb()+"', \"Facebook\" = '"+contatti.getFacebook()+"', \"Instagram\" = '"+contatti.getInstagram()+"', \"Biografia\" ='"+biografia+"', \"Immagine del Profilo\" ='"+immagineProfilo+"', \"Via Spedizione\"='"+indirizzoSpedizione.getVia()+"', \"Città Spedizione\"='"+indirizzoSpedizione.getCitta()+"', \"Provincia Spedizione\"='"+indirizzoSpedizione.getProvincia()+"', \"CAP Spedizione\"='"+indirizzoSpedizione.getCAP()+"', \"Via Fatturazione\"='"+indirizzoFatturazione.getVia()+"', \"Città Fatturazione\"='"+indirizzoFatturazione.getCitta()+"', \"Provincia Fatturazione\"='"+indirizzoFatturazione.getProvincia()+"', \"CAP Spedizione\"='"+indirizzoFatturazione.getCAP()+"', \"Numero Aziendale\" ='"+numeroAziendale+"' WHERE \"Email\" ='"+email+"'");
-
+                    "\"Nazione\" = ?, \"Numero di Cellulare\" = ?, \"Sito Web\" = ?, \"Facebook\" = ?, \"Instagram\" = ?, \"Biografia\" = ?, \"Immagine del Profilo\" = ?, \"Via Spedizione\"= ?, \"Città Spedizione\"= ?, \"Provincia Spedizione\"= ?, \"CAP Spedizione\"=?, \"Via Fatturazione\"= ?, \"Città Fatturazione\"= ?, \"Provincia Fatturazione\"= ?, \"CAP Fatturazione\"= ?, \"Numero Aziendale\" = ? WHERE \"Email\" = ?");
+            updateUtenteStatement.setString(1, nazione);
+            updateUtenteStatement.setString(2, numeroCellulare);
+            updateUtenteStatement.setString(3, contatti.getSitoWeb());
+            updateUtenteStatement.setString(4, contatti.getFacebook());
+            updateUtenteStatement.setString(5, contatti.getInstagram());
+            updateUtenteStatement.setString(6, biografia);
+            updateUtenteStatement.setBytes(7, immagineProfilo);
+            updateUtenteStatement.setString(8, indirizzoSpedizione.getVia());
+            updateUtenteStatement.setString(9, indirizzoSpedizione.getCitta());
+            updateUtenteStatement.setString(10, indirizzoSpedizione.getProvincia());
+            updateUtenteStatement.setString(11, indirizzoSpedizione.getCAP());
+            updateUtenteStatement.setString(12, indirizzoFatturazione.getVia());
+            updateUtenteStatement.setString(13, indirizzoFatturazione.getCitta());
+            updateUtenteStatement.setString(14, indirizzoFatturazione.getProvincia());
+            updateUtenteStatement.setString(15, indirizzoFatturazione.getCAP());
+            updateUtenteStatement.setString(16, numeroAziendale);
+            updateUtenteStatement.setString(17, email);
             updateUtenteStatement.executeUpdate();
             connection.close();
         } catch (Exception e) {
@@ -132,7 +148,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
     public void upgradeUtenteDB(String email, String ragioneSociale, String partitaIva, String numeroAziendale) {
         try {
             PreparedStatement upgradeUtenteStatemente = connection.prepareStatement("UPDATE \"Utenti\" SET " +
-                    "\"Ragione Sociale\"='"+ragioneSociale+"', \"Partita Iva\" ='"+ragioneSociale+"', \"Numero Aziendale\" ='"+numeroAziendale+"' WHERE \"Email\" ='"+email+"'");
+                    "\"Ragione Sociale\"='"+ragioneSociale+"', \"Partita Iva\" ='"+partitaIva+"', \"Numero Aziendale\" ='"+numeroAziendale+"' WHERE \"Email\" ='"+email+"'");
 
             upgradeUtenteStatemente.executeUpdate();
             connection.close();
