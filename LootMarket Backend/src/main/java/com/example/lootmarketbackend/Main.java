@@ -1,7 +1,9 @@
-import Controller.Controller;
-import Modelli.Asta;
-import Modelli.Contatti;
-import Modelli.Indirizzo;
+package com.example.lootmarketbackend;
+
+import com.example.lootmarketbackend.Controller.Controller;
+import com.example.lootmarketbackend.Modelli.Asta;
+import com.example.lootmarketbackend.Modelli.Contatti;
+import com.example.lootmarketbackend.Modelli.Indirizzo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

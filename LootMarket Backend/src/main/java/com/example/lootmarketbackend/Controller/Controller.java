@@ -1,16 +1,10 @@
-package Controller;
+package com.example.lootmarketbackend.Controller;
 
-import DAO.AstaDAO;
-import DAO.LegameDAO;
-import DAO.UtenteDAO;
-import ImplementazionePostgresDAO.AstaImplementazionePostgresDAO;
-import ImplementazionePostgresDAO.LegameImplementazionePostgresDAO;
-import ImplementazionePostgresDAO.UtenteImplementazionePostgresDAO;
-import Modelli.*;
+import com.example.lootmarketbackend.Modelli.*;
+import com.example.lootmarketbackend.DAO.*;
+import com.example.lootmarketbackend.ImplementazionePostgresDAO.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Controller {
