@@ -1,12 +1,12 @@
 package com.example.lootmarketbackend.Controller;
 
 import com.example.lootmarketbackend.Modelli.*;
-import com.example.lootmarketbackend.DAO.*;
-import com.example.lootmarketbackend.ImplementazionePostgresDAO.*;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+@Service
 public class Controller {
 
     public ControllerUtenti controllerUtenti;
