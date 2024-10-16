@@ -1,6 +1,7 @@
 package com.example.lootmarketbackend.Controller;
 
 import com.example.lootmarketbackend.Modelli.*;
+import com.example.lootmarketbackend.dto.AstaDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -91,8 +92,8 @@ public class Controller {
         return -1;
     }
 
-    public ArrayList<Asta> recuperaAsteHome(int indice){
-        ArrayList<Asta> arrayRitorno = new ArrayList<>();
+    public ArrayList<AstaDTO> recuperaAsteHome(int indice){
+        ArrayList<AstaDTO> arrayRitorno = new ArrayList<>();
         int i = -(10*indice);
         int j = 0;
         int indiceAsta = controllerAste.getDatabaseSize() - 1;
@@ -101,7 +102,15 @@ public class Controller {
             if(!(asta instanceof AstaConclusa)){
                 i++;
                 if(i >= 0){
-                    arrayRitorno.add(asta);
+                    String tipo;
+                    if(asta.getSogliaMinima() == -1){
+                        tipo = "Asta Inversa";
+                    }else{
+                        tipo = "Asta a Tempo Fisso";
+                    }
+                    System.out.println("Creo AstaDTO con titolo:" + asta.getTitolo());
+                    AstaDTO astaDTO = new AstaDTO(asta.getIdAsta(), asta.getEmailCreatore(), asta.getTitolo(), asta.getCategoria(), asta.getPrezzoPartenza(), asta.getDataScadenza().getYear(), asta.getDataScadenza().getMonthValue(), asta.getDataScadenza().getDayOfMonth(), asta.getDescrizione(), asta.getUltimaOfferta(), asta.getSogliaMinima(), tipo);
+                    arrayRitorno.add(astaDTO);
                 }
             }
             j++;

@@ -52,11 +52,11 @@ public class Main {
                 }
 
             }else if(input == 5){
-                ArrayList<Asta> arrayAste = new ArrayList<>();
-                arrayAste = controller.recuperaAsteHome(0);
-                for(int i = 0; i < arrayAste.size(); i++){
-                    System.out.println(arrayAste.get(i).getIdAsta());
-                }
+                //ArrayList<Asta> arrayAste = new ArrayList<>();
+                //arrayAste = controller.recuperaAsteHome(0);
+                //for(int i = 0; i < arrayAste.size(); i++){
+                  //  System.out.println(arrayAste.get(i).getIdAsta());
+                //}
             }else if(input == 6){
                 controller.controllerAste.concludiAstaDAO(15, "danilo@mail.it", 100.00);
             }else if(input == 7){
