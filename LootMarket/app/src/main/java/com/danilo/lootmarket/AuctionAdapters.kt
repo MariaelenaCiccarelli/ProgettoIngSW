@@ -23,7 +23,7 @@ import java.time.temporal.TemporalUnit
 import java.util.Date
 import java.util.Locale
 
-class AuctionsAdapter(private var auctions: List<Auction>, context: Context): RecyclerView.Adapter<AuctionsAdapter.AuctionViewHolder>(){
+class AuctionsAdapter(public var auctions: List<Auction>, context: Context): RecyclerView.Adapter<AuctionsAdapter.AuctionViewHolder>(){
 
     class AuctionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val testoTitoloView: TextView = itemView.findViewById(R.id.testoTitoloAstaAuctionItem)
@@ -32,7 +32,6 @@ class AuctionsAdapter(private var auctions: List<Auction>, context: Context): Re
         val testoTempoRimanenteView: TextView = itemView.findViewById(R.id.testoTempoRimanenteAuctionItem)
         val immagineProdottoView: ImageView = itemView.findViewById(R.id.immagineAuctionItem)
         val imageViewBollinoView: MaterialCardView = itemView.findViewById(R.id.cardBollinoInversaAuctionItem)
-
     }
 
     var onItemClick: ((Auction)-> Unit)? = null
