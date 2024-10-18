@@ -97,10 +97,9 @@ public class Controller {
         int i = -(10*indice);
         int j = 0;
         int indiceAsta = controllerAste.getDatabaseSize() - 1;
-        while((i < 10) && ((indiceAsta - j) > 0)){
+        while((i < 10) && ((indiceAsta - j) >= 0)){
             Asta asta = controllerAste.getAstaDatabase(indiceAsta - j);
             if(!(asta instanceof AstaConclusa)){
-                i++;
                 if(i >= 0){
                     String tipo;
                     if(asta.getSogliaMinima() == -1){
@@ -108,10 +107,11 @@ public class Controller {
                     }else{
                         tipo = "Asta a Tempo Fisso";
                     }
-                    System.out.println("Creo AstaDTO con titolo:" + asta.getTitolo());
+                    System.out.println("Creo AstaDTO con idAsta:" + asta.getIdAsta());
                     AstaDTO astaDTO = new AstaDTO(asta.getIdAsta(), asta.getEmailCreatore(), asta.getTitolo(), asta.getCategoria(), asta.getPrezzoPartenza(), asta.getDataScadenza().getYear(), asta.getDataScadenza().getMonthValue(), asta.getDataScadenza().getDayOfMonth(), asta.getDescrizione(), asta.getUltimaOfferta(), asta.getSogliaMinima(), tipo);
                     arrayRitorno.add(astaDTO);
                 }
+                i++;
             }
             j++;
         }
