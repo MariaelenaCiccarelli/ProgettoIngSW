@@ -1,31 +1,21 @@
 package com.danilo.lootmarket
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
-import com.danilo.lootmarket.Network.MyApi
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.danilo.lootmarket.Network.RetrofitInstance
 import com.danilo.lootmarket.Network.dto.AstaDTO
 import com.danilo.lootmarket.databinding.FragmentHomeBinding
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import okio.IOException
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
@@ -33,6 +23,7 @@ import java.time.ZonedDateTime
 class HomeFragment: Fragment(){
 
     private lateinit var binding: FragmentHomeBinding
+    private var indice: Int = 0
 
     private lateinit var auctionsAdapter: AuctionsAdapter
 
@@ -117,9 +108,10 @@ class HomeFragment: Fragment(){
         )
 
         var auctions: ArrayList<Auction>
-        auctions = arrayListOf(auction1, auction2, auction3, auction4, auction5, auction6, auction7)
-
+        //auctions = arrayListOf(auction1, auction2, auction3, auction4, auction5, auction6, auction7)
+        auctions = arrayListOf()
         //auctions = listOf(getAste(0).get(0))
+
 
 
 
@@ -135,8 +127,9 @@ class HomeFragment: Fragment(){
         binding.RecyclerViewFrammentoHome.layoutManager = LinearLayoutManager(this.requireContext())
         binding.RecyclerViewFrammentoHome.adapter = auctionsAdapter
 
-        var auctionsArray = ArrayList<Auction>()
-        auctionsArray = getAste(1)
+        getAste(indice)
+        indice++
+
 
         auctionsAdapter.onItemClick = {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
@@ -144,12 +137,22 @@ class HomeFragment: Fragment(){
             transaction?.addToBackStack(this.toString())
             transaction?.commit()
         }
+        binding.RecyclerViewFrammentoHome.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    getAste(indice)
+                    indice++
+                }
+            }
+        })
 
         //val view = inflater.inflate(R.layout.fragment_home, container, false)
         return binding.root
     }
 
-    private fun getAste(indice: Int): ArrayList<Auction>{
+    private fun getAste(indice: Int){
         var auctions = ArrayList<Auction>()
         lifecycleScope.async {
 
@@ -166,58 +169,20 @@ class HomeFragment: Fragment(){
                 var asteRecuperate: List<AstaDTO> = response.body()!!
 
                 for(asta in asteRecuperate){
-                    Log.println(Log.INFO, "MyNetwork", asta.toString())
+                    //Log.println(Log.INFO, "MyNetwork", asta.toString())
                     var auction = Auction(asta.idAsta, asta.titolo, asta.ultimaOfferta, ZonedDateTime.of(asta.anno, asta.mese, asta.giorno, 0, 0, 0,0, ZoneId.of("GMT")), (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable), asta.descrizione, asta.categoria, asta.tipoAsta )
                     auctions.add(auction)
-                    auctionsAdapter.auctions = auctionsAdapter.auctions + auction
-                    binding.RecyclerViewFrammentoHome.adapter = auctionsAdapter
-                    Log.println(Log.INFO, "MyNetwork", auctions[0].titoloAsta)
+
+                    //Log.println(Log.INFO, "MyNetwork", auctions[0].titoloAsta)
                 }
+                (binding.RecyclerViewFrammentoHome.adapter as AuctionsAdapter).refreshData((binding.RecyclerViewFrammentoHome.adapter as AuctionsAdapter).auctions + auctions)
                 return@async
             }else{
-                Log.e("MyNetwork", "Response not successful")
+                //Log.e("MyNetwork", "Response not successful")
                 return@async
             }
         }
-        return auctions
     }
-
-    /*
-    private fun getAste(indice: Int): ArrayList<Auction>{
-        var auctions = arrayListOf<Auction>()
-        val api = Retrofit.Builder()
-            .baseUrl("http://192.168.56.1:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(MyApi::class.java)
-        api.getAsteHome(indice).enqueue(object : Callback<List<AstaHomeRecuperate>>{
-            override fun onResponse(call: Call<List<AstaHomeRecuperate>>, response: Response<List<AstaHomeRecuperate>>) {
-                Log.println(Log.INFO, "MyNetwork", response.code().toString())
-                if(response.isSuccessful){
-                    Log.println(Log.INFO, "MyNetwork", response.code().toString())
-                    response.body()?.let{
-                        Log.println(Log.INFO, "MyNetwork", response.code().toString())
-                        for(asta in it){
-                            Log.println(Log.INFO, "MyNetwork", asta.toString())
-                            var auction = Auction(asta.idAsta, asta.titolo, asta.ultimaOfferta, ZonedDateTime.of(asta.anno, asta.mese, asta.giorno, 0, 0, 0,0, ZoneId.of("GMT")), (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable), asta.descrizione, asta.categoria, asta.tipoAsta )
-                            auctions.add(auction)
-                            Log.println(Log.INFO, "MyNetwork", auctions[0].titoloAsta)
-                        }
-                    }
-
-                }
-            }
-
-            override fun onFailure(call: Call<List<AstaHomeRecuperate>>, t: Throwable) {
-                Log.println(Log.INFO, "MyNetwork", t.cause.toString())
-                Log.println(Log.INFO, "MyNetwork", t.message.toString())
-            }
-
-        })
-        Log.println(Log.INFO, "MyNetwork", auctions[0].titoloAsta)
-        return auctions
-    }
-     */
 }
 
 

@@ -96,7 +96,8 @@ public class Controller {
         ArrayList<AstaDTO> arrayRitorno = new ArrayList<>();
         int i = -(10*indice);
         int j = 0;
-        int indiceAsta = controllerAste.getDatabaseSize() - 1;
+        int indiceAsta = controllerAste.getDatabaseSize()-1;
+
         while((i < 10) && ((indiceAsta - j) >= 0)){
             Asta asta = controllerAste.getAstaDatabase(indiceAsta - j);
             if(!(asta instanceof AstaConclusa)){
@@ -107,7 +108,6 @@ public class Controller {
                     }else{
                         tipo = "Asta a Tempo Fisso";
                     }
-                    System.out.println("Creo AstaDTO con idAsta:" + asta.getIdAsta());
                     AstaDTO astaDTO = new AstaDTO(asta.getIdAsta(), asta.getEmailCreatore(), asta.getTitolo(), asta.getCategoria(), asta.getPrezzoPartenza(), asta.getDataScadenza().getYear(), asta.getDataScadenza().getMonthValue(), asta.getDataScadenza().getDayOfMonth(), asta.getDescrizione(), asta.getUltimaOfferta(), asta.getSogliaMinima(), tipo);
                     arrayRitorno.add(astaDTO);
                 }
@@ -159,8 +159,12 @@ public class Controller {
                         double ultimaOfferta,
                         double sogliaMinima,
                         String tipoAsta){
-        controllerAste.aggiungiAstaDAO(emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima, tipoAsta);
-        int idAsta = controllerAste.getDatabaseSize()-1;
-        return iscrizione(emailCreatore, idAsta);
+        if(controllerAste.aggiungiAstaDAO(emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima, tipoAsta)==1){
+            int idAsta = controllerAste.getIdUltimaAsta();
+            return iscrizione(emailCreatore, idAsta);
+        }else {
+            return -1;
+        }
+
     }
 }

@@ -6,19 +6,22 @@ import com.example.lootmarketbackend.Modelli.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ControllerAste {
 
     public ArrayList<Asta> databaseAste = new ArrayList<>();
+    private int idUltimaAsta;
 
     public ControllerAste(){
         databaseAste = new ArrayList<>();
         leggiAsteDAO();
+        databaseAste.sort(Comparator.comparing(Asta::getIdAsta));
+        idUltimaAsta = databaseAste.getLast().getIdAsta();
     }
 
-    public int getDatabaseSize(){
-        return databaseAste.size();
-    }
+    public int getIdUltimaAsta(){return idUltimaAsta;}
+    public int getDatabaseSize(){return databaseAste.size();}
 
     public Asta getAstaDatabase(int indice){
         return databaseAste.get(indice);
@@ -61,7 +64,7 @@ public class ControllerAste {
         }
     }
 
-    public void aggiungiAstaDAO(String emailCreatore,
+    public int aggiungiAstaDAO(String emailCreatore,
                                 String titolo,
                                 String categoria,
                                 double prezzoPartenza,
@@ -72,16 +75,22 @@ public class ControllerAste {
                                 double sogliaMinima,
                                 String tipoAsta){
         Asta asta;
-        int idAsta = databaseAste.size();
+        int idAsta = idUltimaAsta+1;
         if(tipoAsta.equals("Asta a Tempo Fisso")){
             asta = new AstaTempoFisso(idAsta, emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima);
         }else{
             asta = new AstaInversa(idAsta, emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta);
         }
 
-        databaseAste.add(asta);
+
         AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
-        astaDAO.aggiungiAstaDB(emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima, tipoAsta);
+        if(astaDAO.aggiungiAstaDB(emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima, tipoAsta)==1){
+            databaseAste.add(asta);
+            idUltimaAsta++;
+            return 1;
+        }else{
+            return -1;
+        }
     }
 
     public void concludiAstaDAO(int idAsta, String emailVincitore, double costoFinale){

@@ -3,10 +3,7 @@ package com.example.lootmarketbackend.ImplementazionePostgresDAO;
 import com.example.lootmarketbackend.DAO.AstaDAO;
 import com.example.lootmarketbackend.Database.ConnessioneDatabase;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -66,7 +63,7 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
     }
 
     @Override
-    public void aggiungiAstaDB(String emailCreatore,
+    public int aggiungiAstaDB(String emailCreatore,
                                String titolo,
                                String categoria,
                                double prezzoPartenza,
@@ -79,13 +76,29 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
 
         try{
             String stringa = new String("");
-            PreparedStatement aggiungiAstaStatement = connection.prepareStatement("INSERT INTO \"Aste\"" + "(\"Email Creatore\", \"Titolo\", \"Categoria\", " +
-                    "\"Prezzo di Partenza\", \"Data di Scadenza\", \"Descrizione\", \"Immagine Prodotto\", \"Ultima Offerta\", \"Soglia Minima\", \"Tipo di Asta\" , \"Email Vincitore\", " +
-                    "\"Costo Finale\")" + "VALUES('"+emailCreatore+"', '"+titolo+"','"+categoria+"', '"+prezzoPartenza+"', '"+dataScadenza+"', '"+descrizione+"', '"+immagineProdotto+"', '"+ultimaOfferta+"', '"+sogliaMinima+"', '"+tipoAsta+"', '"+stringa+"', '"+-1+"');");
+            PreparedStatement aggiungiAstaStatement = connection.prepareStatement("INSERT INTO \"Aste\" (\"Email Creatore\", \"Titolo\", \"Categoria\", \"Prezzo di Partenza\", \"Data di Scadenza\", \"Descrizione\", \"Immagine Prodotto\", \"Ultima Offerta\", \"Soglia Minima\", \"Tipo di Asta\" , \"Email Vincitore\", \"Costo Finale\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)");
+
+            aggiungiAstaStatement.setString(1, emailCreatore);
+            aggiungiAstaStatement.setString(2, titolo);
+            aggiungiAstaStatement.setString(3, categoria);
+            aggiungiAstaStatement.setDouble(4, prezzoPartenza);
+            aggiungiAstaStatement.setDate(5, Date.valueOf(dataScadenza.toLocalDate()));
+            aggiungiAstaStatement.setString(6, descrizione);
+            aggiungiAstaStatement.setBytes(7, immagineProdotto);
+            aggiungiAstaStatement.setDouble(8, ultimaOfferta);
+            aggiungiAstaStatement.setDouble(9, sogliaMinima);
+            aggiungiAstaStatement.setString(10, tipoAsta);
+            aggiungiAstaStatement.setString(11,"");
+            aggiungiAstaStatement.setDouble(12, -1);
+
+
+
             aggiungiAstaStatement.executeUpdate();
             connection.close();
+            return 1;
         }catch(Exception e){
             System.out.println("Errore: "+e.getMessage());
+            return 0;
         }
 
     }

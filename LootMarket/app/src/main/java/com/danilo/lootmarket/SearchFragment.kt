@@ -14,9 +14,15 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.toColor
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.danilo.lootmarket.Network.RetrofitInstance
+import com.danilo.lootmarket.Network.dto.AstaDTO
 import com.danilo.lootmarket.databinding.FragmentSearchBinding
+import kotlinx.coroutines.async
+import okio.IOException
+import retrofit2.HttpException
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.Locale
@@ -29,6 +35,14 @@ class SearchFragment : Fragment() {
     private lateinit var searchView: SearchView
     private lateinit var filteredList: ArrayList<Auction>
     private lateinit var searchList: ArrayList<Auction>
+    private lateinit var auctions: List<Auction>
+    private var indice: Int = 0
+    private var statusFiltroFumetti: Boolean = false
+    private var statusFiltroActionFigures: Boolean = false
+    private var statusFiltroCarte: Boolean = false
+    private var statusFiltroTavole: Boolean = false
+    private var statusFiltroGadget: Boolean = false
+    private var filterCounter: Int = 0;
 
 
     override fun onCreateView(
@@ -38,80 +52,11 @@ class SearchFragment : Fragment() {
 
     ): View? {
         // Inflate the layout for this fragment
-        var auction1 = Auction(
-            0,
-            "Naruto",
-            150.00,
-            ZonedDateTime.now(),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Drawable),
-            "Action figure originale in vinile di Naruto Uzumaki",
-            "Action Figures",
-            "Asta inversa"
-        )
-        var auction2 = Auction(
-            0,
-            "Drago Bianco Occhi Blu Rara Ghost",
-            15000.00,
-            ZonedDateTime.of(2024, 9, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
-            "Carta originale pazza incredibile di yu-gi-oh",
-            "Carte Collezionabili",
-            "Asta a tempo fisso"
-        )
-        var auction3 = Auction(
-            0,
-            "Pennino Originale Giuro di Masashi Kishimoto",
-            150.00,
-            ZonedDateTime.of(2024, 10, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
-            "Me lo ha portato mio zio dal Giappone giuro su mio zio",
-            "Gadget",
-            "Asta inversa"
-        )
-        var auction4 = Auction(
-            0,
-            "Tavola Stupenda One Piece",
-            100.00,
-            ZonedDateTime.of(2024, 9, 6, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
-            "C'è il One Piece",
-            "Tavole",
-            "Asta inversa"
 
-        )
-        var auction5 = Auction(
-            0,
-            "Volume 33 Boruto",
-            60.00,
-            ZonedDateTime.of(2024, 9, 7, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
-            "Nessuno lo vuole",
-            "Fumetti",
-            "Asta inversa"
-        )
-        var auction6 = Auction(
-            0,
-            "Pennino Originale Giuro di Masashi Kishimoto",
-            150.00,
-            ZonedDateTime.of(2024, 9, 10, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
-            "Me lo ha portato mio zio dal Giappone giuro su mio zio",
-            "Gadget",
-            "Asta inversa"
-        )
-        var auction7 = Auction(
-            0,
-            "Pennino Originale Giuro di Masashi Kishimoto",
-            150.00,
-            ZonedDateTime.of(2024, 11, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Drawable),
-            "Me lo ha portato mio zio dal Giappone giuro su mio zio",
-            "Gadget",
-            "Asta inversa"
-        )
+        auctions = listOf()
+        getAste(indice++)
 
-        var auctions: List<Auction>
-        auctions = listOf(auction1, auction2, auction3, auction4, auction5, auction6, auction7)
+
         filteredList = arrayListOf<Auction>()
         searchList = arrayListOf<Auction>()
         filteredList.addAll(auctions)
@@ -129,12 +74,7 @@ class SearchFragment : Fragment() {
 
 
 
-        var statusFiltroFumetti: Boolean = false
-        var statusFiltroActionFigures: Boolean = false
-        var statusFiltroCarte: Boolean = false
-        var statusFiltroTavole: Boolean = false
-        var statusFiltroGadget: Boolean = false
-        var filterCounter: Int = 0;
+
 
 
         //FILTRO FUMETTI
@@ -142,32 +82,15 @@ class SearchFragment : Fragment() {
             if (!statusFiltroFumetti) {
                 binding.immagineFiltroFumettiFrammentoSearch.setImageResource(R.drawable.baseline_auto_stories_24_secondcolor)
                 binding.cardFiltroFumettiFrammentoSearch.setCardBackgroundColor(Color.parseColor("#a91010"))
-                if(filterCounter==0){
-                    filteredList.clear()
-                }
-                filteredList.addAll(auctions.filter { it.Categoria == "Fumetti" })
-                searchList.clear()
-                searchList.addAll(filteredList)
                 statusFiltroFumetti = true
                 filterCounter++
-                binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
+                ApplicaFiltri()
             } else {
-                filterCounter--
-                if(filterCounter==0){
-                    filteredList.clear()
-                    filteredList.addAll(auctions)
-                    searchList.clear()
-                    searchList.addAll(filteredList)
-                }else{
-                    searchList.clear()
-                    searchList.addAll(filteredList.filter { it.Categoria != "Fumetti" })
-                    filteredList.clear()
-                    filteredList.addAll(searchList)
-                }
                 statusFiltroFumetti = false
+                filterCounter--
+                ApplicaFiltri()
                 binding.immagineFiltroFumettiFrammentoSearch.setImageResource(R.drawable.baseline_auto_stories_24)
                 binding.cardFiltroFumettiFrammentoSearch.setCardBackgroundColor(Color.parseColor("#FFF6DD"))
-                binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
             }
         }
 
@@ -176,33 +99,15 @@ class SearchFragment : Fragment() {
             if(!statusFiltroActionFigures){
                 binding.immagineFiltroActionFiguresFrammentoSearch.setImageResource(R.drawable.baseline_man_4_24_secondcolor)
                 binding.cardFiltroActionFiguresFrammentoSearch.setCardBackgroundColor(Color.parseColor("#a91010"))
-                if(filterCounter==0){
-                    filteredList.clear()
-                }
-                filteredList.addAll(auctions.filter { it.Categoria == "Action Figures" })
-                searchList.clear()
-                searchList.addAll(filteredList)
                 statusFiltroActionFigures = true
                 filterCounter++
-                binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
+                ApplicaFiltri()
             }else{
-                filterCounter--
-                if(filterCounter==0){
-                    filteredList.clear()
-                    filteredList.addAll(auctions)
-                    searchList.clear()
-                    searchList.addAll(filteredList)
-                }else{
-                    searchList.clear()
-                    searchList.addAll(filteredList.filter { it.Categoria != "Action Figures" })
-                    filteredList.clear()
-                    filteredList.addAll(searchList)
-                }
                 statusFiltroActionFigures = false
-
+                filterCounter--
+                ApplicaFiltri()
                 binding.immagineFiltroActionFiguresFrammentoSearch.setImageResource(R.drawable.baseline_man_4_24)
                 binding.cardFiltroActionFiguresFrammentoSearch.setCardBackgroundColor(Color.parseColor("#FFF6DD"))
-                binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
             }
         }
 
@@ -212,33 +117,15 @@ class SearchFragment : Fragment() {
             if (!statusFiltroCarte) {
                 binding.immagineFiltroCarteFrammentoSearch.setImageResource(R.drawable.baseline_screenshot_24_secondcolor)
                 binding.cardFiltroCarteFrammentoSearch.setCardBackgroundColor(Color.parseColor("#a91010"))
-                if(filterCounter==0){
-                    filteredList.clear()
-                }
-                filteredList.addAll(auctions.filter { it.Categoria == "Carte Collezionabili" })
-                searchList.clear()
-                searchList.addAll(filteredList)
                 statusFiltroCarte = true
                 filterCounter++
-                binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
+                ApplicaFiltri()
             } else {
-                filterCounter--
-                if(filterCounter==0){
-                    filteredList.clear()
-                    filteredList.addAll(auctions)
-                    searchList.clear()
-                    searchList.addAll(filteredList)
-                }else{
-                    searchList.clear()
-                    searchList.addAll(filteredList.filter { it.Categoria != "Carte Collezionabili" })
-                    filteredList.clear()
-                    filteredList.addAll(searchList)
-                }
                 statusFiltroCarte = false
-
+                filterCounter--
+                ApplicaFiltri()
                 binding.immagineFiltroCarteFrammentoSearch.setImageResource(R.drawable.baseline_screenshot_24)
                 binding.cardFiltroCarteFrammentoSearch.setCardBackgroundColor(Color.parseColor("#FFF6DD"))
-                binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
             }
 
         }
@@ -248,33 +135,15 @@ class SearchFragment : Fragment() {
             if (!statusFiltroTavole) {
                 binding.immagineFiltroTavoleFrammentoSearch.setImageResource(R.drawable.baseline_brush_24_secondcolor)
                 binding.cardFiltroTavoleFrammentoSearch.setCardBackgroundColor(Color.parseColor("#a91010"))
-                if(filterCounter==0){
-                    filteredList.clear()
-                }
-                filteredList.addAll(auctions.filter { it.Categoria == "Tavole" })
-                searchList.clear()
-                searchList.addAll(filteredList)
                 statusFiltroTavole = true
                 filterCounter++
-                binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
+                ApplicaFiltri()
             } else {
-                filterCounter--
-                if(filterCounter==0){
-                    filteredList.clear()
-                    filteredList.addAll(auctions)
-                    searchList.clear()
-                    searchList.addAll(filteredList)
-                }else{
-                    searchList.clear()
-                    searchList.addAll(filteredList.filter { it.Categoria != "Tavole" })
-                    filteredList.clear()
-                    filteredList.addAll(searchList)
-                }
                 statusFiltroTavole = false
-
+                filterCounter--
+                ApplicaFiltri()
                 binding.immagineFiltroTavoleFrammentoSearch.setImageResource(R.drawable.baseline_brush_24)
                 binding.cardFiltroTavoleFrammentoSearch.setCardBackgroundColor(Color.parseColor("#FFF6DD"))
-                binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
             }
         }
 
@@ -283,37 +152,20 @@ class SearchFragment : Fragment() {
             if (!statusFiltroGadget) {
                 binding.immagineFiltroGadgetFrammentoSearch.setImageResource(R.drawable.baseline_catching_pokemon_24_secondcolor)
                 binding.cardFiltroGadgetFrammentoSearch.setCardBackgroundColor(Color.parseColor("#a91010"))
-                if(filterCounter==0){
-                    filteredList.clear()
-                }
-                filteredList.addAll(auctions.filter { it.Categoria == "Gadget" })
-                searchList.clear()
-                searchList.addAll(filteredList)
                 statusFiltroGadget = true
                 filterCounter++
-                binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
+                ApplicaFiltri()
             } else {
-                filterCounter--
-                if(filterCounter==0){
-                    filteredList.clear()
-                    filteredList.addAll(auctions)
-                    searchList.clear()
-                    searchList.addAll(filteredList)
-                }else{
-                    searchList.clear()
-                    searchList.addAll(filteredList.filter { it.Categoria != "Gadget" })
-                    filteredList.clear()
-                    filteredList.addAll(searchList)
-                }
                 statusFiltroGadget = false
+                filterCounter--
+                ApplicaFiltri()
                 binding.immagineFiltroGadgetFrammentoSearch.setImageResource(R.drawable.baseline_catching_pokemon_24)
                 binding.cardFiltroGadgetFrammentoSearch.setCardBackgroundColor(Color.parseColor("#FFF6DD"))
-                binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
             }
         }
 
 
-
+        //Ricerca per testo
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 searchView.clearFocus()
@@ -336,11 +188,10 @@ class SearchFragment : Fragment() {
                     binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
                 }
                 return false
-
             }
 
         })
-
+        //Click su un Asta
         auctionsAdapter.onItemClick = {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id))
@@ -348,7 +199,78 @@ class SearchFragment : Fragment() {
             transaction?.commit()
         }
 
+        //caricamento ulteriori aste
+        binding.RecyclerViewFrammentoSearch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    getAste(indice)
+                    indice++
+                }
+            }
+        })
+
+
         //val view = inflater.inflate(R.layout.fragment_home, container, false)
         return binding.root
+    }
+
+    private fun getAste(indice: Int){
+        var auctionsCaricate = ArrayList<Auction>()
+        lifecycleScope.async {
+
+            val response = try{
+                RetrofitInstance.api.getAsteHome(indice)
+            }catch (e: IOException){
+                Log.e("MyNetwork", "IOException, you might not have internet connection")
+                return@async
+            }catch (e: HttpException){
+                Log.e("MyNetwork", "HttpException, unexpected response")
+                return@async
+            }
+            if(response.isSuccessful && response.body() != null){
+                var asteRecuperate: List<AstaDTO> = response.body()!!
+
+                for(asta in asteRecuperate){
+                    Log.println(Log.INFO, "MyNetwork", asta.toString())
+                    var auction = Auction(asta.idAsta, asta.titolo, asta.ultimaOfferta, ZonedDateTime.of(asta.anno, asta.mese, asta.giorno, 0, 0, 0,0, ZoneId.of("GMT")), (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable), asta.descrizione, asta.categoria, asta.tipoAsta )
+                    auctionsCaricate.add(auction)
+
+                    Log.println(Log.INFO, "MyNetwork", auctionsCaricate[0].titoloAsta)
+                }
+                auctions = auctions + auctionsCaricate
+                ApplicaFiltri()
+                return@async
+            }else{
+                Log.e("MyNetwork", "Response not successful")
+                return@async
+            }
+        }
+    }
+
+    private fun ApplicaFiltri(){
+        filteredList.clear()
+        if(filterCounter==0){
+            filteredList.addAll(auctions)
+        }else{
+            if(statusFiltroFumetti){
+                filteredList.addAll(auctions.filter { it.Categoria == "Fumetti" })
+            }
+            if(statusFiltroActionFigures == true){
+                filteredList.addAll(auctions.filter { it.Categoria == "Action Figures" })
+            }
+            if(statusFiltroCarte){
+                filteredList.addAll(auctions.filter { it.Categoria == "Carte Collezionabili" })
+            }
+            if(statusFiltroTavole){
+                filteredList.addAll(auctions.filter { it.Categoria == "Tavole" })
+            }
+            if(statusFiltroGadget){
+                filteredList.addAll(auctions.filter { it.Categoria == "Gadget" })
+            }
+        }
+        searchList.clear()
+        searchList.addAll(filteredList)
+        binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
     }
 }

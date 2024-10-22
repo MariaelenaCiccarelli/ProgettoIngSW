@@ -76,8 +76,8 @@ class AuctionsAdapter(public var auctions: List<Auction>, context: Context): Rec
 
     override fun getItemCount(): Int = auctions.size
 
-    fun refreshData(newNotes: List<Auction>){
-        auctions = newNotes
+    fun refreshData(newAuctions: List<Auction>){
+        auctions = newAuctions
         this.notifyDataSetChanged()
     }
 }
