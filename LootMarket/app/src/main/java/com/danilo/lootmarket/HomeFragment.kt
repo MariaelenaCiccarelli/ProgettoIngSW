@@ -153,7 +153,7 @@ class HomeFragment: Fragment(){
     }
 
     private fun getAste(indice: Int){
-        var auctions = ArrayList<Auction>()
+        var auctions2 = ArrayList<Auction>()
         lifecycleScope.async {
 
             val response = try{
@@ -167,15 +167,16 @@ class HomeFragment: Fragment(){
             }
             if(response.isSuccessful && response.body() != null){
                 var asteRecuperate: List<AstaDTO> = response.body()!!
-
                 for(asta in asteRecuperate){
-                    //Log.println(Log.INFO, "MyNetwork", asta.toString())
+                    Log.println(Log.INFO, "MyNetwork", asta.toString())
                     var auction = Auction(asta.idAsta, asta.titolo, asta.ultimaOfferta, ZonedDateTime.of(asta.anno, asta.mese, asta.giorno, 0, 0, 0,0, ZoneId.of("GMT")), (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable), asta.descrizione, asta.categoria, asta.tipoAsta )
-                    auctions.add(auction)
+                    auctions2.add(auction)
 
                     //Log.println(Log.INFO, "MyNetwork", auctions[0].titoloAsta)
                 }
-                (binding.RecyclerViewFrammentoHome.adapter as AuctionsAdapter).refreshData((binding.RecyclerViewFrammentoHome.adapter as AuctionsAdapter).auctions + auctions)
+                (binding.RecyclerViewFrammentoHome.adapter as AuctionsAdapter).auctions.addAll(auctions2)
+                binding.RecyclerViewFrammentoHome.adapter!!.notifyItemRangeInserted(binding.RecyclerViewFrammentoHome.adapter!!.itemCount+1, auctions2.size);
+                //(binding.RecyclerViewFrammentoHome.adapter as AuctionsAdapter).refreshData((binding.RecyclerViewFrammentoHome.adapter as AuctionsAdapter).auctions + auctions2)
                 return@async
             }else{
                 //Log.e("MyNetwork", "Response not successful")

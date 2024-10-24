@@ -14,7 +14,7 @@ import com.danilo.lootmarket.databinding.FragmentSubscribedAuctionsBinding
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class PersonalAuctionsFragment : Fragment() {
+class PersonalAuctionsFragment(private var auctions: List<AuctionViewHistory>) : Fragment() {
 
     private lateinit var binding: FragmentPersonalAuctionsBinding
 
@@ -94,12 +94,10 @@ class PersonalAuctionsFragment : Fragment() {
 
         )
 
-        var auctions: List<AuctionViewHistory>
-        auctions = listOf(auction1, auction2, auction3, auction4, auction5, auction6, auction7)
-
 
         binding = FragmentPersonalAuctionsBinding.inflate(layoutInflater)
         //setContentView(binding.root)
+        auctions = auctions.filter { (it.autore.equals("danilo@mail.it")) }
         auctionsLiveAdapter = AuctionsLiveAdapter(auctions, this.requireContext(), false)
 
         binding.RecyclerViewFrammentoPersonalAuctions.layoutManager = LinearLayoutManager(this.requireContext())

@@ -23,13 +23,13 @@ public class Controller {
     public void checkAsteScadute(){
         for(int i = 0; i < controllerAste.getDatabaseSize(); i++){
             Asta asta = controllerAste.getAstaDatabase(i);
-            String emailVincitore;
+            String emailVincitore = "";
             if(asta.getDataScadenza().isBefore(LocalDateTime.now())){
                 int j = 0;
                 while((j < controllerLegami.getDatabaseSize()) && (controllerLegami.getLegameDatabase(j).getOfferta() != asta.getUltimaOfferta())){
                     j++;
                 }
-                emailVincitore =  controllerLegami.getLegameDatabase(j).getEmailUtente();
+                //emailVincitore =  controllerLegami.getLegameDatabase(j).getEmailUtente();
                 controllerAste.concludiAstaDAO(asta.getIdAsta(), emailVincitore, asta.getUltimaOfferta());
             }
         }
@@ -103,12 +103,13 @@ public class Controller {
             if(!(asta instanceof AstaConclusa)){
                 if(i >= 0){
                     String tipo;
-                    if(asta.getSogliaMinima() == -1){
+                    System.out.println("Id Asta: " + asta.getIdAsta() + " Soglia minima asta: " + asta.getSogliaMinima());
+                    if(asta.getSogliaMinima() == 0){
                         tipo = "Asta Inversa";
                     }else{
                         tipo = "Asta a Tempo Fisso";
                     }
-                    AstaDTO astaDTO = new AstaDTO(asta.getIdAsta(), asta.getEmailCreatore(), asta.getTitolo(), asta.getCategoria(), asta.getPrezzoPartenza(), asta.getDataScadenza().getYear(), asta.getDataScadenza().getMonthValue(), asta.getDataScadenza().getDayOfMonth(), asta.getDescrizione(), asta.getUltimaOfferta(), asta.getSogliaMinima(), tipo);
+                    AstaDTO astaDTO = new AstaDTO(asta.getIdAsta(), asta.getEmailCreatore(), asta.getTitolo(), asta.getCategoria(), asta.getPrezzoPartenza(), asta.getDataScadenza().getYear(), asta.getDataScadenza().getMonthValue(), asta.getDataScadenza().getDayOfMonth(), asta.getDescrizione(), asta.getUltimaOfferta(), asta.getSogliaMinima(), tipo, false);
                     arrayRitorno.add(astaDTO);
                 }
                 i++;
@@ -138,11 +139,29 @@ public class Controller {
         return astaRitorno;
     }
 
-    public ArrayList<Asta> getAsteByEmailUtente(String email){
-        ArrayList<Asta> arrayRitorno = new ArrayList<>();
+    public ArrayList<AstaDTO> getAsteByEmailUtente(String email){
+        ArrayList<AstaDTO> arrayRitorno = new ArrayList<>();
         for(int i = 0; i < controllerLegami.getDatabaseSize(); i++){
             if(controllerLegami.getLegameDatabase(i).getEmailUtente().equals(email)){
-                arrayRitorno.add(controllerAste.getAstaDatabase(controllerAste.getIndiceAstaById(controllerLegami.getLegameDatabase(i).getIdAsta())));
+                Asta asta;
+                AstaDTO astaDTO = null;
+                asta = controllerAste.getAstaDatabase(controllerAste.getIndiceAstaById(controllerLegami.getLegameDatabase(i).getIdAsta()));
+                Boolean offertaFatta = false;
+                String tipo="";
+                if(controllerLegami.getLegameDatabase(i).getOfferta()!=-1){
+                    offertaFatta = true;
+                }
+                if((asta instanceof AstaConclusa)){
+                    tipo = "Asta Conclusa";
+                }else if(asta instanceof AstaTempoFisso){
+                    if(asta instanceof AstaInversa){
+                        tipo = "Asta Inversa";
+                    }else{
+                        tipo = "Asta a Tempo Fisso";
+                    }
+                }
+                astaDTO = new AstaDTO(asta.getIdAsta(), asta.getEmailCreatore(), asta.getTitolo(), asta.getCategoria(), asta.getPrezzoPartenza(), asta.getDataScadenza().getYear(), asta.getDataScadenza().getMonthValue(), asta.getDataScadenza().getDayOfMonth(), asta.getDescrizione(), asta.getUltimaOfferta(), asta.getSogliaMinima(), tipo, offertaFatta);
+                arrayRitorno.add(astaDTO);
             }
         }
         return arrayRitorno;

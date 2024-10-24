@@ -23,7 +23,7 @@ import java.time.temporal.TemporalUnit
 import java.util.Date
 import java.util.Locale
 
-class AuctionsLiveAdapter (private var auctionsViewHistory: List<AuctionViewHistory>, context: Context, var autoreVisibile: Boolean = true): RecyclerView.Adapter<AuctionsLiveAdapter.AuctionViewHolder>(){
+class AuctionsLiveAdapter (public var auctionsViewHistory: List<AuctionViewHistory>, context: Context, var autoreVisibile: Boolean = true): RecyclerView.Adapter<AuctionsLiveAdapter.AuctionViewHolder>(){
 
     class AuctionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val testoTitoloView: TextView = itemView.findViewById(R.id.testoTitoloAstaAuctionLiveItem)
@@ -55,12 +55,15 @@ class AuctionsLiveAdapter (private var auctionsViewHistory: List<AuctionViewHist
         holder.immagineProdottoView.setImageDrawable(auction.immagineProdotto)
         if(!auction.offertaFatta){
             holder.bollinoView.isVisible = false
+        }else{
+            holder.bollinoView.isVisible = true
         }
 
         if(auction.dataScadenza.isBefore(ZonedDateTime.now())){
             holder.testoTempoRimanenteView.text = "Scaduta il: "+auction.dataScadenza.format(formatter)
             holder.testoTempoRimanenteView.setTextColor(Color.parseColor("#4d251b"))
         }else {
+            holder.testoTempoRimanenteView.setTextColor(Color.parseColor("#c01b1b"))
             var tempoRimanente = ZonedDateTime.now().until(auction.dataScadenza, ChronoUnit.HOURS)
             if(tempoRimanente >48) {
                 holder.testoTempoRimanenteView.text =""+(tempoRimanente/24).toString() + " giorni rimanenti"

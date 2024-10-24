@@ -17,9 +17,10 @@ public class AstaDTO {
     public double ultimaOfferta;
     public double sogliaMinima;
     public String tipoAsta;
+    public Boolean offertaFatta;
 
 
-    public AstaDTO(int idAsta, String emailCreatore, String titolo, String categoria, double prezzoPartenza, int anno, int mese, int giorno, String descrizione, double ultimaOfferta, double sogliaMinima, String tipoAsta) {
+    public AstaDTO(int idAsta, String emailCreatore, String titolo, String categoria, double prezzoPartenza, int anno, int mese, int giorno, String descrizione, double ultimaOfferta, double sogliaMinima, String tipoAsta, Boolean offertaFatta) {
         this.idAsta = idAsta;
         this.emailCreatore = emailCreatore;
         this.titolo = titolo;
@@ -33,5 +34,6 @@ public class AstaDTO {
         this.ultimaOfferta = ultimaOfferta;
         this.sogliaMinima = sogliaMinima;
         this.tipoAsta = tipoAsta;
+        this.offertaFatta = offertaFatta;
     }
 }

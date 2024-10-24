@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="auction_type_array">
-        <item>Asta a tempo fisso</item>
-        <item>Asta inversa</item>
+        <item>Asta a Tempo Fisso</item>
+        <item>Asta Inversa</item>
     </string-array>
 </resources>

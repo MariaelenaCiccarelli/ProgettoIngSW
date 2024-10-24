@@ -15,6 +15,7 @@ public class APIController {
     @Autowired
     public APIController(Controller controller){
         this.controller = controller;
+        controller.checkAsteScadute();
     }
 
     private Controller controller;
@@ -31,5 +32,10 @@ public class APIController {
         LocalDateTime dataScadenza = LocalDateTime.of(astaDTO.anno, astaDTO.mese, astaDTO.giorno, 23, 59, 59);
         controller.creaAsta(astaDTO.emailCreatore, astaDTO.titolo, astaDTO.categoria, astaDTO.prezzoPartenza, dataScadenza, astaDTO.descrizione, immagineProdotto, astaDTO.ultimaOfferta, astaDTO.sogliaMinima, astaDTO.tipoAsta);
     }
+
+    @GetMapping ("/getAsteUtente")
+    public ArrayList<AstaDTO> getAsteHome(@RequestParam String email){
+        System.out.println("Chiamata get aste per email utente intercettata, email: " + email);
+        return controller.getAsteByEmailUtente(email); }
 
 }

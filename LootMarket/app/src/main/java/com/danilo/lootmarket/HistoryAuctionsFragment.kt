@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.danilo.lootmarket.databinding.FragmentHistoryAuctionsBinding
@@ -14,7 +15,7 @@ import com.danilo.lootmarket.databinding.FragmentSubscribedAuctionsBinding
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class HistoryAuctionsFragment : Fragment() {
+class HistoryAuctionsFragment(private var auctions: List<AuctionViewHistory>): Fragment() {
 
     private lateinit var binding: FragmentHistoryAuctionsBinding
 
@@ -56,13 +57,14 @@ class HistoryAuctionsFragment : Fragment() {
 
         )
 
-        var auctions: List<AuctionViewHistory>
-        auctions = listOf( auction2, auction5, auction6)
+        auctions = auctions.filter { (it.dataScadenza.isBefore(ZonedDateTime.now())) }
+        auctions = auctions.filter { (it.offertaFatta == true)}
+        //Toast.makeText(this.requireContext(), auctions[0].offertaFatta.toString(), Toast.LENGTH_SHORT).show()
+        auctionsLiveAdapter = AuctionsLiveAdapter(auctions, this.requireContext(), true)
 
 
         binding = FragmentHistoryAuctionsBinding.inflate(layoutInflater)
         //setContentView(binding.root)
-        auctionsLiveAdapter = AuctionsLiveAdapter(auctions, this.requireContext())
 
         binding.RecyclerViewFrammentoHistoryAuctions.layoutManager = LinearLayoutManager(this.requireContext())
         binding.RecyclerViewFrammentoHistoryAuctions.adapter = auctionsLiveAdapter

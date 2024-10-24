@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.icu.text.DecimalFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,7 @@ import java.time.temporal.TemporalUnit
 import java.util.Date
 import java.util.Locale
 
-class AuctionsAdapter(public var auctions: List<Auction>, context: Context): RecyclerView.Adapter<AuctionsAdapter.AuctionViewHolder>(){
+class AuctionsAdapter(public var auctions: ArrayList<Auction>, context: Context): RecyclerView.Adapter<AuctionsAdapter.AuctionViewHolder>(){
 
     class AuctionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val testoTitoloView: TextView = itemView.findViewById(R.id.testoTitoloAstaAuctionItem)
@@ -43,6 +44,7 @@ class AuctionsAdapter(public var auctions: List<Auction>, context: Context): Rec
 
     override fun onBindViewHolder(holder: AuctionViewHolder, position: Int) {
         val auction = auctions[position]
+        Log.println(Log.INFO, "MyAdapter", auction.toString())
         holder.testoTitoloView.text = auction.titoloAsta
         holder.testoDescrizioneView.text = auction.testoDescrizione
         holder.testoUltimaOffertaView.text = "Ultima Offerta: €"+ "%,.2f".format(Locale.ITALIAN,auction.ultimaOfferta)
@@ -52,6 +54,7 @@ class AuctionsAdapter(public var auctions: List<Auction>, context: Context): Rec
             holder.testoTempoRimanenteView.text = "Scaduta"
             holder.testoTempoRimanenteView.setTextColor(Color.parseColor("#4d251b"))
         }else {
+            holder.testoTempoRimanenteView.setTextColor(Color.parseColor("#c01b1b"))
             var tempoRimanente = ZonedDateTime.now().until(auction.dataScadenza, ChronoUnit.HOURS)
             if(tempoRimanente >48) {
                 holder.testoTempoRimanenteView.text =""+(tempoRimanente/24).toString() + "g rim."
@@ -65,8 +68,11 @@ class AuctionsAdapter(public var auctions: List<Auction>, context: Context): Rec
         }
 
         holder.immagineProdottoView.setImageDrawable(auction.immagineProdotto)
-        if(auction.tipoAsta == "Asta inversa"){
+        if(auction.tipoAsta == "Asta Inversa"){
             holder.imageViewBollinoView.isVisible= true
+        }
+        if(auction.tipoAsta == "Asta a Tempo Fisso"){
+            holder.imageViewBollinoView.isVisible= false
         }
 
         holder.itemView.setOnClickListener{
@@ -76,8 +82,9 @@ class AuctionsAdapter(public var auctions: List<Auction>, context: Context): Rec
 
     override fun getItemCount(): Int = auctions.size
 
-    fun refreshData(newAuctions: List<Auction>){
+    fun refreshData(newAuctions: ArrayList<Auction>){
+
         auctions = newAuctions
-        this.notifyDataSetChanged()
+        this!!.notifyDataSetChanged()
     }
 }

@@ -13,5 +13,6 @@ data class AstaDTO(val idAsta: Int,
                               //val immagineProdotto: Array<Byte>,
                    val ultimaOfferta: Double,
                    val sogliaMinima: Double,
-                   val tipoAsta: String
+                   val tipoAsta: String,
+                   var offertaFatta: Boolean
 )

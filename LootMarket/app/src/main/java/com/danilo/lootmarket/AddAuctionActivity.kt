@@ -141,7 +141,7 @@ class AddAuctionActivity: AppCompatActivity() {
             }else{
                 var momentoScadenza = ZonedDateTime.of(binding.datePickerScadenzaPaginaAddAuction.year, binding.datePickerScadenzaPaginaAddAuction.month+1, binding.datePickerScadenzaPaginaAddAuction.dayOfMonth, 23, 59,59,59, ZoneId.of("GMT") )
                 //var auction = Auction(10,titolo, prezzo.toDouble(), momentoScadenza, immagine, descrizione, categoria, tipo)
-                var astaDTO = AstaDTO(0, "danilo@mail.it", titolo, categoria, prezzo.toDouble(), momentoScadenza.year, momentoScadenza.month.value, momentoScadenza.dayOfMonth, descrizione, prezzo.toDouble(), sogliaMinima.toDouble(), tipo)
+                var astaDTO = AstaDTO(0, "danilo@mail.it", titolo, categoria, prezzo.toDouble(), momentoScadenza.year, momentoScadenza.month.value, momentoScadenza.dayOfMonth, descrizione, prezzo.toDouble(), sogliaMinima.toDouble(), tipo, false)
                 postAsta(astaDTO)
                 Toast.makeText(this, "Creazione Asta avvenuta con successo!", Toast.LENGTH_SHORT).show()
                 //Toast.makeText(this, auction.ultimaOfferta.toString(), Toast.LENGTH_SHORT).show()

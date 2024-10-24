@@ -18,4 +18,8 @@ interface MyApi {
     @Headers("Content-Type: application/json")
     @POST("/postCreaAsta")
     suspend fun postNuovaAsta(@Body asta: AstaDTO): Response<Int>
+
+    @GET("/getAsteUtente")
+    suspend fun getAsteUtente(@Query("email") email: String): Response<ArrayList<AstaDTO>>
+
 }
