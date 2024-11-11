@@ -24,6 +24,16 @@ public class ControllerUtenti {
         return databaseUtenti.get(indice);
     }
 
+
+    public int verificaUtente(String mailUtente, String passwordUtente){
+
+        UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
+        int status = utenteDAO.verificaUtenteDB(mailUtente, passwordUtente);
+
+        return status; //1 Verifica con successo, 0 altrimenti
+    }
+
+
     public void leggiUtentiDAO(){
         ArrayList<String> emails = new ArrayList<>();
         ArrayList<String> passwords = new ArrayList<>();
@@ -59,11 +69,12 @@ public class ControllerUtenti {
         }
     }
 
-    public void aggiungiUtenteDAO(String email, String password, String nome, String cognome, String codiceFiscale, String nazione, String numeroCellulare, LocalDate dataNascita, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione){
+    public  int aggiungiUtenteDAO(String email, String password, String nome, String cognome, String codiceFiscale, String nazione, String numeroCellulare, LocalDate dataNascita, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione){
         Utente utente = new Utente(email, password, nome, cognome, codiceFiscale, nazione, numeroCellulare, dataNascita, contatti, immagineProfilo , biografia, indirizzoFatturazione, indirizzoSpedizione);
         databaseUtenti.add(utente);
         UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
-        utenteDAO.aggiungiUtenteDB(email, password, nome, cognome, codiceFiscale, nazione, numeroCellulare, dataNascita, contatti, biografia, immagineProfilo, indirizzoFatturazione, indirizzoSpedizione, "", "", "");
+        int status = utenteDAO.aggiungiUtenteDB(email, password, nome, cognome, codiceFiscale, nazione, numeroCellulare, dataNascita, contatti, biografia, immagineProfilo, indirizzoFatturazione, indirizzoSpedizione, "", "", "");
+        return status;
     }
 
     public void modificaUtenteDAO(String email, String nazione, String numeroCellulare, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String numeroAziendale){

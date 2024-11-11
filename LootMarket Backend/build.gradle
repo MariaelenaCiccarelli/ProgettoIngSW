@@ -23,6 +23,13 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'commons-codec:commons-codec:1.17.1'
+    //implementation "org.springframework.boot:spring-boot-starter-security"
+    //ext['spring-security.version']='5.8.15'
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    implementation 'io.jsonwebtoken:jjwt-gson:0.12.6'
+
 }
 
 tasks.named('test') {

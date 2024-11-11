@@ -26,7 +26,9 @@ public interface UtenteDAO {
                        ArrayList<String> numeriAziendali);
 
 
-    void aggiungiUtenteDB(String email,
+    int verificaUtenteDB(String mailUtente, String passwordUtente);
+
+    int aggiungiUtenteDB(String email,
                           String password,
                           String nome,
                           String cognome,

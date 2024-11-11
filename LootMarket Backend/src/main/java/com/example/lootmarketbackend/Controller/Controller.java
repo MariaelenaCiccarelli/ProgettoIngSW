@@ -2,6 +2,7 @@ package com.example.lootmarketbackend.Controller;
 
 import com.example.lootmarketbackend.Modelli.*;
 import com.example.lootmarketbackend.dto.AstaDTO;
+import com.example.lootmarketbackend.dto.UtenteDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -185,5 +186,23 @@ public class Controller {
             return -1;
         }
 
+    }
+
+    public UtenteDTO getDatiUtentePersonali(String mailUtente){
+        Utente utente = controllerUtenti.getUtenteByEmail(mailUtente);
+        String ragioneSociale;
+        String partitaIva;
+        String numeroAziendale;
+        if((utente instanceof UtenteBusiness)){
+            ragioneSociale = ((UtenteBusiness) utente).getRagioneSociale();
+            partitaIva = ((UtenteBusiness) utente).getPartitaIva();
+            numeroAziendale = ((UtenteBusiness) utente).getNumeroAziendale();
+        }else{
+            ragioneSociale = "";
+            partitaIva = "";
+            numeroAziendale = "";
+        }
+        System.out.println(utente.getIndirizzoFatturazione().getCap());
+        return new UtenteDTO(utente.getNome(), utente.getCodiceFiscale(), utente.getEmail(), utente.getDataNascita().getYear(), utente.getDataNascita().getMonthValue(), utente.getDataNascita().getDayOfMonth(), utente.getNazione(), utente.getNumeroCellulare(), utente.getIndirizzoSpedizione(), utente.getIndirizzoFatturazione(), utente.getContatti().getSitoWeb(), utente.getContatti().getFacebook(), utente.getContatti().getInstagram(), utente.getBiografia(), ragioneSociale, partitaIva, numeroAziendale);
     }
 }
