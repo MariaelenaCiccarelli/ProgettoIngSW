@@ -1,12 +1,12 @@
 package com.example.lootmarketbackend.services;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
+import java.io.UnsupportedEncodingException;
+import java.time.Instant;
+import java.util.Date;
 
 public class JwtUtil {
 
@@ -23,7 +23,29 @@ public class JwtUtil {
                     .parseClaimsJws(jwt)
                     .getBody();
         } catch (SignatureException e) {
-            throw new IllegalArgumentException("Token non valido o firma non valida.");
+            return null;
+        }catch (ExpiredJwtException e){
+            throw e;
         }
+    }
+
+    public static String encodeJWT(String mail) {
+        String jwsToken;
+        try {
+
+            jwsToken = Jwts.builder()
+                    .setIssuer("LootMarket")
+                    .claim("mail", mail)
+                    .setIssuedAt(Date.from(Instant.now()))
+                    .setExpiration(Date.from(Instant.now().plusSeconds(120)))
+                    .signWith(
+                            SignatureAlgorithm.HS256,
+                            "secretMagnificoBellissmoDelMondoCheVerraGiuroSuMioZio".getBytes("UTF-8")
+                    )
+                    .compact();
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        return jwsToken;
     }
 }

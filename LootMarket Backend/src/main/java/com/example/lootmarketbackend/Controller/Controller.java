@@ -104,7 +104,7 @@ public class Controller {
             if(!(asta instanceof AstaConclusa)){
                 if(i >= 0){
                     String tipo;
-                    System.out.println("Id Asta: " + asta.getIdAsta() + " Soglia minima asta: " + asta.getSogliaMinima());
+                    //System.out.println("Id Asta: " + asta.getIdAsta() + " Soglia minima asta: " + asta.getSogliaMinima());
                     if(asta.getSogliaMinima() == 0){
                         tipo = "Asta Inversa";
                     }else{
@@ -117,6 +117,7 @@ public class Controller {
             }
             j++;
         }
+        System.out.println("Aste Recuperate!");
         return arrayRitorno;
     }
 
