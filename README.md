@@ -22,3 +22,5 @@ Backend to-do:
 4) Immagini
 5) Notifiche
 6) Gestione asta conclusa
+
+decidere se mandare il token come parte o come query
