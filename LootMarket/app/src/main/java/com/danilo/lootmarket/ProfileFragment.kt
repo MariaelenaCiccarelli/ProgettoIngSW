@@ -1,10 +1,12 @@
 package com.danilo.lootmarket
 
 
+import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,18 +14,34 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.res.ResourcesCompat
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.danilo.lootmarket.Network.RetrofitInstance
+import com.danilo.lootmarket.Network.dto.UtenteDTO
 import com.danilo.lootmarket.databinding.FragmentProfileBinding
-import com.danilo.lootmarket.databinding.FragmentSearchBinding
+import kotlinx.coroutines.async
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okio.IOException
+import retrofit2.HttpException
+import java.io.File
+import java.io.FileOutputStream
 import java.time.LocalDate
+import java.util.Base64
 
-class ProfileFragment : Fragment() {
+
+class ProfileFragment(var mail: String, var token: String) : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
+    private var isBusiness: Boolean = false
+    private lateinit var utente: UserBusiness
+    lateinit var galleryUri: Uri
 
     val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        val galleryUri = it
+        galleryUri = it!!
         try {
             binding.imageViewImmagineUtenteFrammentoProfile.setImageURI(galleryUri)
         } catch (e: Exception) {
@@ -36,9 +54,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        var maria = UserBase(1, (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable), "Mariaelena", "CC233118908", "mariaelena@gmail.com", LocalDate.of(2000, 6, 21), "Italia", "34683726860", indirizzoSpedizione = Indirizzo("Via Claudio 25", "Napoli", "NA", "80125"), indirizzoFatturazione = Indirizzo("Via Claudio 25", "Napoli", "NA", "80125"), "www.mariaelena.com", "mariaelena", "mariaelena", "Ciao a tutti!")
-
-
+        getDatiUtentePersonali(mail)
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(layoutInflater)
 
@@ -51,34 +67,50 @@ class ProfileFragment : Fragment() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
         }
-        var isBusiness: Boolean = false
-
-        //if utente base
-        setDatiBase(maria)
-        disattivaCampiBusiness()
-        //else
 
         disattivaCampi(isBusiness)
 
 
+
         binding.bottoneModificaFrammentoProfile.setOnClickListener{
-
             attivaCampi(isBusiness)
-
         }
 
         binding.bottoneAnnullaModificheFrammentoProfile.setOnClickListener{
             disattivaCampi(isBusiness)
-            setDatiBase(maria)
+            setDatiBusiness(utente)
 
         }
+
         binding.bottoneSalvaModificheFrammentoProfile.setOnClickListener{
             disattivaCampi(isBusiness)
-            //invia modiche al backend
-            //carica utente dal backend
-            //setDatiBase(maria)
+            var indirizzoFatturazione = Indirizzo(binding.editTextViaFatturazioneFrammentoProfile.text.toString(), binding.editTextCittaFatturazioneFrammentoProfile.text.toString(), binding.editTextProvinciaFatturazioneFrammentoProfile.text.toString(), binding.editTextCAPFatturazioneFrammentoProfile.text.toString())
+            var indirizzoSpedizione = Indirizzo(binding.editTextViaSpedizioneFrammentoProfile.text.toString(), binding.editTextCittaSpedizioneFrammentoProfile.text.toString(), binding.editTextProvinciaSpedizioneFrammentoProfile.text.toString(), binding.editTextCAPSpedizioneFrammentoProfile.text.toString())
+
+
+            var utenteDTO = UtenteDTO(utente.informazioniBase.nome, utente.informazioniBase.codiceFiscale, utente.informazioniBase.mail, utente.informazioniBase.dataDiNascita.year, utente.informazioniBase.dataDiNascita.monthValue, utente.informazioniBase.dataDiNascita.dayOfMonth, binding.spinnerNazioneFrammentoProfile.selectedItem.toString(), binding.editTextNumeroCellulareFrammentoProfile.text.toString(),indirizzoSpedizione, indirizzoFatturazione, binding.editTextSitowebFrammentoProfile.text.toString(), binding.editTextSocialFacebookFrammentoProfile.text.toString(), binding.editTextSocialInstagramFrammentoProfile.text.toString(), binding.editTextBiografiaFrammentoProfile.text.toString(), utente.ragioneSociale, utente.partitaIva, binding.editTextNumeroAziendaleFrammentoProfile.text.toString(),"miao")
+            var immagineProfilo = binding.imageViewImmagineUtenteFrammentoProfile.drawable
+
+            val fileDir = context?.applicationContext?.filesDir
+            val imageFile = File(fileDir, "immagineProfilo.png")
+
+            Log.println(Log.INFO, "MyNetwork", "Ho creato imageFile")
+            val inputStream = context?.contentResolver?.openInputStream(galleryUri)
+            val outputStream = FileOutputStream(imageFile)
+
+
+            inputStream!!.copyTo((outputStream))
+            Log.println(Log.INFO, "MyNetwork", "Ho finito con gli stream")
+
+            val requestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+            val partImmagineDTO = MultipartBody.Part.createFormData("immagineProfiloDTO", imageFile.name, requestBody)
+
+
+
+            postModificaUtente(partImmagineDTO, utenteDTO)
         }
 
+        //fa apparire l'overlay per l'inserimento dei dati business
         binding.bottonePassaABusinessFrammentoProfile.setOnClickListener{
             binding.cardBackgroundOverlayFrammentoProfile.isVisible = true
             binding.cardOverlayFrammentoProfile.isVisible = true
@@ -87,6 +119,7 @@ class ProfileFragment : Fragment() {
 
         }
 
+        //***
         binding.bottoneOverlayFrammentoProfile.setOnClickListener{
             val ragioneSociale = binding.editTextOverlayRagioneSocialeFrammentoProfile.text.toString()
             val partitaIva = binding.editTextOverlayPartivaIvaFrammentoProfile.text.toString()
@@ -95,24 +128,19 @@ class ProfileFragment : Fragment() {
             if(ragioneSociale ==""||partitaIva==""||numeroAziendale==""){
                 Toast.makeText(this.context, "Compila tutti i campi!", Toast.LENGTH_SHORT).show()
             }else {
-                var mariaBusiness = UserBusiness(maria, ragioneSociale, partitaIva, numeroAziendale)
-                isBusiness = true
-                binding.textViewValueRagioneSocialeFrammentoProfile.setText(mariaBusiness.ragioneSociale)
-                binding.textViewValuePartivaIvaFrammentoProfile.setText(mariaBusiness.partitaIva)
-                binding.editTextNumeroAziendaleFrammentoProfile.setText(mariaBusiness.numeroAziendale)
-                attivaCampiBusiness()
+                var indirizzoFatturazione = Indirizzo(binding.editTextViaFatturazioneFrammentoProfile.text.toString(), binding.editTextCittaFatturazioneFrammentoProfile.text.toString(), binding.editTextProvinciaFatturazioneFrammentoProfile.text.toString(), binding.editTextCAPFatturazioneFrammentoProfile.text.toString())
+                var indirizzoSpedizione = Indirizzo(binding.editTextViaSpedizioneFrammentoProfile.text.toString(), binding.editTextCittaSpedizioneFrammentoProfile.text.toString(), binding.editTextProvinciaSpedizioneFrammentoProfile.text.toString(), binding.editTextCAPSpedizioneFrammentoProfile.text.toString())
+                var array = byteArrayOf(0x48, 101, 108, 108, 111)
+                var utenteDTO = UtenteDTO(utente.informazioniBase.nome, utente.informazioniBase.codiceFiscale, utente.informazioniBase.mail, utente.informazioniBase.dataDiNascita.year, utente.informazioniBase.dataDiNascita.monthValue, utente.informazioniBase.dataDiNascita.dayOfMonth, binding.spinnerNazioneFrammentoProfile.selectedItem.toString(), binding.editTextNumeroCellulareFrammentoProfile.text.toString(),indirizzoSpedizione, indirizzoFatturazione, binding.editTextSitowebFrammentoProfile.text.toString(), binding.editTextSocialFacebookFrammentoProfile.text.toString(), binding.editTextSocialInstagramFrammentoProfile.text.toString(), binding.editTextBiografiaFrammentoProfile.text.toString(), ragioneSociale, partitaIva, numeroAziendale, "miao")
+                postUpgradeUtente(utenteDTO)
             }
         }
+
+        //annulla passa a business
         binding.imageViewBackButtonOverlayFrammentoProfile.setOnClickListener{
-            binding.cardOverlayFrammentoProfile.isVisible = false
-            binding.cardBackgroundOverlayFrammentoProfile.isVisible = false
-            binding.cardBottoneModificaFrammentoProfile.isVisible = true
-
-            binding.editTextOverlayRagioneSocialeFrammentoProfile.setText("")
-            binding.editTextOverlayNumeroAziendaleFrammentoProfile.setText("")
-            binding.editTextOverlayPartivaIvaFrammentoProfile.setText("")
-
+            annullaPassaBusiness()
         }
+
         binding.cardBottoneCambiaImmagineFrammentoProfile.setOnClickListener{
             galleryLauncher.launch("image/*")
         }
@@ -126,15 +154,10 @@ class ProfileFragment : Fragment() {
 
 
 
-
-
-
-
-
-
+        //dato un utente base, compila i suoi campi nella pagina
         fun setDatiBase(utente: UserBase){
             //Settaggio campi
-            binding.imageViewImmagineUtenteFrammentoProfile.setImageDrawable(utente.immagine)
+            binding.imageViewImmagineUtenteFrammentoProfile.setImageBitmap(utente.immagine)
             binding.textViewNomeUtenteFrammentoProfile.text = utente.nome
             binding.textViewValueCodiceFiscaleFrammentoProfile.text = utente.codiceFiscale
             binding.textViewValueMailFrammentoProfile.text = utente.mail
@@ -156,9 +179,20 @@ class ProfileFragment : Fragment() {
             binding.editTextSocialFacebookFrammentoProfile.setText(utente.socialFacebook)
             binding.editTextSocialInstagramFrammentoProfile.setText(utente.socialInstagram)
 
-            binding.editTextBiografiaFrammentoProfile.setText(utente.Biografia)
+            binding.editTextBiografiaFrammentoProfile.setText(utente.biografia)
+
         }
 
+    //dato un utente compila tutti i suoi campi, compresi quelli business
+    fun setDatiBusiness(utenteBusiness: UserBusiness){
+        setDatiBase(utenteBusiness.informazioniBase)
+        binding.textViewValueRagioneSocialeFrammentoProfile.setText(utenteBusiness.ragioneSociale)
+        binding.textViewValuePartivaIvaFrammentoProfile.setText(utenteBusiness.partitaIva)
+        binding.editTextNumeroAziendaleFrammentoProfile.setText(utenteBusiness.numeroAziendale)
+
+    }
+
+    //Attiva la modifica dei campi, inclusi quelli Business se l'utente è Business
     fun attivaCampi(isBusiness: Boolean){
 
         binding.cardBottoneCambiaImmagineFrammentoProfile.isVisible= true
@@ -213,6 +247,7 @@ class ProfileFragment : Fragment() {
 
     }
 
+    //Disattiva la modifica dei campi, inclusi quelli Business nel caso l'utente lo sia
     fun disattivaCampi(isBusiness: Boolean){
         binding.spinnerNazioneFrammentoProfile.setBackgroundColor(Color.parseColor("#FFF6DD"))
         binding.spinnerNazioneFrammentoProfile.isEnabled= false
@@ -264,6 +299,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    //Rende invisibili i campi Business
     fun disattivaCampiBusiness(){
         binding.textViewLabelInfoBusinessFrammentoProfile.isVisible = false
         binding.textViewLabelRagioneSocialeFrammentoProfile.isVisible = false
@@ -275,6 +311,7 @@ class ProfileFragment : Fragment() {
         binding.cardOverlayFrammentoProfile.isVisible = false
     }
 
+    //Rende visibile i campi Business
     fun attivaCampiBusiness(){
         binding.textViewLabelInfoBusinessFrammentoProfile.isVisible = true
         binding.textViewLabelRagioneSocialeFrammentoProfile.isVisible = true
@@ -288,4 +325,168 @@ class ProfileFragment : Fragment() {
         binding.cardBackgroundOverlayFrammentoProfile.isVisible = false
         binding.cardBottoneModificaFrammentoProfile.isVisible = true
     }
+
+    fun annullaPassaBusiness(){
+        binding.cardOverlayFrammentoProfile.isVisible = false
+        binding.cardBackgroundOverlayFrammentoProfile.isVisible = false
+        binding.cardBottoneModificaFrammentoProfile.isVisible = true
+
+        binding.editTextOverlayRagioneSocialeFrammentoProfile.setText("")
+        binding.editTextOverlayNumeroAziendaleFrammentoProfile.setText("")
+        binding.editTextOverlayPartivaIvaFrammentoProfile.setText("")
+    }
+
+
+    //Carica i dati personali dell'utente dal backend
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getDatiUtentePersonali(mailUtente: String){
+
+        lifecycleScope.async {
+            val response = try{
+                RetrofitInstance.api.getDatiUtentePersonali(mailUtente, token)
+            }catch (e: IOException){
+                Log.e("MyNetwork", "IOException, you might not have internet connection")
+                return@async
+            }catch (e: HttpException){
+                Log.e("MyNetwork", "HttpException, unexpected response")
+                return@async
+            }catch (e: Exception){
+                Log.e("MyNetwork", e.toString())
+                Log.e("MyNetwork", e.message.toString())
+                Log.e("MyNetwork", e.cause.toString())
+                return@async
+            }
+            if(response.isSuccessful && response.body() != null){
+                Log.println(Log.INFO, "MyNetwork", "Response is successful")
+                var utenteRecuperato: UtenteDTO = response.body()!!
+                Log.println(Log.INFO, "MyNetwork", utenteRecuperato.toString())
+
+                var dataNascita = LocalDate.of(utenteRecuperato.dataDiNascitaAnno, utenteRecuperato.dataDiNascitaMese, utenteRecuperato.dataDiNascitaGiorno)
+
+                val immagineProfiloByteArrayDecoded = Base64.getDecoder().decode(utenteRecuperato.immagineProfilo)
+
+
+                Log.println(Log.INFO, "MyNetwork", "Ho trasformato la stringa in byte Array")
+
+                try{
+                    var immagineProfilo= BitmapFactory.decodeByteArray(immagineProfiloByteArrayDecoded, 0, immagineProfiloByteArrayDecoded.size)
+
+
+                Log.println(Log.INFO, "MyNetwork", "Ho trasformato il byte array in bitmap")
+                var utenteBase = UserBase(immagineProfilo, utenteRecuperato.nome, utenteRecuperato.codiceFiscale, utenteRecuperato.mail, dataNascita, utenteRecuperato.nazione, utenteRecuperato.numeroCellulare, utenteRecuperato.indirizzoSpedizione, utenteRecuperato.indirizzoFatturazione, utenteRecuperato.sito, utenteRecuperato.socialFacebook, utenteRecuperato.socialInstagram, utenteRecuperato.biografia)
+                Log.println(Log.INFO, "MyNetwork", utenteBase.toString())
+                if(!utenteRecuperato.ragioneSociale.equals("")){
+                    Log.println(Log.INFO, "MyNetwork", "utente business recuperato!")
+                    isBusiness = true
+                    var utenteBusiness = UserBusiness(utenteBase, utenteRecuperato.ragioneSociale, utenteRecuperato.partitaIva, utenteRecuperato.numeroAziendale)
+                    //Log.println(Log.INFO, "MyNetwork", utenteBusiness.toString())
+                    setDatiBusiness(utenteBusiness)
+                    attivaCampiBusiness()
+                    utente = utenteBusiness
+                }else{
+                    Log.println(Log.INFO, "MyNetwork", "utente base recuperato!")
+                    isBusiness= false
+                    setDatiBase(utenteBase)
+                    disattivaCampiBusiness()
+                    utente = UserBusiness(utenteBase, "", "", "")
+                }
+                return@async
+                }catch (e: Exception){
+                    Log.e("MyNetwork", e.toString())
+                    Log.e("MyNetwork", e.message.toString())
+                    Log.e("MyNetwork", e.cause.toString())
+                }
+            }else{
+                Log.e("MyNetwork", "Response not successful")
+                if(response.code().toString().equals("401")){
+                    Log.e("MyNetwork", response.code().toString()+" Token Scaduto!")
+                }
+                activity?.finish()
+                return@async
+            }
+        }
+    }
+
+    private fun postModificaUtente(partImmagine: MultipartBody.Part, utenteDTO: UtenteDTO){
+
+        lifecycleScope.async {
+
+            val response = try{
+                RetrofitInstance.api.postModificaUtente(partImmagine, utenteDTO, token)
+            }catch (e: IOException){
+                Log.e("MyNetwork", "IOException, you might not have internet connection")
+                return@async
+            }catch (e: HttpException){
+                Log.e("MyNetwork", "HttpException, unexpected response")
+                return@async
+            }catch (e: Exception){
+                Log.e("MyNetwork", e.toString())
+                Log.e("MyNetwork", e.message.toString())
+                Log.e("MyNetwork", e.cause.toString())
+                return@async
+            }
+            if(response.isSuccessful && response.body() != null){
+                Log.println(Log.INFO,"MyNetwork", "Response is successful")
+                return@async
+            }else{
+                Log.e("MyNetwork", "Response not successful")
+                if(response.code().toString().equals("401")){
+                    Log.e("MyNetwork", response.code().toString()+" Token Scaduto!")
+                    activity?.finish()
+                }
+                if(response.code().toString().equals("500")){
+                    Log.e("MyNetwork", response.code().toString()+" Modifica utente fallita!")
+                    annullaPassaBusiness()
+                    Toast.makeText(context, "Modifica dati utente fallita", Toast.LENGTH_SHORT).show()
+                }
+                return@async
+            }
+        }
+    }
+
+    private fun postUpgradeUtente(utenteDTO: UtenteDTO){
+
+        lifecycleScope.async {
+
+            val response = try{
+                RetrofitInstance.api.postUpgradeUtente(utenteDTO, token)
+            }catch (e: IOException){
+                Log.e("MyNetwork", "IOException, you might not have internet connection")
+                Log.e("MyNetwork", e.message.toString())
+                Log.e("MyNetwork", e.cause.toString())
+                Log.e("MyNetwork", e.toString())
+
+                annullaPassaBusiness()
+                return@async
+            }catch (e: HttpException){
+                Log.e("MyNetwork", "HttpException, unexpected response")
+                annullaPassaBusiness()
+                return@async
+            }
+            if(response.isSuccessful && response.body() != null){
+                Log.println(Log.INFO,"MyNetwork", "Response is successful")
+                var utenteBusiness = UserBusiness(utente.informazioniBase, utenteDTO.ragioneSociale, utenteDTO.partitaIva, utenteDTO.numeroAziendale)
+                isBusiness = true
+                binding.textViewValueRagioneSocialeFrammentoProfile.setText(utenteBusiness.ragioneSociale)
+                binding.textViewValuePartivaIvaFrammentoProfile.setText(utenteBusiness.partitaIva)
+                binding.editTextNumeroAziendaleFrammentoProfile.setText(utenteBusiness.numeroAziendale)
+                attivaCampiBusiness()
+                return@async
+            }else{
+                Log.e("MyNetwork", "Response not successful")
+                if(response.code().toString().equals("401")){
+                    Log.e("MyNetwork", response.code().toString()+" Token Scaduto!")
+                    activity?.finish()
+                }
+                if(response.code().toString().equals("500")){
+                    Log.e("MyNetwork", response.code().toString()+" Upgrade utente fallito!")
+                    annullaPassaBusiness()
+                    Toast.makeText(context, "Passaggio a Business fallito", Toast.LENGTH_SHORT).show()
+                }
+
+                return@async
+            }
+        }
+    }
+
 }

@@ -15,7 +15,7 @@ import com.danilo.lootmarket.databinding.FragmentSubscribedAuctionsBinding
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class HistoryAuctionsFragment(private var auctions: List<AuctionViewHistory>): Fragment() {
+class HistoryAuctionsFragment(private var auctions: List<AuctionViewHistory>, private var mailUtente: String, private var token: String): Fragment() {
 
     private lateinit var binding: FragmentHistoryAuctionsBinding
 
@@ -26,52 +26,20 @@ class HistoryAuctionsFragment(private var auctions: List<AuctionViewHistory>): F
         savedInstanceState: Bundle?
     ): View? {
 
-        var auction2 = AuctionViewHistory(
-            0,
-            "Drago Bianco Occhi Blu Rara Ghost",
-            15000.00,
-            ZonedDateTime.of(2024, 9, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
-            "Sasuke",
-            false
-
-        )
-        var auction5 = AuctionViewHistory(
-            0,
-            "Volume 33 Boruto",
-            60.00,
-            ZonedDateTime.of(2024, 9, 7, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
-            "Luigi Libero Lucio Starace",
-            false
-        )
-        var auction6 = AuctionViewHistory(
-            0,
-            "Pennino Originale Giuro di Masashi Kishimoto",
-            150.00,
-            ZonedDateTime.of(2024, 9, 10, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
-            "Mariaelena Ciccarelli",
-            false
-
-
-        )
-
         auctions = auctions.filter { (it.dataScadenza.isBefore(ZonedDateTime.now())) }
         auctions = auctions.filter { (it.offertaFatta == true)}
-        //Toast.makeText(this.requireContext(), auctions[0].offertaFatta.toString(), Toast.LENGTH_SHORT).show()
+
         auctionsLiveAdapter = AuctionsLiveAdapter(auctions, this.requireContext(), true)
 
 
         binding = FragmentHistoryAuctionsBinding.inflate(layoutInflater)
-        //setContentView(binding.root)
 
         binding.RecyclerViewFrammentoHistoryAuctions.layoutManager = LinearLayoutManager(this.requireContext())
         binding.RecyclerViewFrammentoHistoryAuctions.adapter = auctionsLiveAdapter
 
         auctionsLiveAdapter.onItemClick = {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id))
+            transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id,mailUtente, token))
             transaction?.disallowAddToBackStack()
             transaction?.commit()
         }

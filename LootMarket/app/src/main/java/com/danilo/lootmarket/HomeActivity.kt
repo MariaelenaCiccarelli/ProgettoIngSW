@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.danilo.lootmarket.Network.dto.MyToken
 import com.danilo.lootmarket.databinding.ActivityHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -21,60 +22,41 @@ class HomeActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val idUtente: String = intent.getStringExtra("id").toString()
+        val mail: String = intent.getStringExtra("mail").toString()
+        val token: String = intent.getStringExtra("token").toString()
         enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //setContentView(R.layout.activity_home)
-
-        /*
-        var auction1 = Auction(0, "Naruto", 150F, 3, "prova", "Action figure originale in vinile di Naruto Uzumaki")
-        var auction2 = Auction(0, "Drago Bianco Occhi Blu Rara Ghost", 15000F, 20, "prova", "Carta originale pazza incredibile di yu-gi-oh")
-        var auction3 = Auction(0, "Pennino Originale Giuro di Masashi Kishimoto", 150.00F, 0, "prova", "Me lo ha portato mio zio dal Giappone giuro su mio zio")
-        var auction4 = Auction(0, "Pennino Originale Giuro di Masashi Kishimoto", 150.00F, 0, "prova", "Me lo ha portato mio zio dal Giappone giuro su mio zio")
-        var auction5 = Auction(0, "Pennino Originale Giuro di Masashi Kishimoto", 150.00F, 0, "prova", "Me lo ha portato mio zio dal Giappone giuro su mio zio")
-        var auction6 = Auction(0, "Pennino Originale Giuro di Masashi Kishimoto", 150.00F, 0, "prova", "Me lo ha portato mio zio dal Giappone giuro su mio zio")
-        var auction7 = Auction(0, "Pennino Originale Giuro di Masashi Kishimoto", 150.00F, 0, "prova", "Me lo ha portato mio zio dal Giappone giuro su mio zio")
-
-        var auctions: List<Auction>
-        auctions = listOf(auction1, auction2, auction3, auction4, auction5, auction6, auction7)
-
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        auctionsAdapter = AuctionsAdapter(auctions, this)
-
-        binding.RecyclerViewPaginaHome.layoutManager = LinearLayoutManager(this)
-        binding.RecyclerViewPaginaHome.adapter = auctionsAdapter*/
-
 
 
             bottomNavigationView = findViewById(R.id.bottom_navigation)
             bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when(menuItem.itemId) {
                 R.id.bottom_home -> {
-                    replaceFragment(HomeFragment(), "HomeFragment")
+                    replaceFragment(HomeFragment(mail, token), "HomeFragment")
                     true
                 }
 
                 R.id.bottom_seach -> {
-                    replaceFragment(SearchFragment(), "SearchFragment")
+                    replaceFragment(SearchFragment(mail, token), "SearchFragment")
                     true
                 }
 
                 R.id.bottom_add -> {
                     val intent = Intent(this, AddAuctionActivity::class.java)
+                    intent.putExtra("mail", mail)
+                    intent.putExtra("token", token)
                     startActivity(intent)
                     true
                 }
 
                 R.id.bottom_auctions -> {
-                    replaceFragment(AuctionsFragment(), "AuctionsFragment")
+                    replaceFragment(AuctionsFragment(mail, token), "AuctionsFragment")
                     true
                 }
 
                 R.id.bottom_profile -> {
-                    replaceFragment(ProfileFragment(), "ProfileFragment")
+                    replaceFragment(ProfileFragment(mail, token), "ProfileFragment")
                     true
                 }
 
@@ -88,7 +70,7 @@ class HomeActivity: AppCompatActivity() {
         }
 
 
-        replaceFragment(HomeFragment(), "HomeFragment")
+        replaceFragment(HomeFragment(mail, token), "HomeFragment")
 
 
 

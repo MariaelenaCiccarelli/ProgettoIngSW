@@ -2,11 +2,13 @@ package com.example.lootmarketbackend.Controller;
 
 import com.example.lootmarketbackend.Modelli.*;
 import com.example.lootmarketbackend.dto.AstaDTO;
+import com.example.lootmarketbackend.dto.DettagliAstaDTO;
 import com.example.lootmarketbackend.dto.UtenteDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 
 @Service
 public class Controller {
@@ -110,7 +112,8 @@ public class Controller {
                     }else{
                         tipo = "Asta a Tempo Fisso";
                     }
-                    AstaDTO astaDTO = new AstaDTO(asta.getIdAsta(), asta.getEmailCreatore(), asta.getTitolo(), asta.getCategoria(), asta.getPrezzoPartenza(), asta.getDataScadenza().getYear(), asta.getDataScadenza().getMonthValue(), asta.getDataScadenza().getDayOfMonth(), asta.getDescrizione(), asta.getUltimaOfferta(), asta.getSogliaMinima(), tipo, false);
+
+                    AstaDTO astaDTO = new AstaDTO(asta.getIdAsta(), asta.getEmailCreatore(), asta.getTitolo(), asta.getCategoria(), asta.getPrezzoPartenza(), asta.getDataScadenza().getYear(), asta.getDataScadenza().getMonthValue(), asta.getDataScadenza().getDayOfMonth(), asta.getDescrizione(), asta.getUltimaOfferta(), asta.getSogliaMinima(), tipo, false, Base64.getEncoder().encodeToString(asta.getImmagineProdotto()));
                     arrayRitorno.add(astaDTO);
                 }
                 i++;
@@ -121,25 +124,53 @@ public class Controller {
         return arrayRitorno;
     }
 
-    public Asta ottieniDettagliAsta(int idAsta, String emailUtente, String nomeAutore, int tipoAsta, int statusLegame){
+
+    public DettagliAstaDTO getDettagliAsta(int idAsta, String emailUtente){
         Asta astaRitorno = controllerAste.getAstaDatabase(controllerAste.getIndiceAstaById(idAsta));
         Utente utenteAutore = controllerUtenti.getUtenteDatabase(controllerUtenti.getIndiceUtenteByEmail(astaRitorno.getEmailCreatore()));
-        nomeAutore = utenteAutore.getNome() + " " + utenteAutore.getCognome();
-        tipoAsta = controllerAste.getTipoAsta(astaRitorno);
+        String nomeAutore = utenteAutore.getNome() + " " + utenteAutore.getCognome();
+        int tipoAstaCodice = controllerAste.getTipoAsta(astaRitorno);
+        String tipoAsta="";
+        switch (tipoAstaCodice){
+            case 0: tipoAsta = "Asta a Tempo Fisso"; break;
+            case 1: tipoAsta = "Asta Inversa"; break;
+            case 2: tipoAsta = "Conclusa"; break;
+        }
+        String statusLegame;
+        Boolean offertaFatta = false;
 
         //statusLegame -1 non è iscritto, 1 iscritto, 2 se ha presentato offerta (include anche iscrizione)
         int j = controllerLegami.getIndiceLegameByEmailAndIdAsta(emailUtente, idAsta);
         if(j == -1){
-            statusLegame = j;
+            statusLegame = "NonIscritto";
         }else{
             if(controllerLegami.getLegameDatabase(j) instanceof Iscrizione){
-                statusLegame = 1;
+                statusLegame = "Iscritto";
             }else{
-                statusLegame = 2;
+                statusLegame = "OffertaFatta";
+                offertaFatta = true;
             }
         }
-        return astaRitorno;
+        return new DettagliAstaDTO(astaRitorno.getIdAsta(),
+                astaRitorno.getEmailCreatore(),
+                astaRitorno.getTitolo(),
+                astaRitorno.getCategoria(),
+                astaRitorno.getPrezzoPartenza(),
+                astaRitorno.getDataScadenza().getYear(),
+                astaRitorno.getDataScadenza().getMonthValue(),
+                astaRitorno.getDataScadenza().getDayOfMonth(),
+                astaRitorno.getDescrizione(),
+                astaRitorno.getUltimaOfferta(),
+                astaRitorno.getSogliaMinima(),
+                tipoAsta,
+                offertaFatta,
+                Base64.getEncoder().encodeToString(astaRitorno.getImmagineProdotto()),
+                nomeAutore,
+                statusLegame);
     }
+
+
+
 
     public ArrayList<AstaDTO> getAsteByEmailUtente(String email){
         ArrayList<AstaDTO> arrayRitorno = new ArrayList<>();
@@ -162,7 +193,7 @@ public class Controller {
                         tipo = "Asta a Tempo Fisso";
                     }
                 }
-                astaDTO = new AstaDTO(asta.getIdAsta(), asta.getEmailCreatore(), asta.getTitolo(), asta.getCategoria(), asta.getPrezzoPartenza(), asta.getDataScadenza().getYear(), asta.getDataScadenza().getMonthValue(), asta.getDataScadenza().getDayOfMonth(), asta.getDescrizione(), asta.getUltimaOfferta(), asta.getSogliaMinima(), tipo, offertaFatta);
+                astaDTO = new AstaDTO(asta.getIdAsta(), asta.getEmailCreatore(), asta.getTitolo(), asta.getCategoria(), asta.getPrezzoPartenza(), asta.getDataScadenza().getYear(), asta.getDataScadenza().getMonthValue(), asta.getDataScadenza().getDayOfMonth(), asta.getDescrizione(), asta.getUltimaOfferta(), asta.getSogliaMinima(), tipo, offertaFatta, Base64.getEncoder().encodeToString(asta.getImmagineProdotto()));
                 arrayRitorno.add(astaDTO);
             }
         }
@@ -203,7 +234,7 @@ public class Controller {
             partitaIva = "";
             numeroAziendale = "";
         }
-        System.out.println(utente.getIndirizzoFatturazione().getCap());
-        return new UtenteDTO(utente.getNome(), utente.getCodiceFiscale(), utente.getEmail(), utente.getDataNascita().getYear(), utente.getDataNascita().getMonthValue(), utente.getDataNascita().getDayOfMonth(), utente.getNazione(), utente.getNumeroCellulare(), utente.getIndirizzoSpedizione(), utente.getIndirizzoFatturazione(), utente.getContatti().getSitoWeb(), utente.getContatti().getFacebook(), utente.getContatti().getInstagram(), utente.getBiografia(), ragioneSociale, partitaIva, numeroAziendale);
+        System.out.println(utente.getImmagineProfilo());
+        return new UtenteDTO(utente.getNome(), utente.getCodiceFiscale(), utente.getEmail(), utente.getDataNascita().getYear(), utente.getDataNascita().getMonthValue(), utente.getDataNascita().getDayOfMonth(), utente.getNazione(), utente.getNumeroCellulare(), utente.getIndirizzoSpedizione(), utente.getIndirizzoFatturazione(), utente.getContatti().getSitoWeb(), utente.getContatti().getFacebook(), utente.getContatti().getInstagram(), utente.getBiografia(), ragioneSociale, partitaIva, numeroAziendale, Base64.getEncoder().encodeToString(utente.getImmagineProfilo()));
     }
 }

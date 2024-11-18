@@ -1,8 +1,10 @@
 package com.danilo.lootmarket
 
 import android.content.res.ColorStateList
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toDrawable
@@ -19,16 +22,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.danilo.lootmarket.Network.RetrofitInstance
 import com.danilo.lootmarket.Network.dto.AstaDTO
+import com.danilo.lootmarket.Network.dto.MyToken
 import com.danilo.lootmarket.databinding.FragmentSearchBinding
 import kotlinx.coroutines.async
 import okio.IOException
 import retrofit2.HttpException
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.Base64
 import java.util.Locale
 
 
-class SearchFragment : Fragment() {
+class SearchFragment(var mail: String, var token: String) : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private lateinit var auctionsAdapter: AuctionsAdapter
@@ -194,7 +199,7 @@ class SearchFragment : Fragment() {
         //Click su un Asta
         auctionsAdapter.onItemClick = {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id))
+            transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id, mail, token))
             transaction?.disallowAddToBackStack()
             transaction?.commit()
         }
@@ -215,12 +220,13 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun getAste(indice: Int){
         var auctionsCaricate = ArrayList<Auction>()
         lifecycleScope.async {
 
             val response = try{
-                RetrofitInstance.api.getAsteHome(indice)
+                RetrofitInstance.api.getAsteHome(indice, token)
             }catch (e: IOException){
                 Log.e("MyNetwork", "IOException, you might not have internet connection")
                 return@async
@@ -233,16 +239,21 @@ class SearchFragment : Fragment() {
 
                 for(asta in asteRecuperate){
                     Log.println(Log.INFO, "MyNetwork", asta.toString())
-                    var auction = Auction(asta.idAsta, asta.titolo, asta.ultimaOfferta, ZonedDateTime.of(asta.anno, asta.mese, asta.giorno, 0, 0, 0,0, ZoneId.of("GMT")), (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable), asta.descrizione, asta.categoria, asta.tipoAsta )
+                    val immagineAstaByteArrayDecoded = Base64.getDecoder().decode(asta.immagineAsta)
+                    val immagineAsta= BitmapFactory.decodeByteArray(immagineAstaByteArrayDecoded, 0, immagineAstaByteArrayDecoded.size)
+                    var auction = Auction(asta.idAsta, asta.titolo, asta.ultimaOfferta, ZonedDateTime.of(asta.anno, asta.mese, asta.giorno, 0, 0, 0,0, ZoneId.of("GMT")), immagineAsta, asta.descrizione, asta.categoria, asta.tipoAsta )
                     auctionsCaricate.add(auction)
 
-                    Log.println(Log.INFO, "MyNetwork", auctionsCaricate[0].titoloAsta)
                 }
                 auctions = auctions + auctionsCaricate
                 ApplicaFiltri()
                 return@async
             }else{
                 Log.e("MyNetwork", "Response not successful")
+                if(response.code().toString().equals("401")){
+                    Log.e("MyNetwork", response.code().toString()+" Token Scaduto!")
+                }
+                activity?.finish()
                 return@async
             }
         }

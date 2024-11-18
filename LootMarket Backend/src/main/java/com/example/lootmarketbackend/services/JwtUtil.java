@@ -37,7 +37,7 @@ public class JwtUtil {
                     .setIssuer("LootMarket")
                     .claim("mail", mail)
                     .setIssuedAt(Date.from(Instant.now()))
-                    .setExpiration(Date.from(Instant.now().plusSeconds(120)))
+                    .setExpiration(Date.from(Instant.now().plusSeconds(120000)))
                     .signWith(
                             SignatureAlgorithm.HS256,
                             "secretMagnificoBellissmoDelMondoCheVerraGiuroSuMioZio".getBytes("UTF-8")

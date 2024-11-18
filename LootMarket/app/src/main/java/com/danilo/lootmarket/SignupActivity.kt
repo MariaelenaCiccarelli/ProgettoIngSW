@@ -34,6 +34,8 @@ class SignupActivity: AppCompatActivity() {
                 Toast.makeText(this, "Formato email non valido", Toast.LENGTH_SHORT).show()
             }else{
                 val intent = Intent(this, DataProfileActivity::class.java)
+                intent.putExtra("email", email)
+                intent.putExtra("password", password)
                 startActivity(intent)
             }
 

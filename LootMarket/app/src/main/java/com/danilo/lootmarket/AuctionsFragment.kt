@@ -1,5 +1,6 @@
 package com.danilo.lootmarket
 
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -8,25 +9,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.FragmentManager
+
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.danilo.lootmarket.Network.RetrofitInstance
 import com.danilo.lootmarket.Network.dto.AstaDTO
 import com.danilo.lootmarket.databinding.FragmentAuctionsBinding
-import com.danilo.lootmarket.databinding.FragmentHomeBinding
+
 import kotlinx.coroutines.async
 import okio.IOException
 import retrofit2.HttpException
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.Base64
 
 
-class AuctionsFragment : Fragment() {
+class AuctionsFragment(var mail: String, var token: String) : Fragment() {
     private lateinit var binding: FragmentAuctionsBinding
-    private lateinit var childFragmentManager: FragmentManager
     private lateinit var arrayAsteUtente: List<AuctionViewHistory>
     private lateinit var auctionsLiveAdapter: AuctionsLiveAdapter
 
@@ -40,8 +41,7 @@ class AuctionsFragment : Fragment() {
         binding.buttonIscrizioniFrammentoAuctions.setTextColor(Color.parseColor("#FFF6DD"))
 
         arrayAsteUtente = listOf()
-        getAsteUtente("danilo@mail.it")
-        //Toast.makeText(this.context, arrayAsteUtente.get(0).titoloAsta, Toast.LENGTH_SHORT).show()
+        getAsteUtente(mail)
 
 
         auctionsLiveAdapter = AuctionsLiveAdapter(arrayAsteUtente, this.requireContext())
@@ -63,7 +63,7 @@ class AuctionsFragment : Fragment() {
             binding.buttonStoricoFrammentoAuctions.setBackgroundColor(Color.parseColor("#FFF6DD"))
             binding.buttonStoricoFrammentoAuctions.setTextColor(Color.parseColor("#4d251b"))
 
-            replaceFragment(PersonalAuctionsFragment(auctionsLiveAdapter.auctionsViewHistory))
+            replaceFragment(PersonalAuctionsFragment(auctionsLiveAdapter.auctionsViewHistory, mail, token))
         }
         binding.buttonIscrizioniFrammentoAuctions.setOnClickListener{
             binding.cardBottoneIscrizioniFrammentoAuctions.setCardBackgroundColor(Color.parseColor("#a91010"))
@@ -79,7 +79,7 @@ class AuctionsFragment : Fragment() {
             binding.buttonStoricoFrammentoAuctions.setTextColor(Color.parseColor("#4d251b"))
 
 
-            replaceFragment(SubscribedAuctionsFragment(auctionsLiveAdapter.auctionsViewHistory))
+            replaceFragment(SubscribedAuctionsFragment(auctionsLiveAdapter.auctionsViewHistory, mail, token))
         }
         binding.buttonStoricoFrammentoAuctions.setOnClickListener{
             binding.cardBottoneStoricoFrammentoAuctions.setCardBackgroundColor(Color.parseColor("#a91010"))
@@ -94,7 +94,7 @@ class AuctionsFragment : Fragment() {
             binding.buttonProprieFrammentoAuctions.setBackgroundColor(Color.parseColor("#FFF6DD"))
             binding.buttonProprieFrammentoAuctions.setTextColor(Color.parseColor("#4d251b"))
 
-            replaceFragment(HistoryAuctionsFragment(auctionsLiveAdapter.auctionsViewHistory))
+            replaceFragment(HistoryAuctionsFragment(auctionsLiveAdapter.auctionsViewHistory, mail, token))
         }
 
 
@@ -106,7 +106,6 @@ class AuctionsFragment : Fragment() {
 
         var transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
         transaction.replace(binding.frameContainerFrammentoAuctions.id, fragment).commit()
-        //childFragmentManager.beginTransaction().replace(binding.frameContainerFrammentoAuctions.id, fragment).commit()
 
     }
 
@@ -115,7 +114,7 @@ class AuctionsFragment : Fragment() {
         lifecycleScope.async {
 
             val response = try{
-                RetrofitInstance.api.getAsteUtente(email)
+                RetrofitInstance.api.getAsteUtente(email, token)
             }catch (e: IOException){
                 Log.e("MyNetwork", "IOException, you might not have internet connection")
                 return@async
@@ -128,7 +127,9 @@ class AuctionsFragment : Fragment() {
                 var asteRecuperate: List<AstaDTO> = response.body()!!
                 for(asta in asteRecuperate){
                     Log.println(Log.INFO, "MyNetwork", asta.toString())
-                    var auctionViewHistory = AuctionViewHistory(asta.idAsta, asta.titolo, asta.ultimaOfferta, ZonedDateTime.of(asta.anno, asta.mese, asta.giorno, 0, 0, 0,0, ZoneId.of("GMT")), (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable), asta.emailCreatore, asta.offertaFatta)
+                    val immagineAstaByteArrayDecoded = Base64.getDecoder().decode(asta.immagineAsta)
+                    val immagineAsta= BitmapFactory.decodeByteArray(immagineAstaByteArrayDecoded, 0, immagineAstaByteArrayDecoded.size)
+                    var auctionViewHistory = AuctionViewHistory(asta.idAsta, asta.titolo, asta.ultimaOfferta, ZonedDateTime.of(asta.anno, asta.mese, asta.giorno, 0, 0, 0,0, ZoneId.of("GMT")), immagineAsta, asta.emailCreatore, asta.offertaFatta)
                     auctionsCaricate.add(auctionViewHistory)
 
                     Log.println(Log.INFO, "MyNetwork", auctionsCaricate[0].titoloAsta)
@@ -137,10 +138,14 @@ class AuctionsFragment : Fragment() {
                 auctionsLiveAdapter.auctionsViewHistory = arrayAsteUtente
                 auctionsLiveAdapter!!.notifyDataSetChanged()
 
-                replaceFragment(SubscribedAuctionsFragment(auctionsLiveAdapter.auctionsViewHistory))
+                replaceFragment(SubscribedAuctionsFragment(auctionsLiveAdapter.auctionsViewHistory, mail, token))
                 return@async
             }else{
                 Log.e("MyNetwork", "Response not successful")
+                if(response.code().toString().equals("401")){
+                    Log.e("MyNetwork", response.code().toString()+" Token Scaduto!")
+                }
+                activity?.finish()
                 return@async
             }
         }

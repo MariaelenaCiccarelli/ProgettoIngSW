@@ -121,7 +121,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
     }
 
     @Override
-    public void modificaUtenteDB(String email, String nazione, String numeroCellulare, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String numeroAziendale) {
+    public int modificaUtenteDB(String email, String nazione, String numeroCellulare, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String numeroAziendale) {
         try {
 
 
@@ -146,21 +146,26 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
             updateUtenteStatement.setString(17, email);
             updateUtenteStatement.executeUpdate();
             connection.close();
+            return 1;
         } catch (Exception e) {
             System.out.println("Errore: " + e.getMessage());
+            return 0;
         }
     }
 
+    //1: operazione avvenuta con successo, 0: fallimento
     @Override
-    public void upgradeUtenteDB(String email, String ragioneSociale, String partitaIva, String numeroAziendale) {
+    public int upgradeUtenteDB(String email, String ragioneSociale, String partitaIva, String numeroAziendale) {
         try {
             PreparedStatement upgradeUtenteStatement = connection.prepareStatement("UPDATE \"Utenti\" SET " +
                     "\"Ragione Sociale\"='" + ragioneSociale + "', \"Partita Iva\" ='" + partitaIva + "', \"Numero Aziendale\" ='" + numeroAziendale + "' WHERE \"Email\" ='" + email + "'");
 
             upgradeUtenteStatement.executeUpdate();
             connection.close();
+            return 1;
         } catch (Exception e) {
             System.out.println("Errore: " + e.getMessage());
+            return 0;
         }
     }
 

@@ -45,7 +45,7 @@ public interface UtenteDAO {
                           String partitaIva,
                           String numeroAziendale);
 
-    void modificaUtenteDB(String email,
+    int modificaUtenteDB(String email,
                           String nazione,
                           String numeroCellulare,
                           Contatti contatti,
@@ -55,7 +55,7 @@ public interface UtenteDAO {
                           Indirizzo indirizzoSpedizione,
                           String numeroAziendale);
 
-    void upgradeUtenteDB(String email,
+    int upgradeUtenteDB(String email,
                          String ragioneSociale,
                          String partitaIva,
                          String numeroAziendale);

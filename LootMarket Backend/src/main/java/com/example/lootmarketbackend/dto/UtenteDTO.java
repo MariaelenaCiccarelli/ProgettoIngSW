@@ -4,7 +4,6 @@ import com.example.lootmarketbackend.Modelli.Indirizzo;
 
 
 public class UtenteDTO {
-    //immagine
     public String nome;
     public String codiceFiscale;
     public String mail;
@@ -22,8 +21,9 @@ public class UtenteDTO {
     public String ragioneSociale;
     public String partitaIva;
     public String numeroAziendale;
+    public String immagineProfilo;
 
-    public UtenteDTO(String nome, String codiceFiscale, String mail, int dataDiNascitaAnno, int dataDiNascitaMese, int dataDiNascitaGiorno, String nazione, String numeroCellulare, Indirizzo indirizzoSpedizione, Indirizzo indirizzoFatturazione, String sito, String socialFacebook, String socialInstagram, String biografia, String ragioneSociale, String partitaIva, String numeroAziendale) {
+    public UtenteDTO(String nome, String codiceFiscale, String mail, int dataDiNascitaAnno, int dataDiNascitaMese, int dataDiNascitaGiorno, String nazione, String numeroCellulare, Indirizzo indirizzoSpedizione, Indirizzo indirizzoFatturazione, String sito, String socialFacebook, String socialInstagram, String biografia, String ragioneSociale, String partitaIva, String numeroAziendale, String immagineProfilo) {
         this.nome = nome;
         this.codiceFiscale = codiceFiscale;
         this.mail = mail;
@@ -41,5 +41,6 @@ public class UtenteDTO {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
         this.numeroAziendale = numeroAziendale;
+        this.immagineProfilo = immagineProfilo;
     }
 }

@@ -1,4 +1,5 @@
 package com.danilo.lootmarket
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,7 +17,7 @@ import java.time.ZonedDateTime
 import java.util.Date
 
 
-class OthersProfileFragment: Fragment() {
+class OthersProfileFragment(private var mailUtente: String, private var token: String): Fragment() {
 
     private lateinit var binding: FragmentOthersProfileBinding
 
@@ -35,7 +36,7 @@ class OthersProfileFragment: Fragment() {
             "Naruto",
             150.00,
             ZonedDateTime.now(),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Drawable),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Bitmap),
             "Prova",
             true
         )
@@ -44,7 +45,7 @@ class OthersProfileFragment: Fragment() {
             "Drago Bianco Occhi Blu Rara Ghost",
             15000.00,
             ZonedDateTime.of(2024, 9, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Bitmap),
             "Prova",
             false
         )
@@ -53,7 +54,7 @@ class OthersProfileFragment: Fragment() {
             "Pennino Originale Giuro di Masashi Kishimoto",
             150.00,
             ZonedDateTime.of(2024, 10, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Bitmap),
             "Prova",
             false
         )
@@ -62,7 +63,7 @@ class OthersProfileFragment: Fragment() {
             "Tavola Stupenda One Piece",
             100.00,
             ZonedDateTime.of(2024, 9, 6, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Bitmap),
             "Prova",
             true
         )
@@ -71,7 +72,7 @@ class OthersProfileFragment: Fragment() {
             "Volume 33 Boruto",
             60.00,
             ZonedDateTime.of(2024, 9, 7, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Bitmap),
             "Prova",
             true
         )
@@ -80,7 +81,7 @@ class OthersProfileFragment: Fragment() {
             "Pennino Originale Giuro di Masashi Kishimoto",
             150.00,
             ZonedDateTime.of(2024, 9, 10, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Drawable),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto2, null) as Bitmap),
             "Prova",
             false
         )
@@ -89,7 +90,7 @@ class OthersProfileFragment: Fragment() {
             "Pennino Originale Giuro di Masashi Kishimoto",
             150.00,
             ZonedDateTime.of(2024, 11, 5, 23, 59, 59, 59, ZoneId.of("GMT")),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Drawable),
+            (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Bitmap),
             "Prova",
             false
         )
@@ -113,7 +114,7 @@ class OthersProfileFragment: Fragment() {
 
         auctionsLiveAdapter.onItemClick = {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id))
+            transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id, mailUtente, token))
             transaction?.addToBackStack(this.toString())
             transaction?.commit()
         }

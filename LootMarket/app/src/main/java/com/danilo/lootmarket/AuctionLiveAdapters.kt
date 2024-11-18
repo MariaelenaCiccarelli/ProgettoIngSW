@@ -52,7 +52,7 @@ class AuctionsLiveAdapter (public var auctionsViewHistory: List<AuctionViewHisto
         }else{
             holder.testoAutoreView.isVisible = false
         }
-        holder.immagineProdottoView.setImageDrawable(auction.immagineProdotto)
+        holder.immagineProdottoView.setImageBitmap(auction.immagineProdotto)
         if(!auction.offertaFatta){
             holder.bollinoView.isVisible = false
         }else{

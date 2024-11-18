@@ -67,7 +67,7 @@ class AuctionsAdapter(public var auctions: ArrayList<Auction>, context: Context)
             }
         }
 
-        holder.immagineProdottoView.setImageDrawable(auction.immagineProdotto)
+        holder.immagineProdottoView.setImageBitmap(auction.immagineProdotto)
         if(auction.tipoAsta == "Asta Inversa"){
             holder.imageViewBollinoView.isVisible= true
         }

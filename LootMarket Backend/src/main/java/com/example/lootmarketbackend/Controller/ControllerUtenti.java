@@ -77,33 +77,40 @@ public class ControllerUtenti {
         return status;
     }
 
-    public void modificaUtenteDAO(String email, String nazione, String numeroCellulare, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String numeroAziendale){
-        int i = getIndiceUtenteByEmail(email);
-        if(i != -1){
-            databaseUtenti.get(i).setNazione(nazione);
-            databaseUtenti.get(i).setNumeroCellulare(numeroCellulare);
-            databaseUtenti.get(i).setContatti(contatti);
-            databaseUtenti.get(i).setBiografia(biografia);
-            databaseUtenti.get(i).setImmagineProfilo(immagineProfilo);
-            databaseUtenti.get(i).setIndirizzoFatturazione(indirizzoFatturazione);
-            databaseUtenti.get(i).setIndirizzoSpedizione(indirizzoSpedizione);
-            if(databaseUtenti.get(i) instanceof UtenteBusiness utenteBusiness){
-                utenteBusiness.setNumeroAziendale(numeroAziendale);
+    public int modificaUtenteDAO(String email, String nazione, String numeroCellulare, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String numeroAziendale){
+        UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
+        if(utenteDAO.modificaUtenteDB(email, nazione, numeroCellulare, contatti, biografia, immagineProfilo, indirizzoFatturazione, indirizzoSpedizione, numeroAziendale)==1){
+            int i = getIndiceUtenteByEmail(email);
+            if(i != -1){
+                databaseUtenti.get(i).setNazione(nazione);
+                databaseUtenti.get(i).setNumeroCellulare(numeroCellulare);
+                databaseUtenti.get(i).setContatti(contatti);
+                databaseUtenti.get(i).setBiografia(biografia);
+                databaseUtenti.get(i).setImmagineProfilo(immagineProfilo);
+                databaseUtenti.get(i).setIndirizzoFatturazione(indirizzoFatturazione);
+                databaseUtenti.get(i).setIndirizzoSpedizione(indirizzoSpedizione);
+                if(databaseUtenti.get(i) instanceof UtenteBusiness utenteBusiness){
+                    utenteBusiness.setNumeroAziendale(numeroAziendale);
+                }
+                return 1;
             }
-            UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
-            utenteDAO.modificaUtenteDB(email, nazione, numeroCellulare, contatti, biografia, immagineProfilo, indirizzoFatturazione, indirizzoSpedizione, numeroAziendale);
         }
+        return 0;
     }
 
-    public void upgradeUtenteDAO(String email, String ragioneSociale, String partitaIva, String numeroAziendale){
+    //1: operazione avvenuta con successo, 0 altrimenti
+    public int upgradeUtenteDAO(String email, String ragioneSociale, String partitaIva, String numeroAziendale){
         int i = getIndiceUtenteByEmail(email);
         if(i != -1){
-            UtenteBusiness utenteBusiness = new UtenteBusiness(databaseUtenti.get(i), ragioneSociale, partitaIva, numeroAziendale);
-            databaseUtenti.remove(i);
-            databaseUtenti.add(utenteBusiness);
             UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
-            utenteDAO.upgradeUtenteDB(email, ragioneSociale, partitaIva, numeroAziendale);
+            if(utenteDAO.upgradeUtenteDB(email, ragioneSociale, partitaIva, numeroAziendale)==1){
+                UtenteBusiness utenteBusiness = new UtenteBusiness(databaseUtenti.get(i), ragioneSociale, partitaIva, numeroAziendale);
+                databaseUtenti.remove(i);
+                databaseUtenti.add(utenteBusiness);
+                return 1;
+            }
         }
+        return 0;
     }
 
     //ritorna -1 se asta non presente
