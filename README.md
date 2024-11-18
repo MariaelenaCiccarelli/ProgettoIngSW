@@ -17,10 +17,10 @@ Backend to-do:
 5) sistemare la conclusione dell'asta e pensare cosa succede se quell'asta non ha ricevuto offerte
 
 # Scaletta cose rimanenti
-1) Creazione asta immagine
+Fatto) Creazione asta immagine
 2) Auctions details
 3) Area utente terzi
-4) Immagini
+Fatto) Immagini
 5) Notifiche
 6) Gestione asta conclusa
 
