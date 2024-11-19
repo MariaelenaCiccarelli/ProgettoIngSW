@@ -18,7 +18,7 @@ Backend to-do:
 
 # Scaletta cose rimanenti
 Fatto) Creazione asta immagine
-## Salva modifiche area utente personale
+!!!!!!!!!!!!!! Salva modifiche area utente personale
 2) Auctions details
 3) Area utente terzi
 Fatto) Immagini
