@@ -24,7 +24,8 @@ Backend to-do:
 4. Fatto) Immagini
 5. Notifiche
 6. Gestione asta conclusa
-7. nuova offerta campo offerta solo tastierino numerico
+7. nuova offerta: campo offerta solo tastierino numerico
+8. nuova offerta: controllo mesi e giorni scadenza carta
 
 decidere se mandare il token come parte o come query
 
