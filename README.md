@@ -26,6 +26,8 @@ Backend to-do:
 6. Gestione asta conclusa
 7. nuova offerta: campo offerta solo tastierino numerico
 8. nuova offerta: controllo mesi e giorni scadenza carta
+9. asta inversa soglia minima a 0
+10. togliere "password dimenticata"
 
 decidere se mandare il token come parte o come query
 
