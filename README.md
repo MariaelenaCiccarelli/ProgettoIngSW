@@ -17,13 +17,14 @@ Backend to-do:
 5) sistemare la conclusione dell'asta e pensare cosa succede se quell'asta non ha ricevuto offerte
 
 # Scaletta cose rimanenti
-Fatto) Creazione asta immagine
+1. Fatto) Creazione asta immagine
 !!!!!!!!!!!!!! Salva modifiche area utente personale
-2) Auctions details
-3) Area utente terzi
-Fatto) Immagini
-5) Notifiche
-6) Gestione asta conclusa
+2. Auctions details
+3. Area utente terzi
+4. Fatto) Immagini
+5. Notifiche
+6. Gestione asta conclusa
+7. nuova offerta campo offerta solo tastierino numerico
 
 decidere se mandare il token come parte o come query
 
