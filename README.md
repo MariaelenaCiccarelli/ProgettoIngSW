@@ -23,7 +23,7 @@ Backend to-do:
 3. Area utente terzi
 4. Fatto) Immagini
 5. Notifiche
-6. Gestione asta conclusa
+6. Gestione dei duplicati asta conclusa e setting soglia minima per aggiudicare l'asta
 7. nuova offerta: campo offerta solo tastierino numerico
 8. nuova offerta: controllo mesi e giorni scadenza carta
 9. asta inversa soglia minima a 0
