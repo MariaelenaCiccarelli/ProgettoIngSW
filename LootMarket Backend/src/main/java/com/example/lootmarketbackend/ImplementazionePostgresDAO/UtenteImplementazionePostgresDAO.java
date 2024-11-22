@@ -10,10 +10,7 @@ import org.springframework.util.DigestUtils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -86,31 +83,31 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
             PreparedStatement addUtenteStatement = connection.prepareStatement("INSERT INTO \"Utenti\" " + "(\"Email\", \"Password\", \"Nome\", \"Cognome\", " +
                     "\"Codice Fiscale\", \"Nazione\", \"Numero di Cellulare\", \"Data di Nascita\", \"Sito Web\", \"Facebook\", \"Instagram\" , \"Biografia\", " +
                     "\"Immagine del Profilo\", \"Via Spedizione\", \"Città Spedizione\", \"Provincia Spedizione\", \"CAP Spedizione\", \"Via Fatturazione\", " +
-                    "\"Città Fatturazione\", \"Provincia Fatturazione\", \"CAP Fatturazione\", \"Ragione Sociale\", \"Partita Iva\", \"Numero Aziendale\")" + "VALUES(" +
-                    "'" + email + "'," +
-                    "'" + passwordHash + "', " +
-                    "'" + nome + "'," +
-                    "'" + cognome + "', " +
-                    "'" + codiceFiscale + "', " +
-                    "'" + nazione + "', " +
-                    "'" + numeroCellulare + "', " +
-                    "'" + dataNascita + "', " +
-                    "'" + contatti.getSitoWeb() + "', " +
-                    "'" + contatti.getFacebook() + "', " +
-                    "'" + contatti.getInstagram() + "', " +
-                    "'" + biografia + "', " +
-                    "'" + immagineProfilo + "', " +
-                    "'" + indirizzoSpedizione.getVia() + "', " +
-                    "'" + indirizzoSpedizione.getCitta() + "', " +
-                    "'" + indirizzoSpedizione.getProvincia() + "', " +
-                    "'" + indirizzoSpedizione.getCap() + "'," +
-                    "'" + indirizzoFatturazione.getVia() + "', " +
-                    "'" + indirizzoFatturazione.getCitta() + "', " +
-                    "'" + indirizzoFatturazione.getProvincia() + "', " +
-                    "'" + indirizzoFatturazione.getCap() + "'," +
-                    "'" + ragioneSociale + "'," +
-                    "'" + partitaIva + "'," +
-                    "'" + numeroAziendale + "');");
+                    "\"Città Fatturazione\", \"Provincia Fatturazione\", \"CAP Fatturazione\", \"Ragione Sociale\", \"Partita Iva\", \"Numero Aziendale\") VALUES(?, ?, ?, ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? )");
+            addUtenteStatement.setString(1, email);
+            addUtenteStatement.setString(2, passwordHash);
+            addUtenteStatement.setString(3, nome);
+            addUtenteStatement.setString(4, cognome);
+            addUtenteStatement.setString(5, codiceFiscale);
+            addUtenteStatement.setString(6, nazione);
+            addUtenteStatement.setString(7, numeroCellulare);
+            addUtenteStatement.setDate(8, Date.valueOf(dataNascita));
+            addUtenteStatement.setString(9, contatti.getSitoWeb());
+            addUtenteStatement.setString(10, contatti.getFacebook());
+            addUtenteStatement.setString(11, contatti.getInstagram());
+            addUtenteStatement.setString(12, biografia);
+            addUtenteStatement.setBytes(13, immagineProfilo);
+            addUtenteStatement.setString(14, indirizzoSpedizione.getVia());
+            addUtenteStatement.setString(15, indirizzoSpedizione.getCitta());
+            addUtenteStatement.setString(16, indirizzoSpedizione.getProvincia());
+            addUtenteStatement.setString(17, indirizzoSpedizione.getCap());
+            addUtenteStatement.setString(18, indirizzoFatturazione.getVia());
+            addUtenteStatement.setString(19, indirizzoFatturazione.getCitta());
+            addUtenteStatement.setString(20, indirizzoFatturazione.getProvincia());
+            addUtenteStatement.setString(21, indirizzoFatturazione.getCap());
+            addUtenteStatement.setString(22, ragioneSociale);
+            addUtenteStatement.setString(23, partitaIva);
+            addUtenteStatement.setString(24, numeroAziendale);
             addUtenteStatement.executeUpdate();
             connection.close();
             return 1;

@@ -50,6 +50,7 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
     private var filterCounter: Int = 0;
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,7 +58,7 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
 
     ): View? {
         // Inflate the layout for this fragment
-
+        indice=0
         auctions = listOf()
         getAste(indice++)
 
@@ -200,7 +201,7 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
         auctionsAdapter.onItemClick = {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id, mail, token))
-            transaction?.disallowAddToBackStack()
+            transaction?.addToBackStack(this.tag)
             transaction?.commit()
         }
 

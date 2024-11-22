@@ -4,6 +4,7 @@ import com.danilo.lootmarket.Auction
 import com.danilo.lootmarket.Network.dto.AstaDTO
 import com.danilo.lootmarket.Network.dto.DettagliAstaDTO
 import com.danilo.lootmarket.Network.dto.MyToken
+import com.danilo.lootmarket.Network.dto.OffertaDTO
 import com.danilo.lootmarket.Network.dto.UtenteAutenticazioneDTO
 import com.danilo.lootmarket.Network.dto.UtenteDTO
 import okhttp3.MultipartBody
@@ -28,7 +29,7 @@ interface MyApi {
     suspend fun getDatiUtentePersonali(@Query("mailUtente") mailUtente: String, @Query("token")  token:String): Response<UtenteDTO>
 
     @GET("/getDettagliAsta")
-    suspend fun getDettagliAsta(@Query("id") id: Int, @Query("mailUtente") mailUtente: String, @Query("token")  token:String): Response<DettagliAstaDTO>
+    suspend fun getDettagliAsta(@Query("idAsta") id: Int, @Query("mailUtente") mailUtente: String, @Query("token")  token:String): Response<DettagliAstaDTO>
 
     /*
     @Headers("Content-Type: application/json")
@@ -53,6 +54,15 @@ interface MyApi {
     @GET("/getAsteUtente")
     suspend fun getAsteUtente(@Query("email") email: String, @Query("token") token: String): Response<ArrayList<AstaDTO>>
     //@Header("Token") token: String,
+
+    @POST("/postIscrizione")
+    suspend fun postIscrizione(@Body offertaDTO:OffertaDTO, @Query("token") token: String):Response<Int>
+
+    @POST("/postDisiscrizione")
+    suspend fun postDisiscrizione(@Body offertaDTO:OffertaDTO, @Query("token") token: String):Response<Int>
+
+    @POST("/postNuovaOfferta")
+    suspend fun postNuovaOfferta(@Body offertaDTO:OffertaDTO, @Query("token") token: String):Response<Int>
 
     @Multipart
     @POST("/postCreaAsta")

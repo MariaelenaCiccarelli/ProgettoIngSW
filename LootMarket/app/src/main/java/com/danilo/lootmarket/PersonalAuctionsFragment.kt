@@ -37,7 +37,7 @@ class PersonalAuctionsFragment(private var auctions: List<AuctionViewHistory>, v
         auctionsLiveAdapter.onItemClick = {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id,mail, token))
-            transaction?.disallowAddToBackStack()
+            transaction?.addToBackStack(this.tag)
             transaction?.commit()
         }
 

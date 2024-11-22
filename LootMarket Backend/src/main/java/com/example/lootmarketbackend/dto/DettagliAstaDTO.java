@@ -13,7 +13,7 @@ public class DettagliAstaDTO {
     public double ultimaOfferta;
     public double sogliaMinima;
     public String tipoAsta;
-    public Boolean offertaFatta;
+    public Boolean ultimaOffertaTua;
     public String immagineAsta;
     public String nomeAutore;
     public String statusLegame;
@@ -30,7 +30,7 @@ public class DettagliAstaDTO {
                            double ultimaOfferta,
                            double sogliaMinima,
                            String tipoAsta,
-                           Boolean offertaFatta,
+                           Boolean ultimaOffertaTua,
                            String immagineAsta,
                            String nomeAutore,
                            String statusLegame) {
@@ -46,7 +46,7 @@ public class DettagliAstaDTO {
         this.ultimaOfferta = ultimaOfferta;
         this.sogliaMinima = sogliaMinima;
         this.tipoAsta = tipoAsta;
-        this.offertaFatta = offertaFatta;
+        this.ultimaOffertaTua = ultimaOffertaTua;
         this.immagineAsta = immagineAsta;
         this.statusLegame = statusLegame;
         this.nomeAutore = nomeAutore;

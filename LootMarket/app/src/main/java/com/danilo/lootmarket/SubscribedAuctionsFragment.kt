@@ -41,7 +41,7 @@ class SubscribedAuctionsFragment(private var auctions: List<AuctionViewHistory>,
         auctionsLiveAdapter.onItemClick = {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id, mail, token))
-            transaction?.disallowAddToBackStack()
+            transaction?.addToBackStack(this.tag)
             transaction?.commit()
         }
 

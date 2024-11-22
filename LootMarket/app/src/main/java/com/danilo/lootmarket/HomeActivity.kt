@@ -17,13 +17,15 @@ class HomeActivity: AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
 
     //private lateinit var auctionsAdapter : AuctionsAdapter
+    private lateinit var mail: String
+    private lateinit var token: String
 
     private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val mail: String = intent.getStringExtra("mail").toString()
-        val token: String = intent.getStringExtra("token").toString()
+        mail= intent.getStringExtra("mail").toString()
+        token= intent.getStringExtra("token").toString()
         enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)

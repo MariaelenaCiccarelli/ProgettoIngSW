@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toDrawable
@@ -29,7 +30,7 @@ import java.util.Base64
 class HomeFragment(var mail: String, var token: String): Fragment(){
 
     private lateinit var binding: FragmentHomeBinding
-    private var indice: Int = 0
+    private var indice: Int =0
 
     private lateinit var auctionsAdapter: AuctionsAdapter
 
@@ -41,16 +42,11 @@ class HomeFragment(var mail: String, var token: String): Fragment(){
 
 
     ): View? {
-
-
+        indice=0
         var auctions: ArrayList<Auction>
         //auctions = arrayListOf(auction1, auction2, auction3, auction4, auction5, auction6, auction7)
         auctions = arrayListOf()
         //auctions = listOf(getAste(0).get(0))
-
-
-
-
 
 
 
@@ -68,7 +64,7 @@ class HomeFragment(var mail: String, var token: String): Fragment(){
         auctionsAdapter.onItemClick = {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.frame_container, AuctionDetailsFragment(it.id, mail, token))
-            transaction?.addToBackStack(this.toString())
+            transaction?.addToBackStack(this.tag)
             transaction?.commit()
         }
         binding.RecyclerViewFrammentoHome.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -88,7 +84,7 @@ class HomeFragment(var mail: String, var token: String): Fragment(){
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getAste(indice: Int){
+    public fun getAste(indice: Int){
         var auctions2 = ArrayList<Auction>()
         lifecycleScope.async {
 

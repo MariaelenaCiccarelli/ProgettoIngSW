@@ -1,6 +1,7 @@
 package com.danilo.lootmarket
 
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
@@ -15,6 +16,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.core.graphics.BitmapCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -39,8 +41,10 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
     private var isBusiness: Boolean = false
     private lateinit var utente: UserBusiness
     lateinit var galleryUri: Uri
+    var immagineCambiata:Boolean = false
 
     val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        immagineCambiata = true
         galleryUri = it!!
         try {
             binding.imageViewImmagineUtenteFrammentoProfile.setImageURI(galleryUri)
@@ -49,6 +53,7 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -88,22 +93,47 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
             var indirizzoSpedizione = Indirizzo(binding.editTextViaSpedizioneFrammentoProfile.text.toString(), binding.editTextCittaSpedizioneFrammentoProfile.text.toString(), binding.editTextProvinciaSpedizioneFrammentoProfile.text.toString(), binding.editTextCAPSpedizioneFrammentoProfile.text.toString())
 
 
-            var utenteDTO = UtenteDTO(utente.informazioniBase.nome, utente.informazioniBase.codiceFiscale, utente.informazioniBase.mail, utente.informazioniBase.dataDiNascita.year, utente.informazioniBase.dataDiNascita.monthValue, utente.informazioniBase.dataDiNascita.dayOfMonth, binding.spinnerNazioneFrammentoProfile.selectedItem.toString(), binding.editTextNumeroCellulareFrammentoProfile.text.toString(),indirizzoSpedizione, indirizzoFatturazione, binding.editTextSitowebFrammentoProfile.text.toString(), binding.editTextSocialFacebookFrammentoProfile.text.toString(), binding.editTextSocialInstagramFrammentoProfile.text.toString(), binding.editTextBiografiaFrammentoProfile.text.toString(), utente.ragioneSociale, utente.partitaIva, binding.editTextNumeroAziendaleFrammentoProfile.text.toString(),"miao")
-            var immagineProfilo = binding.imageViewImmagineUtenteFrammentoProfile.drawable
+            var utenteDTO = UtenteDTO(utente.informazioniBase.nome, utente.informazioniBase.codiceFiscale, utente.informazioniBase.mail, utente.informazioniBase.dataDiNascita.year, utente.informazioniBase.dataDiNascita.monthValue, utente.informazioniBase.dataDiNascita.dayOfMonth, binding.spinnerNazioneFrammentoProfile.selectedItem.toString(), binding.editTextNumeroCellulareFrammentoProfile.text.toString(),indirizzoSpedizione, indirizzoFatturazione, binding.editTextSitowebFrammentoProfile.text.toString(), binding.editTextSocialFacebookFrammentoProfile.text.toString(), binding.editTextSocialInstagramFrammentoProfile.text.toString(), binding.editTextBiografiaFrammentoProfile.text.toString(), utente.ragioneSociale, utente.partitaIva, binding.editTextNumeroAziendaleFrammentoProfile.text.toString(),"immagineInMultiPart")
+            //var immagineProfilo = binding.imageViewImmagineUtenteFrammentoProfile.drawable
+            var partImmagineDTO: MultipartBody.Part
+            if(immagineCambiata==true){
+                val fileDir = context?.applicationContext?.filesDir
+                val imageFile = File(fileDir, "immagineProfilo.png")
 
-            val fileDir = context?.applicationContext?.filesDir
-            val imageFile = File(fileDir, "immagineProfilo.png")
-
-            Log.println(Log.INFO, "MyNetwork", "Ho creato imageFile")
-            val inputStream = context?.contentResolver?.openInputStream(galleryUri)
-            val outputStream = FileOutputStream(imageFile)
+                Log.println(Log.INFO, "MyNetwork", "Ho creato imageFile")
+                val inputStream = context?.contentResolver?.openInputStream(galleryUri)
+                val outputStream = FileOutputStream(imageFile)
 
 
-            inputStream!!.copyTo((outputStream))
-            Log.println(Log.INFO, "MyNetwork", "Ho finito con gli stream")
+                inputStream!!.copyTo((outputStream))
+                Log.println(Log.INFO, "MyNetwork", "Ho finito con gli stream")
 
-            val requestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-            val partImmagineDTO = MultipartBody.Part.createFormData("immagineProfiloDTO", imageFile.name, requestBody)
+                val requestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+                partImmagineDTO = MultipartBody.Part.createFormData("immagineProfiloDTO", imageFile.name, requestBody)
+
+            }
+            else{
+                val fileDir = context?.applicationContext?.filesDir
+                val imageFile = File(fileDir, "immagineProfilo.png")
+
+                try{
+                    var out= FileOutputStream(imageFile)
+                    utente.informazioniBase.immagine.compress(Bitmap.CompressFormat.PNG, 90, out)
+                    out.flush()
+                    out.close()
+                }catch (e: Exception){
+                    e.printStackTrace()
+                }
+
+
+
+
+                Log.println(Log.INFO, "MyNetwork", "Ho finito con gli stream")
+
+                val requestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+                partImmagineDTO = MultipartBody.Part.createFormData("immagineProfiloDTO", imageFile.name, requestBody)
+
+            }
 
 
 
@@ -362,9 +392,8 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
                 Log.println(Log.INFO, "MyNetwork", utenteRecuperato.toString())
 
                 var dataNascita = LocalDate.of(utenteRecuperato.dataDiNascitaAnno, utenteRecuperato.dataDiNascitaMese, utenteRecuperato.dataDiNascitaGiorno)
-
                 val immagineProfiloByteArrayDecoded = Base64.getDecoder().decode(utenteRecuperato.immagineProfilo)
-
+                Log.println(Log.INFO, "MyNetwork", immagineProfiloByteArrayDecoded.toString())
 
                 Log.println(Log.INFO, "MyNetwork", "Ho trasformato la stringa in byte Array")
 
@@ -373,6 +402,9 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
 
 
                 Log.println(Log.INFO, "MyNetwork", "Ho trasformato il byte array in bitmap")
+
+                    Log.println(Log.INFO, "MyNetwork", utenteRecuperato.nome)
+                    Log.println(Log.INFO, "MyNetwork", immagineProfilo.toString())
                 var utenteBase = UserBase(immagineProfilo, utenteRecuperato.nome, utenteRecuperato.codiceFiscale, utenteRecuperato.mail, dataNascita, utenteRecuperato.nazione, utenteRecuperato.numeroCellulare, utenteRecuperato.indirizzoSpedizione, utenteRecuperato.indirizzoFatturazione, utenteRecuperato.sito, utenteRecuperato.socialFacebook, utenteRecuperato.socialInstagram, utenteRecuperato.biografia)
                 Log.println(Log.INFO, "MyNetwork", utenteBase.toString())
                 if(!utenteRecuperato.ragioneSociale.equals("")){
@@ -407,6 +439,7 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun postModificaUtente(partImmagine: MultipartBody.Part, utenteDTO: UtenteDTO){
 
         lifecycleScope.async {
@@ -427,6 +460,7 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
             }
             if(response.isSuccessful && response.body() != null){
                 Log.println(Log.INFO,"MyNetwork", "Response is successful")
+                getDatiUtentePersonali(mail)
                 return@async
             }else{
                 Log.e("MyNetwork", "Response not successful")

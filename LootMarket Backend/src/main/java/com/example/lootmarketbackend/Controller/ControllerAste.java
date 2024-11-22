@@ -11,16 +11,22 @@ import java.util.Comparator;
 public class ControllerAste {
 
     public ArrayList<Asta> databaseAste = new ArrayList<>();
-    private int idUltimaAsta;
-
     public ControllerAste(){
         databaseAste = new ArrayList<>();
         leggiAsteDAO();
         databaseAste.sort(Comparator.comparing(Asta::getIdAsta));
-        idUltimaAsta = databaseAste.getLast().getIdAsta();
+
     }
 
-    public int getIdUltimaAsta(){return idUltimaAsta;}
+    public int getIdUltimaAsta(){
+        if(databaseAste.size() > 0){
+            return databaseAste.getLast().getIdAsta();
+        }
+        else{
+             return  0;
+        }
+    }
+
     public int getDatabaseSize(){return databaseAste.size();}
 
     public Asta getAstaDatabase(int indice){
@@ -59,7 +65,6 @@ public class ControllerAste {
             } else {
                 asta = new AstaConclusa(idAste.get(i), emailCreatori.get(i), titoli.get(i), categorie.get(i), prezziPartenza.get(i), dateScadenza.get(i), descrizioni.get(i), immaginiProdotti.get(i), emailVincitori.get(i), costiFinali.get(i));
             }
-
             databaseAste.add(asta);
         }
     }
@@ -75,7 +80,7 @@ public class ControllerAste {
                                 double sogliaMinima,
                                 String tipoAsta){
         Asta asta;
-        int idAsta = idUltimaAsta+1;
+        int idAsta = getIdUltimaAsta()+1;
         if(tipoAsta.equals("Asta a Tempo Fisso")){
             asta = new AstaTempoFisso(idAsta, emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima);
         }else{
@@ -86,7 +91,7 @@ public class ControllerAste {
         AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
         if(astaDAO.aggiungiAstaDB(emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima, tipoAsta)==1){
             databaseAste.add(asta);
-            idUltimaAsta++;
+            //idUltimaAsta++;
             return 1;
         }else{
             return -1;
@@ -126,10 +131,10 @@ public class ControllerAste {
 
     //ritorna 0 se è un'asta a tempo fisso, 1 asta inversa, -1 asta conclusa, 2 se non trova nulla
     public int getTipoAsta(Asta asta){
-        if(asta instanceof AstaTempoFisso){
-            return 0;
-        }else if(asta instanceof AstaInversa){
+        if(asta instanceof AstaInversa){
             return 1;
+        }else if(asta instanceof AstaTempoFisso){
+            return 0;
         }else if(asta instanceof AstaConclusa){
             return -1;
         }else{

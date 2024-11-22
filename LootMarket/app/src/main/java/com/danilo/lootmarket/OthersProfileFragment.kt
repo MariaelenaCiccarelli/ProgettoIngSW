@@ -31,6 +31,7 @@ class OthersProfileFragment(private var mailUtente: String, private var token: S
 
     ): View? {
         // Inflate the layout for this fragment
+        /*
         var auction1 = AuctionViewHistory(
             0,
             "Naruto",
@@ -95,8 +96,10 @@ class OthersProfileFragment(private var mailUtente: String, private var token: S
             false
         )
 
-        var auctions: List<AuctionViewHistory>
-        auctions = listOf(auction1, auction2, auction3, auction4, auction5, auction6, auction7)
+         */
+
+        var auctions: List<AuctionViewHistory>  = listOf()
+        //auctions = listOf(auction1, auction2, auction3, auction4, auction5, auction6, auction7)
 
 
         binding = FragmentOthersProfileBinding.inflate(layoutInflater)

@@ -68,35 +68,73 @@ public class ControllerLegami {
 
     public void eliminaLegameDAO(int idAsta, String emailOfferente){
         int i = 0;
-        while((idAsta != databaseLegami.get(i).getIdAsta() && !emailOfferente.equals(databaseLegami.get(i).getEmailUtente())) && i < databaseLegami.size()){
-            databaseLegami.remove(i);
+        while((i < databaseLegami.size()) && (idAsta != databaseLegami.get(i).getIdAsta() || !emailOfferente.equals(databaseLegami.get(i).getEmailUtente()))){
             i++;
         }
-        LegameDAO legameDAO = new LegameImplementazionePostgresDAO();
-        legameDAO.eliminaLegameDB(idAsta, emailOfferente);
+        if(i<databaseLegami.size()){
+            databaseLegami.remove(i);
+            LegameDAO legameDAO = new LegameImplementazionePostgresDAO();
+            legameDAO.eliminaLegameDB(idAsta, emailOfferente);
+        }
+
     }
 
     public void modificaUltimaOffertaLegameDAO(int idAsta, String emailOfferente, double offerta, LocalDateTime timestamp){
         int i = 0;
-        while((idAsta != databaseLegami.get(i).getIdAsta() && !emailOfferente.equals(databaseLegami.get(i).getEmailUtente())) && i < databaseLegami.size()){
-            databaseLegami.get(i).setOfferta(offerta);
-            databaseLegami.get(i).setTimestamp(timestamp);
+        System.out.println("Sto cercando di modificare l'offerta di un legame!");
+        while((i < databaseLegami.size()) && (idAsta != databaseLegami.get(i).getIdAsta() || !emailOfferente.equals(databaseLegami.get(i).getEmailUtente()))){
             i++;
         }
-        LegameDAO legameDAO = new LegameImplementazionePostgresDAO();
-        legameDAO.modificaUltimaOffertaLegameDB(idAsta, emailOfferente, offerta, timestamp);
+        if(i<databaseLegami.size()){
+            System.out.println("Ho trovato il legame da modificare!");
+            Offerta nuovoLegame = new Offerta( emailOfferente, idAsta, offerta, timestamp.toLocalDate(),timestamp.toLocalTime());
+            databaseLegami.set(i, nuovoLegame);
+            LegameDAO legameDAO = new LegameImplementazionePostgresDAO();
+            legameDAO.modificaUltimaOffertaLegameDB(idAsta, emailOfferente, offerta, timestamp);
+        }
+
     }
 
 
     //ritorna -1 se asta non presente
     public int getIndiceLegameByEmailAndIdAsta(String email, int idAsta) {
+        if(databaseLegami.size()==0){
+            return -1;
+        }
         int i = 0;
-        while(!email.equals(databaseLegami.get(i).getEmailUtente()) && idAsta != databaseLegami.get(i).getIdAsta() && i < databaseLegami.size()){
+
+
+        while((i < databaseLegami.size()) && (!email.equals(databaseLegami.get(i).getEmailUtente()) || (idAsta != databaseLegami.get(i).getIdAsta()))){
+            System.out.println("la mia mail: "+ email+" la mail esaminata: "+ databaseLegami.get(i).getEmailUtente());
+            System.out.println("la mia idAsta: "+ idAsta+" l'idAsta esaminato: "+ databaseLegami.get(i).getIdAsta());
             i++;
         }
-        if(email.equals(databaseLegami.get(i).getEmailUtente()) && idAsta == databaseLegami.get(i).getIdAsta()){
-            return i;
+
+        if(i<databaseLegami.size()){
+            System.out.println("la mia mail: "+ email+" la mail esaminata: "+ databaseLegami.get(i).getEmailUtente());
+            System.out.println("la mia idAsta: "+ idAsta+" l'idAsta esaminato: "+ databaseLegami.get(i).getIdAsta());
+            if(email.equals(databaseLegami.get(i).getEmailUtente()) && idAsta == databaseLegami.get(i).getIdAsta()){
+                return i;
+            }
         }
         return -1;
+    }
+
+    public Offerta getUltimaOffertaLegame(int idAsta){
+        Offerta ultimoLegame=null;
+        for(Legame legame : databaseLegami){
+            if(legame.getIdAsta() == idAsta){
+                if(legame instanceof Offerta legameOfferta) {
+                    if(ultimoLegame == null){
+                        ultimoLegame = legameOfferta;
+                    }else{
+                        if(ultimoLegame.getTimestamp().isBefore(legameOfferta.getTimestamp())){
+                            ultimoLegame = legameOfferta;
+                        }
+                    }
+                }
+            }
+        }
+        return ultimoLegame;
     }
 }

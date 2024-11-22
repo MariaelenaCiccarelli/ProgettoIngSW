@@ -21,6 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import com.danilo.lootmarket.Network.RetrofitInstance
 import com.danilo.lootmarket.Network.dto.AstaDTO
 import com.danilo.lootmarket.Network.dto.DettagliAstaDTO
+import com.danilo.lootmarket.Network.dto.OffertaDTO
 import com.danilo.lootmarket.Network.dto.UtenteDTO
 import com.danilo.lootmarket.databinding.FragmentAuctionDetailsBinding
 import com.danilo.lootmarket.databinding.FragmentHomeBinding
@@ -50,41 +51,25 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
 
     ): View? {
         // Inflate the layout for this fragment
-        /*
-        var auction = Auction(10,
-            "Statuetta di Wargreymon",
-            150000.90,
-            ZonedDateTime.now().plusDays(10),
-            (ResourcesCompat.getDrawable(resources, R.drawable.naruto, null) as Bitmap),
-            "Lorem ipsum odor amet, consectetuer adipiscing elit. Tellus tristique integer vestibulum, etiam ligula ipsum nisi. Fermentum mus nisl eleifend aliquet ipsum consequat? Ut iaculis orci efficitur gravida dui nec. Vehicula lectus adipiscing nec blandit iaculis tincidunt adipiscing, lobortis fusce. Sagittis aliquet ante aliquam aliquet tellus est. Fermentum est varius; sagittis nisl condimentum nibh. Sem placerat metus sem parturient primis cras duis bibendum. Mus tortor potenti vitae vitae sit. Non nascetur volutpat eget quis felis ante pharetra; primis mollis. Suspendisse leo fames eleifend dui vel velit rhoncus. Faucibus neque conubia id; tellus feugiat metus. Sollicitudin et penatibus luctus; congue volutpat metus convallis. Ultricies morbi placerat metus penatibus natoque sociosqu elementum turpis. Sollicitudin suscipit a egestas et vestibulum. Tempor fringilla non convallis commodo hac molestie donec viverra.",
-            "Action Figures",
-            "Asta inversa")
-
-         */
-
-
 
 
         binding = FragmentAuctionDetailsBinding.inflate(layoutInflater)
-        //setAuction(auction)
+        binding.frammentoIntero.isVisible=false
         getDettagliAsta(idAuction,mailUtente,token)
         //val view = inflater.inflate(R.layout.fragment_home, container, false)
 
 
         binding.cardBackButtonFrammentoAuctionDetails.setOnClickListener{
             parentFragmentManager.popBackStack()
+
         }
 
         binding.cardIscrizioneAstaFrammentoAuctionDetails.setOnClickListener{
-            //codice di iscrizione
-            binding.cardDisiscrizioneAstaFrammentoAuctionDetails.isVisible = true
-            binding.cardIscrizioneAstaFrammentoAuctionDetails.isVisible = false
+            postIscrizione(idAuction, mailUtente, token)
         }
 
         binding.cardDisiscrizioneAstaFrammentoAuctionDetails.setOnClickListener{
-            //codice di disiscrizione
-            binding.cardIscrizioneAstaFrammentoAuctionDetails.isVisible = true
-            binding.cardDisiscrizioneAstaFrammentoAuctionDetails.isVisible = false
+            postDisiscrizione(idAuction, mailUtente,token)
         }
 
         binding.cardPresentaOffertaFrammentoAuctionDetails.setOnClickListener{
@@ -121,31 +106,7 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
             if((offerta=="")||(numeroCarta=="")||(nomeIntestatarioCarta=="")||(dataScadenzaMese=="")||(dateScadenzaAnno=="")||(ccv=="")){
                 Toast.makeText(this.context, "Compila tutti i campi!", Toast.LENGTH_SHORT).show()
             }else{
-                binding.cardBackgroundOverlayFrammentoAuctionDetails.isVisible = false
-                binding.textViewLabelOverlayTuaOffertaFrammentoAuctionDetails.requestFocus()
-                binding.scrollViewOverlay2FrammentoAuctionDetails.isVisible = false
-
-                binding.editTextOverlayTuaOffertaFrammentoAuctionDetails.setText("")
-                binding.editTextOverlayNumeroOffertaFrammentoAuctionDetails.setText("")
-                binding.editTextOverlayIntestatarioCartaFrammentoAuctionDetails.setText("")
-                binding.editTextOverlayDataScadenzaMeseFrammentoAuctionDetails.setText("")
-                binding.editTextOverlayDataScadenzaAnnoFrammentoAuctionDetails.setText("")
-                binding.editTextOverlayCCVFrammentoAuctionDetails.setText("")
-                binding.editTextOverlayViaSpedizioneFrammentoAuctionDetails.setText("")
-                binding.editTextOverlayCittaSpedizioneFrammentoAuctionDetails.setText("")
-                binding.editTextOverlayProvinciaSpedizioneFrammentoAuctionDetails.setText("")
-                binding.editTextOverlayCAPSpedizioneFrammentoAuctionDetails.setText("")
-
-                binding.editTextOverlayViaFatturazioneFrammentoAuctionDetails.setText("")
-                binding.editTextOverlayCittaFatturazioneFrammentoAuctionDetails.setText("")
-                binding.editTextOverlayProvinciaFatturazioneFrammentoAuctionDetails.setText("")
-                binding.editTextOverlayCAPFatturazioneFrammentoAuctionDetails.setText("")
-
-                binding.cardBackgroundOverlayFrammentoAuctionDetails.isVisible = false
-                binding.textViewLabelOverlayTuaOffertaFrammentoAuctionDetails.requestFocus()
-                binding.scrollViewOverlay2FrammentoAuctionDetails.isVisible = false
-                binding.scrollViewOverlay1FrammentoAuctionDetails.isVisible = true
-                binding.textViewLabelOverlayIndirizzoSpedizioneFrammentoAuctionDetails.requestFocus()
+                postNuovaOfferta(idAuction, mailUtente,offerta.toDouble(), token)
             }
         }
 
@@ -192,17 +153,28 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
         return binding.root
     }
 
-    fun setAuction(auction: Auction){
-        var isTua: Boolean = true
-        binding.imageViewImmagineAuctionFrammentoAuctionDetails.setImageBitmap(auction.immagineProdotto)
-        binding.textViewTitoloAstaFrammentoAuctionDetails.text = auction.titoloAsta
-        if(isTua){
-            binding.textViewUltimaOffertaFrammentoAuctionDetails.text = "Ultima Offerta (Tu): €"+ "%,.2f".format(Locale.ITALIAN,auction.ultimaOfferta)
+
+
+
+
+
+
+
+    fun setAuction(dettagliAsta: DettagliAstaDTO, immagineProdotto: Bitmap){
+        var dataScadenza: ZonedDateTime = ZonedDateTime.of(dettagliAsta.anno, dettagliAsta.mese, dettagliAsta.giorno, 0, 0, 0,0, ZoneId.of("GMT"))
+        binding.imageViewImmagineAuctionFrammentoAuctionDetails.setImageBitmap(immagineProdotto)
+        binding.textViewTitoloAstaFrammentoAuctionDetails.text = dettagliAsta.titolo
+        Log.println(Log.INFO, "MyNetwork", dettagliAsta.ultimaOffertaTua.toString())
+        Log.println(Log.INFO, "MyNetwork", dettagliAsta.statusLegame)
+
+        if(dettagliAsta.ultimaOffertaTua){
+            binding.textViewUltimaOffertaFrammentoAuctionDetails.text = "Ultima Offerta (Tu): €"+ "%,.2f".format(Locale.ITALIAN,dettagliAsta.ultimaOfferta)
+
         }else{
-            binding.textViewUltimaOffertaFrammentoAuctionDetails.text = "Ultima Offerta: €"+ "%,.2f".format(Locale.ITALIAN,auction.ultimaOfferta)
+            binding.textViewUltimaOffertaFrammentoAuctionDetails.text = "Ultima Offerta: €"+ "%,.2f".format(Locale.ITALIAN,dettagliAsta.ultimaOfferta)
         }
-        binding.textViewDescrizioneValueAuctionFrammentoAuctionDetails.text = auction.testoDescrizione
-        if(auction.dataScadenza.isBefore(ZonedDateTime.now())){
+        binding.textViewDescrizioneValueAuctionFrammentoAuctionDetails.text = dettagliAsta.descrizione
+        if(dataScadenza.isBefore(ZonedDateTime.now())){
             binding.textViewTempoRimFrammentoAuctionDetails.text = "Scaduta"
             binding.textViewTempoRimFrammentoAuctionDetails.setTextColor(Color.parseColor("#4d251b"))
             binding.BottoneDisiscrizioneAstaFrammentoAuctionDetails.isVisible = false
@@ -212,7 +184,7 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
             binding.BottonePresentaOffertaFrammentoAuctionDetails.isVisible = false
             binding.textViewPresentaOffertaFrammentoAuctionDetails.isVisible = false
         }else {
-            var tempoRimanente = ZonedDateTime.now().until(auction.dataScadenza, ChronoUnit.HOURS)
+            var tempoRimanente = ZonedDateTime.now().until(dataScadenza, ChronoUnit.HOURS)
             if(tempoRimanente >48) {
                 binding.textViewTempoRimFrammentoAuctionDetails.text =""+(tempoRimanente/24).toString() + "g rimanenti"
             }else if(48>tempoRimanente && tempoRimanente>24){
@@ -223,11 +195,54 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
                 binding.textViewTempoRimFrammentoAuctionDetails.text = ">1h rimanente"
             }
         }
-        if(auction.tipoAsta =="Asta inversa"){
+        if(dettagliAsta.tipoAsta =="Asta Inversa"){
             binding.cardIsInversaFrammentoAuctionDetails.isVisible = true
         }
-        binding.textViewCategoriaFrammentoAuctionDetails.text = "Categoria: "+auction.Categoria
+        binding.textViewCategoriaFrammentoAuctionDetails.text = "Categoria: "+dettagliAsta.categoria
+        binding.textViewNomeAutoreFrammentoAuctionDetails.text = dettagliAsta.nomeAutore
+
+        if(dettagliAsta.emailCreatore.equals(mailUtente)){ //l'asta è dell'utente
+            disabilitaIscrizione()
+            disabilitaPresentaOfferta()
+        }else{
+            if(dettagliAsta.statusLegame=="OffertaFatta"){ //l'utente ha già presentato una offerta
+                disabilitaIscrizione()
+            }else{
+                if(dettagliAsta.statusLegame=="Iscritto"){ //l'utente è già iscritto all'asta
+                    cambiaDaIscrizioneADisiscrizione()
+                }
+            }
+        }
+
     }
+    fun disabilitaIscrizione(){
+        binding.cardIscrizioneAstaFrammentoAuctionDetails.isVisible = false
+        //binding.textViewIscrizioneAstaFrammentoAuctionDetails.isVisible = false
+    }
+    fun disabilitaPresentaOfferta(){
+        binding.cardPresentaOffertaFrammentoAuctionDetails.isVisible=false
+        //binding.textViewPresentaOffertaFrammentoAuctionDetails.isVisible = false
+    }
+    fun cambiaDaIscrizioneADisiscrizione(){
+        binding.cardDisiscrizioneAstaFrammentoAuctionDetails.isVisible = true
+        binding.cardIscrizioneAstaFrammentoAuctionDetails.isVisible = false
+    }
+    fun cambiaDaDisiscrizioneAIscrizione(){
+        binding.cardIscrizioneAstaFrammentoAuctionDetails.isVisible = true
+        binding.cardDisiscrizioneAstaFrammentoAuctionDetails.isVisible = false
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getDettagliAsta(id: Int, mailUtente: String, token: String){
@@ -263,28 +278,9 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
 
 
                     Log.println(Log.INFO, "MyNetwork", "Ho trasformato il byte array in bitmap")
-                    var auction = Auction(astaRecuperata.idAsta, astaRecuperata.titolo, astaRecuperata.ultimaOfferta, ZonedDateTime.of(astaRecuperata.anno, astaRecuperata.mese, astaRecuperata.giorno, 0, 0, 0,0, ZoneId.of("GMT")), immagineAsta, astaRecuperata.descrizione, astaRecuperata.categoria, astaRecuperata.tipoAsta )
-                    setAuction(auction)
-                    /*
-                    var utenteBase = UserBase(immagineProfilo, utenteRecuperato.nome, utenteRecuperato.codiceFiscale, utenteRecuperato.mail, dataNascita, utenteRecuperato.nazione, utenteRecuperato.numeroCellulare, utenteRecuperato.indirizzoSpedizione, utenteRecuperato.indirizzoFatturazione, utenteRecuperato.sito, utenteRecuperato.socialFacebook, utenteRecuperato.socialInstagram, utenteRecuperato.biografia)
-                    Log.println(Log.INFO, "MyNetwork", utenteBase.toString())
-                    if(!utenteRecuperato.ragioneSociale.equals("")){
-                        Log.println(Log.INFO, "MyNetwork", "utente business recuperato!")
-                        isBusiness = true
-                        var utenteBusiness = UserBusiness(utenteBase, utenteRecuperato.ragioneSociale, utenteRecuperato.partitaIva, utenteRecuperato.numeroAziendale)
-                        //Log.println(Log.INFO, "MyNetwork", utenteBusiness.toString())
-                        setDatiBusiness(utenteBusiness)
-                        attivaCampiBusiness()
-                        utente = utenteBusiness
-                    }else{
-                        Log.println(Log.INFO, "MyNetwork", "utente base recuperato!")
-                        isBusiness= false
-                        setDatiBase(utenteBase)
-                        disattivaCampiBusiness()
-                        utente = UserBusiness(utenteBase, "", "", "")
-                    }
+                    setAuction(astaRecuperata, immagineAsta)
+                    binding.frammentoIntero.isVisible=true
 
-                     */
                     return@async
                 }catch (e: Exception){
                     Log.e("MyNetwork", e.toString())
@@ -301,5 +297,161 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
             }
         }
     }
+
+
+    private fun postIscrizione(idAsta: Int, mailUtente: String, token: String){
+        var offertaDTO = OffertaDTO(idAsta, mailUtente, -1.0)
+        lifecycleScope.async {
+            val response = try{
+                RetrofitInstance.api.postIscrizione(offertaDTO, token)
+            }catch (e: IOException){
+                Toast.makeText(context, "Iscrizione fallita!", Toast.LENGTH_SHORT).show()
+                Log.e("MyNetwork", "IOException, you might not have internet connection")
+                return@async
+            }catch (e: HttpException){
+                Toast.makeText(context, "Iscrizione fallita!", Toast.LENGTH_SHORT).show()
+                Log.e("MyNetwork", "HttpException, unexpected response")
+                return@async
+            }catch (e: Exception){
+                Toast.makeText(context, "Iscrizione fallita!", Toast.LENGTH_SHORT).show()
+                Log.e("MyNetwork", e.toString())
+                Log.e("MyNetwork", e.message.toString())
+                Log.e("MyNetwork", e.cause.toString())
+                return@async
+            }
+            if(response.isSuccessful && response.body() != null){
+                Log.println(Log.INFO, "MyNetwork", "Response is successful")
+                if(response.body()==1){
+                    cambiaDaIscrizioneADisiscrizione()
+                    Toast.makeText(context, "Iscrizione avvenuta con successo!", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(context, "Iscrizione fallita!", Toast.LENGTH_SHORT).show()
+                }
+            }else{
+                Toast.makeText(context, "Iscrizione fallita!", Toast.LENGTH_SHORT).show()
+                Log.e("MyNetwork", "Response not successful")
+                if(response.code().toString().equals("401")){
+                    Log.e("MyNetwork", response.code().toString()+" Token Scaduto!")
+                }
+                activity?.finish()
+                return@async
+            }
+        }
+    }
+
+    private fun postDisiscrizione(idAsta: Int, mailUtente: String, token: String){
+        var offertaDTO = OffertaDTO(idAsta, mailUtente, -1.0)
+        lifecycleScope.async {
+            val response = try{
+                RetrofitInstance.api.postDisiscrizione(offertaDTO, token)
+            }catch (e: IOException){
+                Toast.makeText(context, "Disiscrizione fallita!", Toast.LENGTH_SHORT).show()
+                Log.e("MyNetwork", "IOException, you might not have internet connection")
+                return@async
+            }catch (e: HttpException){
+                Toast.makeText(context, "Disiscrizione fallita!", Toast.LENGTH_SHORT).show()
+                Log.e("MyNetwork", "HttpException, unexpected response")
+                return@async
+            }catch (e: Exception){
+                Toast.makeText(context, "Disiscrizione fallita!", Toast.LENGTH_SHORT).show()
+                Log.e("MyNetwork", e.toString())
+                Log.e("MyNetwork", e.message.toString())
+                Log.e("MyNetwork", e.cause.toString())
+                return@async
+            }
+            if(response.isSuccessful && response.body() != null){
+                Log.println(Log.INFO, "MyNetwork", "Response is successful")
+                if(response.body()==1){
+                    cambiaDaDisiscrizioneAIscrizione()
+                    Toast.makeText(context, "Disiscrizione avvenuta con successo!", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(context, "Disiscrizione fallita!", Toast.LENGTH_SHORT).show()
+                }
+            }else{
+                Toast.makeText(context, "Disiscrizione fallita!", Toast.LENGTH_SHORT).show()
+                Log.e("MyNetwork", "Response not successful")
+                if(response.code().toString().equals("401")){
+                    Log.e("MyNetwork", response.code().toString()+" Token Scaduto!")
+                }
+                activity?.finish()
+                return@async
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun postNuovaOfferta(idAsta: Int, mailUtente: String, offerta: Double, token: String){
+        var offertaDTO = OffertaDTO(idAsta, mailUtente, offerta)
+        lifecycleScope.async {
+            val response = try{
+                RetrofitInstance.api.postNuovaOfferta(offertaDTO, token)
+            }catch (e: IOException){
+                Toast.makeText(context, "Presentazione nuova offerta fallita!", Toast.LENGTH_SHORT).show()
+                Log.e("MyNetwork", "IOException, you might not have internet connection")
+                return@async
+            }catch (e: HttpException){
+                Toast.makeText(context, "Presentazione nuova offerta fallita!", Toast.LENGTH_SHORT).show()
+                Log.e("MyNetwork", "HttpException, unexpected response")
+                return@async
+            }catch (e: Exception){
+                Toast.makeText(context, "Presentazione nuova offerta fallita!", Toast.LENGTH_SHORT).show()
+                Log.e("MyNetwork", e.toString())
+                Log.e("MyNetwork", e.message.toString())
+                Log.e("MyNetwork", e.cause.toString())
+                return@async
+            }
+            if(response.isSuccessful && response.body() != null){
+                Log.println(Log.INFO, "MyNetwork", "Response is successful")
+                if(response.body()==1){
+                    cambiaDaDisiscrizioneAIscrizione()
+                    Toast.makeText(context, "Presentazione nuova offerta avvenuta con successo!", Toast.LENGTH_SHORT).show()
+                    binding.cardBackgroundOverlayFrammentoAuctionDetails.isVisible = false
+                    binding.textViewLabelOverlayTuaOffertaFrammentoAuctionDetails.requestFocus()
+                    binding.scrollViewOverlay2FrammentoAuctionDetails.isVisible = false
+
+                    binding.editTextOverlayTuaOffertaFrammentoAuctionDetails.setText("")
+                    binding.editTextOverlayNumeroOffertaFrammentoAuctionDetails.setText("")
+                    binding.editTextOverlayIntestatarioCartaFrammentoAuctionDetails.setText("")
+                    binding.editTextOverlayDataScadenzaMeseFrammentoAuctionDetails.setText("")
+                    binding.editTextOverlayDataScadenzaAnnoFrammentoAuctionDetails.setText("")
+                    binding.editTextOverlayCCVFrammentoAuctionDetails.setText("")
+                    binding.editTextOverlayViaSpedizioneFrammentoAuctionDetails.setText("")
+                    binding.editTextOverlayCittaSpedizioneFrammentoAuctionDetails.setText("")
+                    binding.editTextOverlayProvinciaSpedizioneFrammentoAuctionDetails.setText("")
+                    binding.editTextOverlayCAPSpedizioneFrammentoAuctionDetails.setText("")
+
+                    binding.editTextOverlayViaFatturazioneFrammentoAuctionDetails.setText("")
+                    binding.editTextOverlayCittaFatturazioneFrammentoAuctionDetails.setText("")
+                    binding.editTextOverlayProvinciaFatturazioneFrammentoAuctionDetails.setText("")
+                    binding.editTextOverlayCAPFatturazioneFrammentoAuctionDetails.setText("")
+
+                    binding.cardBackgroundOverlayFrammentoAuctionDetails.isVisible = false
+                    binding.textViewLabelOverlayTuaOffertaFrammentoAuctionDetails.requestFocus()
+                    binding.scrollViewOverlay2FrammentoAuctionDetails.isVisible = false
+                    binding.scrollViewOverlay1FrammentoAuctionDetails.isVisible = true
+                    binding.textViewLabelOverlayIndirizzoSpedizioneFrammentoAuctionDetails.requestFocus()
+                    getDettagliAsta(idAsta, mailUtente, token)
+                }
+                else if(response.body()==-2){
+                    Toast.makeText(context, "Offerta non valida per il tipo di asta!", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(context, "Presentazione nuova offerta fallita!", Toast.LENGTH_SHORT).show()
+                }
+            }else{
+                Toast.makeText(context, "Presentazione nuova offerta fallita!", Toast.LENGTH_SHORT).show()
+                Log.e("MyNetwork", "Response not successful")
+                if(response.code().toString().equals("401")){
+                    Log.e("MyNetwork", response.code().toString()+" Token Scaduto!")
+                }
+                activity?.finish()
+                return@async
+            }
+        }
+    }
+
+
 
 }

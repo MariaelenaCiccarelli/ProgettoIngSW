@@ -4,10 +4,7 @@ import com.example.lootmarketbackend.Controller.Controller;
 import com.example.lootmarketbackend.Modelli.AstaTempoFisso;
 import com.example.lootmarketbackend.Modelli.Contatti;
 import com.example.lootmarketbackend.Modelli.Indirizzo;
-import com.example.lootmarketbackend.dto.AstaDTO;
-import com.example.lootmarketbackend.dto.DettagliAstaDTO;
-import com.example.lootmarketbackend.dto.UtenteAutenticazioneDTO;
-import com.example.lootmarketbackend.dto.UtenteDTO;
+import com.example.lootmarketbackend.dto.*;
 
 import com.example.lootmarketbackend.services.JwtUtil;
 import com.example.lootmarketbackend.services.MyToken;
@@ -257,7 +254,19 @@ public class APIController {
     @ResponseBody
     public MyToken postRegistraUtente(@RequestBody UtenteAutenticazioneDTO utenteAutenticazioneDTO) throws IOException {
         System.out.println("Richiesta Registrazione Utente: "+utenteAutenticazioneDTO.mail);
-        byte[] immagineProfilo = Files.readAllBytes(Paths.get("./CartellaImmagini/user_placeholder.png"));;
+        byte[] immagineProfilo = Files.readAllBytes(Paths.get("./CartellaImmagini/placeholder.png"));
+        /*
+        try (OutputStream out = new BufferedOutputStream(new FileOutputStream("./CartellaImmagini/immagineDaSalvare.png"))) {
+            out.write(immagineProfilo);
+            System.out.println("Ho salvato l'immagine");
+        }catch (IOException e){
+            System.out.println("Non sono riuscito a salvare l'immagine");
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+       */
+
         Contatti contatti = new Contatti("", "", "");
         Indirizzo indirizzoVuoto = new Indirizzo("", "", "", "");
         LocalDate dataNascita = LocalDate.of(utenteAutenticazioneDTO.dataDiNascitaAnno, utenteAutenticazioneDTO.dataDiNascitaMese, utenteAutenticazioneDTO.dataDiNascitaGiorno);
@@ -400,8 +409,76 @@ public class APIController {
 
         return 0;
     }
+    @PostMapping("/postIscrizione")
+    public int postIscrizione(@RequestBody OffertaDTO offertaDTO, @RequestParam String token){
+        System.out.println("Richiesta di Iscrizione all'asta: "+offertaDTO.idAsta+" da parte di "+offertaDTO.mailUtente+"|Token Ricevuto: "+token);
+        try {
+            Claims claims = JwtUtil.decodeJWT(token);
+            if(claims!=null){
+                if(claims.getIssuer().equals("LootMarket")){
+                    System.out.println("Token Valido!");
+                    return  controller.iscrizione(offertaDTO.mailUtente, offertaDTO.idAsta);
+                }else{
+                    System.out.println("Token Non valido!");
+                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token non valido!");
+                }
+            }else{
+                System.out.println("Errore nella decodifica del token!");
 
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
+            }
+        }catch (ExpiredJwtException e){
+            System.out.println("Token Scaduto!");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
+        }
+    }
 
+    @PostMapping("/postDisiscrizione")
+    public int postDisiscrizione(@RequestBody OffertaDTO offertaDTO, @RequestParam String token){
+        System.out.println("Richiesta di Disiscrizione all'asta: "+offertaDTO.idAsta+" da parte di "+offertaDTO.mailUtente+"|Token Ricevuto: "+token);
+        try {
+            Claims claims = JwtUtil.decodeJWT(token);
+            if(claims!=null){
+                if(claims.getIssuer().equals("LootMarket")){
+                    System.out.println("Token Valido!");
+                    return  controller.disiscrizione(offertaDTO.mailUtente, offertaDTO.idAsta);
+                }else{
+                    System.out.println("Token Non valido!");
+                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token non valido!");
+                }
+            }else{
+                System.out.println("Errore nella decodifica del token!");
 
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
+            }
+        }catch (ExpiredJwtException e){
+            System.out.println("Token Scaduto!");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
+        }
+    }
+
+    @PostMapping("/postNuovaOfferta")
+    public int postNuovaOfferta(@RequestBody OffertaDTO offertaDTO, @RequestParam String token){
+        System.out.println("Richiesta di Nuova Offerta all'asta: "+offertaDTO.idAsta+" da parte di "+offertaDTO.mailUtente+"con offerta: "+offertaDTO.offerta+"|Token Ricevuto: "+token);
+        try {
+            Claims claims = JwtUtil.decodeJWT(token);
+            if(claims!=null){
+                if(claims.getIssuer().equals("LootMarket")){
+                    System.out.println("Token Valido!");
+                    return  controller.nuovaOfferta(offertaDTO.mailUtente, offertaDTO.idAsta, offertaDTO.offerta);
+                }else{
+                    System.out.println("Token Non valido!");
+                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token non valido!");
+                }
+            }else{
+                System.out.println("Errore nella decodifica del token!");
+
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
+            }
+        }catch (ExpiredJwtException e){
+            System.out.println("Token Scaduto!");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
+        }
+    }
 
 }

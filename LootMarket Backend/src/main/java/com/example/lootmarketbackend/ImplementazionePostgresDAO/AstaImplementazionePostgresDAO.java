@@ -75,7 +75,6 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
                                String tipoAsta) {
 
         try{
-            String stringa = new String("");
             PreparedStatement aggiungiAstaStatement = connection.prepareStatement("INSERT INTO \"Aste\" (\"Email Creatore\", \"Titolo\", \"Categoria\", \"Prezzo di Partenza\", \"Data di Scadenza\", \"Descrizione\", \"Immagine Prodotto\", \"Ultima Offerta\", \"Soglia Minima\", \"Tipo di Asta\" , \"Email Vincitore\", \"Costo Finale\") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)");
 
             aggiungiAstaStatement.setString(1, emailCreatore);

@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".AuctionDetailsFragment"
-    android:background="@color/LightGold">
+    android:background="@color/LightGold"
+    android:id="@+id/frammentoIntero">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
@@ -200,7 +201,7 @@
                             android:id="@+id/imageViewImmagineAuctionFrammentoAuctionDetails"
                             android:layout_width="180dp"
                             android:layout_height="180dp"
-                            android:src="@drawable/naruto2">
+                            android:src="@drawable/gallery_placeholder">
                         </ImageView>
 
                     </com.google.android.material.card.MaterialCardView>
