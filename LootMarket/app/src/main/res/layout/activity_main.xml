@@ -128,36 +128,20 @@
             android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/bottoneRecoveryPaginaAccedi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:background="@android:color/transparent"
-        android:fontFamily="@font/roboto_medium"
-        android:maxLines="1"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="20dp"
-        android:text="@string/bottonePasswordDimenticataPaginaAccedi"
-        android:textAllCaps="false"
-        android:textColor="@color/LightRed"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardPasswordPaginaAccedi"></Button>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardBottoneAccediPaginaAccesso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="@color/Red"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bottoneRecoveryPaginaAccedi">
+        app:layout_constraintTop_toBottomOf="@+id/cardPasswordPaginaAccedi">
 
         <Button
             android:id="@+id/bottoneAccediPaginaAccedi"

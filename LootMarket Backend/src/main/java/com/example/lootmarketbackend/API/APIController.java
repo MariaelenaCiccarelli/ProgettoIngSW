@@ -4,6 +4,7 @@ import com.example.lootmarketbackend.Controller.Controller;
 import com.example.lootmarketbackend.Modelli.AstaTempoFisso;
 import com.example.lootmarketbackend.Modelli.Contatti;
 import com.example.lootmarketbackend.Modelli.Indirizzo;
+import com.example.lootmarketbackend.Modelli.UtenteBusiness;
 import com.example.lootmarketbackend.dto.*;
 
 import com.example.lootmarketbackend.services.JwtUtil;
@@ -99,6 +100,34 @@ public class APIController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
         }
     }
+
+    @GetMapping ("/getDatiUtenteTerzi")
+    public UtenteDTO getDatiUtenteTerzi(@RequestParam String mailUtente, @RequestParam String token){
+
+        System.out.println("Richiesta Dati Utente: "+mailUtente+"|Token Ricevuto: "+token);
+        try {
+            Claims claims = JwtUtil.decodeJWT(token);
+            if(claims!=null){
+                if(claims.getIssuer().equals("LootMarket")){
+                    System.out.println("Token Valido!");
+                    return controller.getDatiUtenteTerzi(mailUtente);
+                }else{
+                    System.out.println("Token Non valido!");
+                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token non valido!");
+                }
+            }else{
+                System.out.println("Errore nella decodifica del token!");
+
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
+            }
+        }catch (ExpiredJwtException e){
+            System.out.println("Token Scaduto!");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
+        }
+    }
+
+
+
 
     @GetMapping ("/getDettagliAsta")
     public DettagliAstaDTO getDettagliAsta(@RequestParam int idAsta, @RequestParam String mailUtente, @RequestParam String token){
@@ -279,7 +308,7 @@ public class APIController {
                 throw new RuntimeException(e);
             }
             //return token
-            MyToken myToken = new MyToken(jwsToken);
+            MyToken myToken = new MyToken(jwsToken, false);
             System.out.println(myToken.getToken());
             return myToken;
         }
@@ -295,9 +324,13 @@ public class APIController {
         System.out.println("Richiesta di Accesso Utente: "+utenteAutenticazioneDTO.mail);
         int status = controller.controllerUtenti.verificaUtente(utenteAutenticazioneDTO.mail, utenteAutenticazioneDTO.password);
         if(status==1){ //Utente verificato con successo
+            Boolean isBusiness = false;
+            if(controller.controllerUtenti.getUtenteByEmail(utenteAutenticazioneDTO.mail) instanceof UtenteBusiness){
+                isBusiness = true;
+            }
             try{
             String jwsToken = JwtUtil.encodeJWT(utenteAutenticazioneDTO.mail);
-                MyToken myToken = new MyToken(jwsToken);
+                MyToken myToken = new MyToken(jwsToken, isBusiness);
                 return myToken;
             }catch (Exception e){
                 throw new RuntimeException(e);
@@ -331,6 +364,32 @@ public class APIController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
         }
     }
+
+    @GetMapping ("/getAsteUtenteTerzi")
+    public ArrayList<AstaDTO> getAsteUtenteTerzi(@RequestParam String emailUtente, @RequestParam String emailUtenteTerzi, @RequestParam String token){
+        System.out.println("Richiesta lista Aste Storico dell'utente: "+emailUtenteTerzi+"da parte di Utente: "+emailUtente+"|Token Ricevuto: "+token);
+        try {
+            Claims claims = JwtUtil.decodeJWT(token);
+            if(claims!=null){
+                if(claims.getIssuer().equals("LootMarket")){
+                    System.out.println("Token Valido!");
+                    return controller.getAsteByEmailUtenteTerzi(emailUtente, emailUtenteTerzi);
+                }else{
+                    System.out.println("Token Non valido!");
+                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token non valido!");
+                }
+            }else{
+                System.out.println("Errore nella decodifica del token!");
+
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
+            }
+        }catch (ExpiredJwtException e){
+            System.out.println("Token Scaduto!");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
+        }
+    }
+
+
 
     @PostMapping("/postCreaAsta")
     public int postAsta(@RequestPart MultipartFile immagineProdottoDTO, @RequestPart AstaDTO astaDTO, @RequestParam String token){

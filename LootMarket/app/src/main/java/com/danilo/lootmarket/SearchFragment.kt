@@ -48,6 +48,7 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
     private var statusFiltroTavole: Boolean = false
     private var statusFiltroGadget: Boolean = false
     private var filterCounter: Int = 0;
+    private var filtroTestuale: String = ""
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -181,6 +182,7 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 searchList.clear()
                 val searchText = newText!!.toLowerCase(Locale.getDefault())
+                filtroTestuale = searchText
                 if(searchText.isNotEmpty()){
                     filteredList.forEach{
                         if(it.titoloAsta.toLowerCase(Locale.getDefault()).contains(searchText)){
@@ -266,23 +268,32 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
             filteredList.addAll(auctions)
         }else{
             if(statusFiltroFumetti){
-                filteredList.addAll(auctions.filter { it.Categoria == "Fumetti" })
+                filteredList.addAll(auctions.filter { it.Categoria == "Fumetti & Manga" })
             }
-            if(statusFiltroActionFigures == true){
+            if(statusFiltroActionFigures){
                 filteredList.addAll(auctions.filter { it.Categoria == "Action Figures" })
             }
             if(statusFiltroCarte){
                 filteredList.addAll(auctions.filter { it.Categoria == "Carte Collezionabili" })
             }
             if(statusFiltroTavole){
-                filteredList.addAll(auctions.filter { it.Categoria == "Tavole" })
+                filteredList.addAll(auctions.filter { it.Categoria == "Tavole Originali" })
             }
             if(statusFiltroGadget){
-                filteredList.addAll(auctions.filter { it.Categoria == "Gadget" })
+                filteredList.addAll(auctions.filter { it.Categoria == "Gadget e altro" })
             }
         }
         searchList.clear()
-        searchList.addAll(filteredList)
+
+        if(filtroTestuale.isNotEmpty()) {
+            filteredList.forEach {
+                if (it.titoloAsta.toLowerCase(Locale.getDefault()).contains(filtroTestuale)) {
+                    searchList.add(it)
+                }
+            }
+        }else{
+            searchList.addAll(filteredList)
+        }
         binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
     }
 }

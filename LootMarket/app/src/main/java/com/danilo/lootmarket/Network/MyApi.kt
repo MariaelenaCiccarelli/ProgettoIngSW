@@ -28,6 +28,9 @@ interface MyApi {
     @GET("/getDatiUtentePersonali")
     suspend fun getDatiUtentePersonali(@Query("mailUtente") mailUtente: String, @Query("token")  token:String): Response<UtenteDTO>
 
+    @GET("/getDatiUtenteTerzi")
+    suspend fun getDatiUtenteTerzi(@Query("mailUtente") mailUtente: String, @Query("token")  token:String): Response<UtenteDTO>
+
     @GET("/getDettagliAsta")
     suspend fun getDettagliAsta(@Query("idAsta") id: Int, @Query("mailUtente") mailUtente: String, @Query("token")  token:String): Response<DettagliAstaDTO>
 
@@ -53,7 +56,9 @@ interface MyApi {
 
     @GET("/getAsteUtente")
     suspend fun getAsteUtente(@Query("email") email: String, @Query("token") token: String): Response<ArrayList<AstaDTO>>
-    //@Header("Token") token: String,
+
+    @GET("/getAsteUtenteTerzi")
+    suspend fun getAsteUtenteTerzi(@Query("emailUtente") emailUtente: String, @Query("emailUtenteTerzi") emailTerzi: String, @Query("token") token: String): Response<ArrayList<AstaDTO>>
 
     @POST("/postIscrizione")
     suspend fun postIscrizione(@Body offertaDTO:OffertaDTO, @Query("token") token: String):Response<Int>

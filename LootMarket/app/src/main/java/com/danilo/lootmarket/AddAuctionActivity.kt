@@ -26,7 +26,6 @@ import androidx.lifecycle.lifecycleScope
 import com.danilo.lootmarket.Network.RetrofitInstance
 import com.danilo.lootmarket.Network.dto.AstaDTO
 import com.danilo.lootmarket.databinding.ActivityAddAuctionBinding
-import com.danilo.lootmarket.databinding.ActivityRecoveryBinding
 import kotlinx.coroutines.async
 import okhttp3.Headers
 import okhttp3.MediaType
@@ -45,6 +44,8 @@ import java.time.ZonedDateTime
 
 class AddAuctionActivity: AppCompatActivity() {
     private lateinit var binding: ActivityAddAuctionBinding
+
+    private var isBusiness: Boolean = false
     lateinit var galleryUri: Uri
 
     val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
@@ -61,18 +62,31 @@ class AddAuctionActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val mail: String = intent.getStringExtra("mail").toString()
         val token: String = intent.getStringExtra("token").toString()
+        isBusiness= intent.getBooleanExtra("isBusiness", false)
         enableEdgeToEdge()
         binding = ActivityAddAuctionBinding.inflate(layoutInflater)
 
         val spinnerTipo : Spinner = binding.spinnerTipoAstaPaginaAddAuction
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.auction_type_array,
-            android.R.layout.simple_spinner_item
-        ).also{ adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinnerTipo.adapter = adapter
+        if(isBusiness){
+            ArrayAdapter.createFromResource(
+                this,
+                R.array.auction_type_array,
+                android.R.layout.simple_spinner_item
+            ).also{ adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerTipo.adapter = adapter
+            }
+        }else{
+            ArrayAdapter.createFromResource(
+                this,
+                R.array.auction_type_arrayNotBusiness,
+                android.R.layout.simple_spinner_item
+            ).also{ adapter ->
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerTipo.adapter = adapter
+            }
         }
+
 
         val spinnerCategoria : Spinner = binding.spinnerCategoriaAstaPaginaAddAuction
         ArrayAdapter.createFromResource(
@@ -94,7 +108,7 @@ class AddAuctionActivity: AppCompatActivity() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if(binding.spinnerTipoAstaPaginaAddAuction.selectedItem== "Asta inversa"){
+                if(binding.spinnerTipoAstaPaginaAddAuction.selectedItem== "Asta Inversa"){
                     binding.editTextSogliaMinimaoAstaPaginaAddAuction.setText("0.00")
                     binding.editTextSogliaMinimaoAstaPaginaAddAuction.isEnabled = false
                 }else{

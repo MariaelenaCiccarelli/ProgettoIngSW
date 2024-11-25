@@ -897,6 +897,7 @@
                             android:layout_marginStart="40dp"
                             android:layout_marginEnd="40dp"
                             app:cardCornerRadius="11dp"
+
                             android:layout_centerHorizontal="false">
 
                             <EditText
@@ -908,7 +909,7 @@
                                 android:maxLines="1"
                                 android:background="@color/GoldScuro"
                                 android:padding="12dp"
-                                android:inputType="text"
+                                android:inputType="number"
                                 android:textAlignment="center"
                                 android:textColorHint="@color/Gold"
                                 android:textColor="@color/GoldBackground"

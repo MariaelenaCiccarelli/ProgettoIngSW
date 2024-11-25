@@ -40,6 +40,7 @@ import java.util.Locale
 class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente: String, private var token: String): Fragment() {
 
     private lateinit var binding: FragmentAuctionDetailsBinding
+    private var mailCreatore = ""
     //private lateinit var navController: NavController
 
 
@@ -106,7 +107,12 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
             if((offerta=="")||(numeroCarta=="")||(nomeIntestatarioCarta=="")||(dataScadenzaMese=="")||(dateScadenzaAnno=="")||(ccv=="")){
                 Toast.makeText(this.context, "Compila tutti i campi!", Toast.LENGTH_SHORT).show()
             }else{
-                postNuovaOfferta(idAuction, mailUtente,offerta.toDouble(), token)
+                if((dataScadenzaMese.toInt()>0.0) && (dataScadenzaMese.toInt()<13) &&(dateScadenzaAnno.toInt()>0.0) && (LocalDate.now().isBefore(LocalDate.of(("20"+dateScadenzaAnno).toInt(), dataScadenzaMese.toInt(), 1)))){
+                    postNuovaOfferta(idAuction, mailUtente,offerta.toDouble(), token)
+                }else{
+                    Toast.makeText(this.context, "Inserisci una carta valida!", Toast.LENGTH_SHORT).show()
+                }
+
             }
         }
 
@@ -144,7 +150,7 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
 
         binding.textViewNomeAutoreFrammentoAuctionDetails.setOnClickListener{
             val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.frame_container, OthersProfileFragment(mailUtente, token))
+            transaction?.replace(R.id.frame_container, OthersProfileFragment(mailUtente, token, mailCreatore))
             transaction?.addToBackStack(this.toString())
             transaction?.commit()
         }
@@ -161,6 +167,7 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
 
 
     fun setAuction(dettagliAsta: DettagliAstaDTO, immagineProdotto: Bitmap){
+        mailCreatore = dettagliAsta.emailCreatore
         var dataScadenza: ZonedDateTime = ZonedDateTime.of(dettagliAsta.anno, dettagliAsta.mese, dettagliAsta.giorno, 0, 0, 0,0, ZoneId.of("GMT"))
         binding.imageViewImmagineAuctionFrammentoAuctionDetails.setImageBitmap(immagineProdotto)
         binding.textViewTitoloAstaFrammentoAuctionDetails.text = dettagliAsta.titolo

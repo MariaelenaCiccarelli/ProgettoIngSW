@@ -19,6 +19,7 @@ class HomeActivity: AppCompatActivity() {
     //private lateinit var auctionsAdapter : AuctionsAdapter
     private lateinit var mail: String
     private lateinit var token: String
+    private var isBusiness: Boolean = false
 
     private lateinit var bottomNavigationView: BottomNavigationView
 
@@ -26,6 +27,7 @@ class HomeActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mail= intent.getStringExtra("mail").toString()
         token= intent.getStringExtra("token").toString()
+        isBusiness= intent.getBooleanExtra("isBusiness", false)
         enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -48,6 +50,7 @@ class HomeActivity: AppCompatActivity() {
                     val intent = Intent(this, AddAuctionActivity::class.java)
                     intent.putExtra("mail", mail)
                     intent.putExtra("token", token)
+                    intent.putExtra("isBusiness", isBusiness)
                     startActivity(intent)
                     true
                 }

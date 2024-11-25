@@ -257,4 +257,66 @@ public class Controller {
         //System.out.println(immagineProfiloCodificata);
         return new UtenteDTO(utente.getNome(), utente.getCodiceFiscale(), utente.getEmail(), utente.getDataNascita().getYear(), utente.getDataNascita().getMonthValue(), utente.getDataNascita().getDayOfMonth(), utente.getNazione(), utente.getNumeroCellulare(), utente.getIndirizzoSpedizione(), utente.getIndirizzoFatturazione(), utente.getContatti().getSitoWeb(), utente.getContatti().getFacebook(), utente.getContatti().getInstagram(), utente.getBiografia(), ragioneSociale, partitaIva, numeroAziendale, immagineProfiloCodificata);
     }
+
+    public UtenteDTO getDatiUtenteTerzi(String mailUtente){
+        Utente utente = controllerUtenti.getUtenteByEmail(mailUtente);
+        String ragioneSociale;
+        String partitaIva;
+        String numeroAziendale;
+        if((utente instanceof UtenteBusiness)){
+            ragioneSociale = ((UtenteBusiness) utente).getRagioneSociale();
+            partitaIva = ((UtenteBusiness) utente).getPartitaIva();
+            numeroAziendale = ((UtenteBusiness) utente).getNumeroAziendale();
+        }else{
+            ragioneSociale = "";
+            partitaIva = "";
+            numeroAziendale = "";
+        }
+        System.out.println(utente.getImmagineProfilo());
+        String immagineProfiloCodificata = Base64.getEncoder().encodeToString(utente.getImmagineProfilo());
+        return new UtenteDTO(utente.getNome(), "", utente.getEmail(), 0, 0, 0, utente.getNazione(), "", null, null, utente.getContatti().getSitoWeb(), utente.getContatti().getFacebook(), utente.getContatti().getInstagram(), utente.getBiografia(), ragioneSociale, partitaIva, numeroAziendale, immagineProfiloCodificata);
+    }
+
+    public ArrayList<AstaDTO> getAsteByEmailUtenteTerzi(String emailUtente, String emailUtenteTerzi){
+        ArrayList<AstaDTO> arrayRitorno = new ArrayList<>();
+        for(int i = 0; i < controllerLegami.getDatabaseSize(); i++){
+            if(controllerLegami.getLegameDatabase(i).getEmailUtente().equals(emailUtenteTerzi)){
+                Asta asta;
+                AstaDTO astaDTO;
+                String tipo="";
+                Boolean offertaFatta = false;
+                asta = controllerAste.getAstaDatabase(controllerAste.getIndiceAstaById(controllerLegami.getLegameDatabase(i).getIdAsta()));
+                if(asta.getEmailCreatore().equals(emailUtenteTerzi) && !(asta instanceof AstaConclusa)){
+                    for(int j = 0; j < controllerLegami.getDatabaseSize(); j++){
+                        System.out.print(controllerLegami.getLegameDatabase(j).getIdAsta()+" vs "+ asta.getIdAsta());
+                        System.out.print(controllerLegami.getLegameDatabase(j).getEmailUtente()+" vs "+ emailUtente);
+                        System.out.println(controllerLegami.getLegameDatabase(j).getOfferta());
+                        if((controllerLegami.getLegameDatabase(j).getIdAsta() == asta.getIdAsta()) &&
+                                (controllerLegami.getLegameDatabase(j).getEmailUtente().equals(emailUtente)) &&
+                                (controllerLegami.getLegameDatabase(j).getOfferta()!=-1)){
+                            offertaFatta = true;
+                            }
+                        }
+                    astaDTO = new AstaDTO(asta.getIdAsta(), asta.getEmailCreatore(), asta.getTitolo(), asta.getCategoria(), asta.getPrezzoPartenza(), asta.getDataScadenza().getYear(), asta.getDataScadenza().getMonthValue(), asta.getDataScadenza().getDayOfMonth(), asta.getDescrizione(), asta.getUltimaOfferta(), asta.getSogliaMinima(), tipo, offertaFatta, Base64.getEncoder().encodeToString(asta.getImmagineProdotto()));
+                    arrayRitorno.add(astaDTO);
+                }
+                /*
+                if((asta instanceof AstaConclusa)){
+                    tipo = "Asta Conclusa";
+                }else if(asta instanceof AstaTempoFisso){
+                    if(asta instanceof AstaInversa){
+                        tipo = "Asta Inversa";
+                    }else{
+                        tipo = "Asta a Tempo Fisso";
+                    }
+                }
+                */
+
+
+            }
+        }
+        return arrayRitorno;
+    }
+
+
 }
