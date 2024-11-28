@@ -20,6 +20,8 @@ class HomeActivity: AppCompatActivity() {
     private lateinit var mail: String
     private lateinit var token: String
     private var isBusiness: Boolean = false
+    private var detailsAsta: Boolean = false
+
 
     private lateinit var bottomNavigationView: BottomNavigationView
 
@@ -28,16 +30,21 @@ class HomeActivity: AppCompatActivity() {
         mail= intent.getStringExtra("mail").toString()
         token= intent.getStringExtra("token").toString()
         isBusiness= intent.getBooleanExtra("isBusiness", false)
+        detailsAsta = intent.getBooleanExtra("detailsAsta", false)
+        var idAstaDetails = intent.getIntExtra("idAstaDetails", 0)
+
         enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
 
             bottomNavigationView = findViewById(R.id.bottom_navigation)
             bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when(menuItem.itemId) {
                 R.id.bottom_home -> {
-                    replaceFragment(HomeFragment(mail, token), "HomeFragment")
+                    replaceFragment(HomeFragment(mail, token, detailsAsta, idAstaDetails ), "HomeFragment")
+                    detailsAsta=false
                     true
                 }
 
@@ -71,12 +78,14 @@ class HomeActivity: AppCompatActivity() {
 
         binding.NotificationButtonPaginaHome.setOnClickListener{
             val intent = Intent(this, NotificationActivity::class.java)
+            intent.putExtra("mail", mail)
+            intent.putExtra("token", token)
             startActivity(intent)
         }
 
 
-        replaceFragment(HomeFragment(mail, token), "HomeFragment")
-
+        replaceFragment(HomeFragment(mail, token, detailsAsta, idAstaDetails), "HomeFragment")
+        detailsAsta=false
 
 
     }

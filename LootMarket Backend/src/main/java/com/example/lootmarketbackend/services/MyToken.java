@@ -3,11 +3,11 @@ package com.example.lootmarketbackend.services;
 public class MyToken {
 
     private String token;
-    private Boolean isBusiness;
+    private boolean business;
 
-    public MyToken(String token, Boolean isBusiness) {
+    public MyToken(String token, boolean business) {
         this.token = token;
-        this.isBusiness = isBusiness;
+        this.business = business;
     }
 
     public String getToken() {
@@ -16,5 +16,13 @@ public class MyToken {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Boolean getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(boolean business) {
+        this.business = business;
     }
 }

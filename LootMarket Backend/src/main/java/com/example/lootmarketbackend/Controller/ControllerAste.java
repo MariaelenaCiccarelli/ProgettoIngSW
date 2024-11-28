@@ -56,7 +56,7 @@ public class ControllerAste {
         for(int i = 0; i < idAste.size(); i++) {
             Asta asta;
 
-            if (costiFinali.get(i) == -1) {
+            if (!(tipiAste.get(i).equals("Asta Conclusa"))){
                 if (tipiAste.get(i).equals("Asta a Tempo Fisso")) {
                     asta = new AstaTempoFisso(idAste.get(i), emailCreatori.get(i), titoli.get(i), categorie.get(i), prezziPartenza.get(i), dateScadenza.get(i), descrizioni.get(i), immaginiProdotti.get(i), ultimeOfferte.get(i), soglieMinime.get(i));
                 } else {
@@ -101,11 +101,13 @@ public class ControllerAste {
     public void concludiAstaDAO(int idAsta, String emailVincitore, double costoFinale){
         int i = getIndiceAstaById(idAsta);
         if(i != -1) {
+            System.out.println("Asta da concludere individuata!");
             Asta astaConclusa = new AstaConclusa(idAsta, databaseAste.get(i).getEmailCreatore(), databaseAste.get(i).getTitolo(), databaseAste.get(i).getCategoria(), databaseAste.get(i).getPrezzoPartenza(), databaseAste.get(i).getDataScadenza(), databaseAste.get(i).getDescrizione(), databaseAste.get(i).getImmagineProdotto(), emailVincitore, costoFinale);
             databaseAste.remove(i);
             databaseAste.add(astaConclusa);
             AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
             astaDAO.concludiAstaDB(idAsta, emailVincitore, costoFinale);
+            System.out.println("Asta conclusa con successo!");
         }
     }
 

@@ -87,56 +87,55 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
         }
 
         binding.bottoneSalvaModificheFrammentoProfile.setOnClickListener{
-            disattivaCampi(isBusiness)
-            var indirizzoFatturazione = Indirizzo(binding.editTextViaFatturazioneFrammentoProfile.text.toString(), binding.editTextCittaFatturazioneFrammentoProfile.text.toString(), binding.editTextProvinciaFatturazioneFrammentoProfile.text.toString(), binding.editTextCAPFatturazioneFrammentoProfile.text.toString())
-            var indirizzoSpedizione = Indirizzo(binding.editTextViaSpedizioneFrammentoProfile.text.toString(), binding.editTextCittaSpedizioneFrammentoProfile.text.toString(), binding.editTextProvinciaSpedizioneFrammentoProfile.text.toString(), binding.editTextCAPSpedizioneFrammentoProfile.text.toString())
+            if(isBusiness && binding.editTextNumeroAziendaleFrammentoProfile.text.toString().equals("")){
+                Toast.makeText(this.context, "Fornisci un numero aziendale!", Toast.LENGTH_SHORT).show()
+            }else{
+                disattivaCampi(isBusiness)
+                var indirizzoFatturazione = Indirizzo(binding.editTextViaFatturazioneFrammentoProfile.text.toString(), binding.editTextCittaFatturazioneFrammentoProfile.text.toString(), binding.editTextProvinciaFatturazioneFrammentoProfile.text.toString(), binding.editTextCAPFatturazioneFrammentoProfile.text.toString())
+                var indirizzoSpedizione = Indirizzo(binding.editTextViaSpedizioneFrammentoProfile.text.toString(), binding.editTextCittaSpedizioneFrammentoProfile.text.toString(), binding.editTextProvinciaSpedizioneFrammentoProfile.text.toString(), binding.editTextCAPSpedizioneFrammentoProfile.text.toString())
 
 
-            var utenteDTO = UtenteDTO(utente.informazioniBase.nome, utente.informazioniBase.codiceFiscale, utente.informazioniBase.mail, utente.informazioniBase.dataDiNascita.year, utente.informazioniBase.dataDiNascita.monthValue, utente.informazioniBase.dataDiNascita.dayOfMonth, binding.spinnerNazioneFrammentoProfile.selectedItem.toString(), binding.editTextNumeroCellulareFrammentoProfile.text.toString(),indirizzoSpedizione, indirizzoFatturazione, binding.editTextSitowebFrammentoProfile.text.toString(), binding.editTextSocialFacebookFrammentoProfile.text.toString(), binding.editTextSocialInstagramFrammentoProfile.text.toString(), binding.editTextBiografiaFrammentoProfile.text.toString(), utente.ragioneSociale, utente.partitaIva, binding.editTextNumeroAziendaleFrammentoProfile.text.toString(),"immagineInMultiPart")
-            //var immagineProfilo = binding.imageViewImmagineUtenteFrammentoProfile.drawable
-            var partImmagineDTO: MultipartBody.Part
-            if(immagineCambiata==true){
-                val fileDir = context?.applicationContext?.filesDir
-                val imageFile = File(fileDir, "immagineProfilo.png")
+                var utenteDTO = UtenteDTO(utente.informazioniBase.nome, utente.informazioniBase.codiceFiscale, utente.informazioniBase.mail, utente.informazioniBase.dataDiNascita.year, utente.informazioniBase.dataDiNascita.monthValue, utente.informazioniBase.dataDiNascita.dayOfMonth, binding.spinnerNazioneFrammentoProfile.selectedItem.toString(), binding.editTextNumeroCellulareFrammentoProfile.text.toString(),indirizzoSpedizione, indirizzoFatturazione, binding.editTextSitowebFrammentoProfile.text.toString(), binding.editTextSocialFacebookFrammentoProfile.text.toString(), binding.editTextSocialInstagramFrammentoProfile.text.toString(), binding.editTextBiografiaFrammentoProfile.text.toString(), utente.ragioneSociale, utente.partitaIva, binding.editTextNumeroAziendaleFrammentoProfile.text.toString(),"immagineInMultiPart")
+                //var immagineProfilo = binding.imageViewImmagineUtenteFrammentoProfile.drawable
+                var partImmagineDTO: MultipartBody.Part
+                if(immagineCambiata==true){
+                    val fileDir = context?.applicationContext?.filesDir
+                    val imageFile = File(fileDir, "immagineProfilo.png")
 
-                Log.println(Log.INFO, "MyNetwork", "Ho creato imageFile")
-                val inputStream = context?.contentResolver?.openInputStream(galleryUri)
-                val outputStream = FileOutputStream(imageFile)
+                    Log.println(Log.INFO, "MyNetwork", "Ho creato imageFile")
+                    val inputStream = context?.contentResolver?.openInputStream(galleryUri)
+                    val outputStream = FileOutputStream(imageFile)
 
 
-                inputStream!!.copyTo((outputStream))
-                Log.println(Log.INFO, "MyNetwork", "Ho finito con gli stream")
+                    inputStream!!.copyTo((outputStream))
+                    Log.println(Log.INFO, "MyNetwork", "Ho finito con gli stream")
 
-                val requestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-                partImmagineDTO = MultipartBody.Part.createFormData("immagineProfiloDTO", imageFile.name, requestBody)
+                    val requestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+                    partImmagineDTO = MultipartBody.Part.createFormData("immagineProfiloDTO", imageFile.name, requestBody)
 
-            }
-            else{
-                val fileDir = context?.applicationContext?.filesDir
-                val imageFile = File(fileDir, "immagineProfilo.png")
-
-                try{
-                    var out= FileOutputStream(imageFile)
-                    utente.informazioniBase.immagine.compress(Bitmap.CompressFormat.PNG, 90, out)
-                    out.flush()
-                    out.close()
-                }catch (e: Exception){
-                    e.printStackTrace()
                 }
+                else{
+                    val fileDir = context?.applicationContext?.filesDir
+                    val imageFile = File(fileDir, "immagineProfilo.png")
 
+                    try{
+                        var out= FileOutputStream(imageFile)
+                        utente.informazioniBase.immagine.compress(Bitmap.CompressFormat.PNG, 90, out)
+                        out.flush()
+                        out.close()
+                    }catch (e: Exception){
+                        e.printStackTrace()
+                    }
 
+                    Log.println(Log.INFO, "MyNetwork", "Ho finito con gli stream")
 
+                    val requestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+                    partImmagineDTO = MultipartBody.Part.createFormData("immagineProfiloDTO", imageFile.name, requestBody)
 
-                Log.println(Log.INFO, "MyNetwork", "Ho finito con gli stream")
-
-                val requestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-                partImmagineDTO = MultipartBody.Part.createFormData("immagineProfiloDTO", imageFile.name, requestBody)
-
+                }
+                postModificaUtente(partImmagineDTO, utenteDTO)
             }
 
-
-
-            postModificaUtente(partImmagineDTO, utenteDTO)
         }
 
         //fa apparire l'overlay per l'inserimento dei dati business

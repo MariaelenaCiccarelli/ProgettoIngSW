@@ -1,10 +1,7 @@
 package com.example.lootmarketbackend.API;
 
 import com.example.lootmarketbackend.Controller.Controller;
-import com.example.lootmarketbackend.Modelli.AstaTempoFisso;
-import com.example.lootmarketbackend.Modelli.Contatti;
-import com.example.lootmarketbackend.Modelli.Indirizzo;
-import com.example.lootmarketbackend.Modelli.UtenteBusiness;
+import com.example.lootmarketbackend.Modelli.*;
 import com.example.lootmarketbackend.dto.*;
 
 import com.example.lootmarketbackend.services.JwtUtil;
@@ -326,6 +323,7 @@ public class APIController {
         if(status==1){ //Utente verificato con successo
             Boolean isBusiness = false;
             if(controller.controllerUtenti.getUtenteByEmail(utenteAutenticazioneDTO.mail) instanceof UtenteBusiness){
+                System.out.println("UtenteBusiness!");
                 isBusiness = true;
             }
             try{
@@ -525,6 +523,57 @@ public class APIController {
                 if(claims.getIssuer().equals("LootMarket")){
                     System.out.println("Token Valido!");
                     return  controller.nuovaOfferta(offertaDTO.mailUtente, offertaDTO.idAsta, offertaDTO.offerta);
+                }else{
+                    System.out.println("Token Non valido!");
+                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token non valido!");
+                }
+            }else{
+                System.out.println("Errore nella decodifica del token!");
+
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
+            }
+        }catch (ExpiredJwtException e){
+            System.out.println("Token Scaduto!");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
+        }
+    }
+
+
+    @GetMapping ("/getNotificheUtente")
+    public ArrayList<NotificaDTO> getNotificheUtente(@RequestParam String email, @RequestParam String token){
+        System.out.println("Richiesta lista notifiche Utente: "+email+"|Token Ricevuto: "+token);
+        try {
+            Claims claims = JwtUtil.decodeJWT(token);
+            if(claims!=null){
+                if(claims.getIssuer().equals("LootMarket")){
+                    System.out.println("Token Valido!");
+                    return controller.getNotificheByEmailUtente(email);
+                }else{
+                    System.out.println("Token Non valido!");
+                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token non valido!");
+                }
+            }else{
+                System.out.println("Errore nella decodifica del token!");
+
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
+            }
+        }catch (ExpiredJwtException e){
+            System.out.println("Token Scaduto!");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
+        }
+    }
+
+
+    @PostMapping("/postEliminaNotifica")
+    public int postEliminaNotific(@RequestParam int idNotifica, @RequestParam String token){
+        System.out.println("Richiesta di eliminazione della notfica con id: "+idNotifica+"|Token Ricevuto: "+token);
+        try {
+            Claims claims = JwtUtil.decodeJWT(token);
+            if(claims!=null){
+                if(claims.getIssuer().equals("LootMarket")){
+                    System.out.println("Token Valido!");
+
+                    return  controller.eliminaNotifica(idNotifica);
                 }else{
                     System.out.println("Token Non valido!");
                     throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token non valido!");

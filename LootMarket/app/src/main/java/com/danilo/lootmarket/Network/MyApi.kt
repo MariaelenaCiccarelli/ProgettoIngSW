@@ -1,24 +1,20 @@
 package com.danilo.lootmarket.Network
 
-import com.danilo.lootmarket.Auction
 import com.danilo.lootmarket.Network.dto.AstaDTO
 import com.danilo.lootmarket.Network.dto.DettagliAstaDTO
 import com.danilo.lootmarket.Network.dto.MyToken
 import com.danilo.lootmarket.Network.dto.OffertaDTO
 import com.danilo.lootmarket.Network.dto.UtenteAutenticazioneDTO
 import com.danilo.lootmarket.Network.dto.UtenteDTO
+import com.danilo.lootmarket.Network.dto.NotificaDTO
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Query
-import retrofit2.http.Path
 
 interface MyApi {
 
@@ -72,4 +68,10 @@ interface MyApi {
     @Multipart
     @POST("/postCreaAsta")
     suspend fun postNuovaAstaConImmagine(@Part immagineProdottoDTO: MultipartBody.Part, @Part("astaDTO") astaDTO: AstaDTO, @Query("token") token: String):Response<Int>
+
+    @GET("/getNotificheUtente")
+    suspend fun getNotificheUtente(@Query("email") email: String, @Query("token") token: String): Response<ArrayList<NotificaDTO>>
+
+    @POST("/postEliminaNotifica")
+    suspend fun postEliminaNotifica(@Query("idNotifica") idNotifica:Int, @Query("token") token: String):Response<Int>
 }

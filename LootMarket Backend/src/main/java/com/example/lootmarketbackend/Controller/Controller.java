@@ -3,6 +3,7 @@ package com.example.lootmarketbackend.Controller;
 import com.example.lootmarketbackend.Modelli.*;
 import com.example.lootmarketbackend.dto.AstaDTO;
 import com.example.lootmarketbackend.dto.DettagliAstaDTO;
+import com.example.lootmarketbackend.dto.NotificaDTO;
 import com.example.lootmarketbackend.dto.UtenteDTO;
 import org.springframework.stereotype.Service;
 
@@ -16,26 +17,44 @@ public class Controller {
     public ControllerUtenti controllerUtenti;
     public ControllerAste controllerAste;
     public ControllerLegami controllerLegami;
+    public ControllerNotifiche controllerNotifiche;
 
     public Controller(){
         controllerUtenti = new ControllerUtenti();
         controllerAste = new ControllerAste();
         controllerLegami = new ControllerLegami();
+        controllerNotifiche = new ControllerNotifiche();
+        checkAsteScadute();
     }
 
     public void checkAsteScadute(){
-        for(int i = 0; i < controllerAste.getDatabaseSize(); i++){
+        System.out.println("Controllo scadenza Aste avviato!");
+        for(int i=0; i<controllerAste.getDatabaseSize(); i++){
             Asta asta = controllerAste.getAstaDatabase(i);
-            String emailVincitore = "";
-            if(asta.getDataScadenza().isBefore(LocalDateTime.now())){
-                int j = 0;
-                while((j < controllerLegami.getDatabaseSize()) && (controllerLegami.getLegameDatabase(j).getOfferta() != asta.getUltimaOfferta())){
-                    j++;
+            if((asta.getDataScadenza().isBefore(LocalDateTime.now())) && (!(asta instanceof AstaConclusa))){
+                System.out.println("Asta scaduta individuata: "+asta.getTitolo()+" scade il "+asta.getDataScadenza());
+                Offerta ultimaOfferta = controllerLegami.getUltimaOffertaLegame(asta.getIdAsta());
+                if(ultimaOfferta == null){
+                    System.out.println("Ultima offerta non trovata!");
+                    controllerAste.concludiAstaDAO(asta.getIdAsta(), "", -2);
+                }else{
+                    if(!(asta instanceof AstaTempoFisso) || ultimaOfferta.getOfferta() >= asta.getSogliaMinima()){
+                        System.out.println("Ultima offerta trovata, asta terminita con successo!");
+                        String emailVincitore =  ultimaOfferta.getEmailUtente();
+                        controllerAste.concludiAstaDAO(asta.getIdAsta(), emailVincitore, asta.getUltimaOfferta());
+                    }
+                    else{
+                        System.out.println("Ultima offerta non supera la soglia minima, asta fallita!");
+                        controllerAste.concludiAstaDAO(asta.getIdAsta(), "", -3);
+                    }
+
                 }
-                //emailVincitore =  controllerLegami.getLegameDatabase(j).getEmailUtente();
-                controllerAste.concludiAstaDAO(asta.getIdAsta(), emailVincitore, asta.getUltimaOfferta());
+                System.out.println("Genero le notifiche!");
+                generaNotificaAstaScaduta(asta, ultimaOfferta);
+
             }
         }
+        System.out.println("Controllo scadenza Aste terminato!");
     }
 
     //ritorna -1 se la presentazione dell'offerta non va a buon fine, 1 se invece va tutto bene, 0 se l'asta è conclusa
@@ -57,6 +76,7 @@ public class Controller {
                 }
             }
             int j = controllerLegami.getIndiceLegameByEmailAndIdAsta(email, idAsta);
+            generaNotificheNuovaOfferta(asta);
             if (j == -1) {
                 System.out.println("nessuno legame già esistente");
                 controllerLegami.aggiungiLegamiDAO(idAsta, email, nuovaOfferta, LocalDateTime.now());
@@ -318,5 +338,72 @@ public class Controller {
         return arrayRitorno;
     }
 
+    public void generaNotificheNuovaOfferta(Asta asta){
+        controllerNotifiche.aggiungiNotificaDAO(5,asta.getEmailCreatore(), asta.getIdAsta());
+
+        Legame legameUltimaOfferta = controllerLegami.getUltimaOffertaLegame(asta.getIdAsta());
+        if(legameUltimaOfferta != null){
+            controllerNotifiche.aggiungiNotificaDAO(6,legameUltimaOfferta.getEmailUtente(), asta.getIdAsta());
+        }
+
+    }
+
+    public void generaNotificaAstaScaduta(Asta asta, Offerta legameUltimaOfferta){
+        //variabile che decreta come l'asta è conclusa: 0 nessuna offerta, 1 nessuna offerta valida, 2 con successo
+        int successo = 0;
+        if(legameUltimaOfferta != null){
+            if(!(asta instanceof AstaTempoFisso) || legameUltimaOfferta.getOfferta() >= asta.getSogliaMinima()){
+                successo = 2;
+            }else{
+                successo= 1;
+            }
+
+        }
+        //scorro il database dei legami
+        for(Legame legame: controllerLegami.databaseLegami){
+            if(legame.getIdAsta() == asta.getIdAsta()){ //controllo che il legame riguardi l'asta che sta scadendo
+                if(!(legame.getEmailUtente().equals(asta.getEmailCreatore()))){ //controllo che il legame non sia del creatore
+                    if(((successo!=0) && legame instanceof Offerta legameOfferta )&&(legameOfferta.getOfferta() == legameUltimaOfferta.getOfferta())){ //controllo che il legame sia effettivamene una offerta
+                        if(successo==2){
+                            controllerNotifiche.aggiungiNotificaDAO(4,legameUltimaOfferta.getEmailUtente(), asta.getIdAsta());
+                        }else{
+                            controllerNotifiche.aggiungiNotificaDAO(7,legameUltimaOfferta.getEmailUtente(), asta.getIdAsta());
+                        }
+
+                    }else{
+                        controllerNotifiche.aggiungiNotificaDAO(3,legame.getEmailUtente(), asta.getIdAsta());
+                    }
+                }
+            }
+        }
+        if(successo==2){
+            controllerNotifiche.aggiungiNotificaDAO(2, asta.getEmailCreatore(), asta.getIdAsta());
+        }else if(successo==1){
+            controllerNotifiche.aggiungiNotificaDAO(8, asta.getEmailCreatore(), asta.getIdAsta());
+        }else{
+            controllerNotifiche.aggiungiNotificaDAO(1, asta.getEmailCreatore(), asta.getIdAsta());
+        }
+
+    }
+
+    public ArrayList<NotificaDTO> getNotificheByEmailUtente(String email){
+        ArrayList<NotificaDTO> arrayRitorno = new ArrayList<>();
+        for(int i = 0; i < controllerNotifiche.getDatabaseSize(); i++){
+            if(controllerNotifiche.getNotificaDatabase(i).getDestinatario().equals(email)){
+                Notifica notifica = controllerNotifiche.getNotificaDatabase(i);
+                Asta asta = controllerAste.getAstaDatabase(controllerAste.getIndiceAstaById(notifica.getIdAsta()));
+                System.out.println(asta.getTitolo());
+
+                NotificaDTO notificaDTO = new NotificaDTO(notifica.getId(), notifica.getTipo(), notifica.getDestinatario(), notifica.getIdAsta(), asta.getTitolo());
+
+                arrayRitorno.add(notificaDTO);
+            }
+        }
+        return arrayRitorno;
+    }
+
+    public int eliminaNotifica(int idNotifica){
+        return controllerNotifiche.eliminaNotificaDAO(idNotifica);
+    }
 
 }

@@ -27,7 +27,7 @@ import java.time.ZonedDateTime
 import java.util.Base64
 
 
-class HomeFragment(var mail: String, var token: String): Fragment(){
+class HomeFragment(var mail: String, var token: String, var detailsAsta: Boolean, var idAstaDetails: Int): Fragment(){
 
     private lateinit var binding: FragmentHomeBinding
     private var indice: Int =0
@@ -42,16 +42,26 @@ class HomeFragment(var mail: String, var token: String): Fragment(){
 
 
     ): View? {
+
         indice=0
         var auctions: ArrayList<Auction>
         //auctions = arrayListOf(auction1, auction2, auction3, auction4, auction5, auction6, auction7)
         auctions = arrayListOf()
         //auctions = listOf(getAste(0).get(0))
 
+        if(detailsAsta==true){
+            detailsAsta=false
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.frame_container, AuctionDetailsFragment(idAstaDetails, mail, token))
+            transaction?.addToBackStack(this.tag)
+            transaction?.commit()
+        }
 
 
 
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
+
         auctionsAdapter = AuctionsAdapter(auctions, this.requireContext())
 
         binding.RecyclerViewFrammentoHome.layoutManager = LinearLayoutManager(this.requireContext())
@@ -80,7 +90,10 @@ class HomeFragment(var mail: String, var token: String): Fragment(){
         })
 
         //val view = inflater.inflate(R.layout.fragment_home, container, false)
+
         return binding.root
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

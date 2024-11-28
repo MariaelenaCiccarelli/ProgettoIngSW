@@ -16,3 +16,5 @@ data class DettagliAstaDTO(val idAsta: Int,
                            val immagineAsta: String,
                            val nomeAutore: String,
                            val statusLegame: String)
+
+

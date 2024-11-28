@@ -67,7 +67,7 @@ class AddAuctionActivity: AppCompatActivity() {
         binding = ActivityAddAuctionBinding.inflate(layoutInflater)
 
         val spinnerTipo : Spinner = binding.spinnerTipoAstaPaginaAddAuction
-        if(isBusiness){
+        if(isBusiness == true){
             ArrayAdapter.createFromResource(
                 this,
                 R.array.auction_type_array,

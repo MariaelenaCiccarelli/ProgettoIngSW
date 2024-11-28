@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                 var jwtToken: MyToken = response.body()!!
                 Log.println(Log.INFO, "MyNetwork", jwtToken.toString())
                 Log.println(Log.INFO, "MyNetwork", jwtToken.token)
-                Log.println(Log.INFO, "MyNetwork", jwtToken.isBusiness.toString())
+                Log.println(Log.INFO, "MyNetwork", jwtToken.business.toString())
                 Toast.makeText(contesto, jwtToken.token, Toast.LENGTH_SHORT).show()
                 Toast.makeText(contesto, "Accesso avvenuto con successo!", Toast.LENGTH_SHORT).show()
                 binding.editTextEmailPaginaAccedi.setText("")
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(contesto, HomeActivity::class.java)
                 intent.putExtra("mail", utenteAutenticazioneDTO.mail)
                 intent.putExtra("token", jwtToken.token)
-                intent.putExtra("isBusiness", jwtToken.isBusiness)
+                intent.putExtra("isBusiness", jwtToken.business)
                 startActivity(intent)
 
                 return@async
