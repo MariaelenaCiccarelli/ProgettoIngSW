@@ -2,6 +2,8 @@
 Repository collaborativa per il progetto Loot Market dedicato all'esame di Ingegneria del Software 2023/2024
 
 # Scaletta cose rimanenti
+1. se l'email è già registrata in fase di registrazione, deve dare un toastr di errore
+2. aggiungere sottovarianti della tabella di cockburn relativa alla ricerca (errori elementi non trovati sia tramite parole che categorie)
 7. migliorare visualizzazione asta scaduta frammento auction details
 15. Decidere se, dalla home, con il tasto "indietro" si deve andare alla pagina di accesso (se l'app non ricorda le credenziali) oppure se chiudere l'applicazione
 16. al posto di nascondere la disiscrizione in caso di offerta fatta, far uscire il toastr "non è possibile disiscriversi poichè si è presentata offerta"
