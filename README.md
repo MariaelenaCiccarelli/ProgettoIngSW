@@ -2,7 +2,6 @@
 Repository collaborativa per il progetto Loot Market dedicato all'esame di Ingegneria del Software 2023/2024
 
 # Scaletta cose rimanenti
-1. se l'email è già registrata in fase di registrazione, deve dare un toastr di errore
 2. aggiungere sottovarianti della tabella di cockburn relativa alla ricerca (errori elementi non trovati sia tramite parole che categorie)
 7. migliorare visualizzazione asta scaduta frammento auction details
 15. Decidere se, dalla home, con il tasto "indietro" si deve andare alla pagina di accesso (se l'app non ricorda le credenziali) oppure se chiudere l'applicazione
@@ -24,6 +23,7 @@ Fatto) Notifiche
 Fatto) Gestione dei duplicati asta conclusa, pensare cosa succede se quell'asta non ha ricevuto offerte
 Fatto) setting soglia minima per aggiudicare l'asta
 Fatto) non è possibile modificare il numero aziendale mettendolo vuoto
+Fatto) se l'email è già registrata in fase di registrazione, deve dare un toastr di errore
 
 # Scaletta cose rimanenti calderone
 1. decidere se mandare il token come parte o come query
