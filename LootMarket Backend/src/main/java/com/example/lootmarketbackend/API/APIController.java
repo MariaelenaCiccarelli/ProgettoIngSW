@@ -3,24 +3,14 @@ package com.example.lootmarketbackend.API;
 import com.example.lootmarketbackend.Controller.Controller;
 import com.example.lootmarketbackend.Modelli.*;
 import com.example.lootmarketbackend.dto.*;
-
 import com.example.lootmarketbackend.services.JwtUtil;
 import com.example.lootmarketbackend.services.MyToken;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.jsonwebtoken.*;
-
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
-
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -30,13 +20,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
-
 import org.springframework.web.bind.annotation.RestController;
+
+
+
 
 
 @RestController
 public class APIController {
-
 
     @Autowired
     public APIController(Controller controller){
@@ -46,9 +37,12 @@ public class APIController {
 
     private Controller controller;
 
+
+
+
+
     @GetMapping ("/getAsteHome")
     public ArrayList<AstaDTO> getAsteHome(@RequestParam Integer indice, @RequestParam String token){
-
         System.out.println("Richiesta lista Aste|Token Ricevuto: "+token);
         try {
             Claims claims = JwtUtil.decodeJWT(token);
@@ -73,9 +67,11 @@ public class APIController {
     }
 
 
+
+
+
     @GetMapping ("/getDatiUtentePersonali")
     public UtenteDTO getDatiUtentePersonali(@RequestParam String mailUtente, @RequestParam String token){
-
         System.out.println("Richiesta Dati Utente: "+mailUtente+"|Token Ricevuto: "+token);
         try {
             Claims claims = JwtUtil.decodeJWT(token);
@@ -89,7 +85,6 @@ public class APIController {
                 }
             }else{
                 System.out.println("Errore nella decodifica del token!");
-
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
             }
         }catch (ExpiredJwtException e){
@@ -98,9 +93,12 @@ public class APIController {
         }
     }
 
+
+
+
+
     @GetMapping ("/getDatiUtenteTerzi")
     public UtenteDTO getDatiUtenteTerzi(@RequestParam String mailUtente, @RequestParam String token){
-
         System.out.println("Richiesta Dati Utente: "+mailUtente+"|Token Ricevuto: "+token);
         try {
             Claims claims = JwtUtil.decodeJWT(token);
@@ -114,7 +112,6 @@ public class APIController {
                 }
             }else{
                 System.out.println("Errore nella decodifica del token!");
-
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
             }
         }catch (ExpiredJwtException e){
@@ -122,81 +119,42 @@ public class APIController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
         }
     }
+
 
 
 
 
     @GetMapping ("/getDettagliAsta")
     public DettagliAstaDTO getDettagliAsta(@RequestParam int idAsta, @RequestParam String mailUtente, @RequestParam String token){
-
         System.out.println("Richiesta Dati Asta: "+idAsta+"|Token Ricevuto: "+token);
         try {
             Claims claims = JwtUtil.decodeJWT(token);
             if(claims!=null){
                 if(claims.getIssuer().equals("LootMarket")){
                     System.out.println("Token Valido!");
-
-                    return controller.getDettagliAsta(idAsta, mailUtente);
-                }else{
-                    System.out.println("Token Non valido!");
-                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token non valido!");
-                }
-            }else{
-                System.out.println("Errore nella decodifica del token!");
-
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
-            }
-        }catch (ExpiredJwtException e){
-            System.out.println("Token Scaduto!");
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
-        }
-    }
-
-
-    /*
-    @PostMapping("/postCreaAsta")
-    public void postAsta(@RequestBody AstaDTO astaDTO, @RequestParam String token){
-
-        System.out.println("Richiesta creazione Asta|Token Ricevuto: "+token);
-        try {
-            Claims claims = JwtUtil.decodeJWT(token);
-            if(claims!=null){
-                if(claims.getIssuer().equals("LootMarket")){
-                    System.out.println("Token Valido!");
-
-
-
-                    byte[] immagineProdotto = Files.readAllBytes(Paths.get("/CartellaImmagini/user_placeholder"));
-                    /*
-                    byte[] immagineProdotto = astaDTO.immagineProdotto;
-                    try (OutputStream out = new BufferedOutputStream(new FileOutputStream("./"))) {
-                        out.write(immagineProdotto);
-                    }catch (IOException e){
-                        System.out.println("Non sono riuscito a salvare l'immagine");
-                    }catch (Exception e){
-                        e.printStackTrace();
+                    DettagliAstaDTO dettagliAstaDTO = controller.getDettagliAsta(idAsta, mailUtente);
+                    if(dettagliAstaDTO!=null){
+                        return dettagliAstaDTO;
+                    }else{
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Asta inesistente!");
                     }
-
-                    LocalDateTime dataScadenza = LocalDateTime.of(astaDTO.anno, astaDTO.mese, astaDTO.giorno, 23, 59, 59);
-                    controller.creaAsta(astaDTO.emailCreatore, astaDTO.titolo, astaDTO.categoria, astaDTO.prezzoPartenza, dataScadenza, astaDTO.descrizione,immagineProdotto, astaDTO.ultimaOfferta, astaDTO.sogliaMinima, astaDTO.tipoAsta);
-
                 }else{
                     System.out.println("Token Non valido!");
                     throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token non valido!");
                 }
             }else{
                 System.out.println("Errore nella decodifica del token!");
-
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
             }
         }catch (ExpiredJwtException e){
             System.out.println("Token Scaduto!");
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
-    */
+
+
+
+
 
     @PostMapping("/postModificaUtente")
     public int postModificaUtente(@RequestPart MultipartFile immagineProfiloDTO, @RequestPart UtenteDTO utenteDTO, @RequestParam String token){
@@ -206,8 +164,6 @@ public class APIController {
             if(claims!=null){
                 if(claims.getIssuer().equals("LootMarket")){
                     System.out.println("Token Valido!");
-
-
                     byte[] immagineProfilo = new byte[0];
                     try{
                         immagineProfilo = immagineProfiloDTO.getBytes();
@@ -222,15 +178,12 @@ public class APIController {
                         System.out.println("Errore nella modifica utente!");
                         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Modifica utente fallita!");
                     }
-
-
                 }else{
                     System.out.println("Token Non valido!");
                     throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token non valido!");
                 }
             }else{
                 System.out.println("Errore nella decodifica del token!");
-
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
             }
         }catch (ExpiredJwtException e){
@@ -238,6 +191,10 @@ public class APIController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
         }
     }
+
+
+
+
 
     @PostMapping("/postUpgradeUtente")
     public int postUpgradeUtente(@RequestBody UtenteDTO utenteDTO, @RequestParam String token){
@@ -247,8 +204,6 @@ public class APIController {
             if(claims!=null){
                 if(claims.getIssuer().equals("LootMarket")){
                     System.out.println("Token Valido!");
-
-
                     if(controller.controllerUtenti.upgradeUtenteDAO(utenteDTO.mail,utenteDTO.ragioneSociale, utenteDTO.partitaIva, utenteDTO.numeroAziendale)==0){
                         System.out.println("Upgrade utente fallito!");
                         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Upgrade utente fallito!");
@@ -263,7 +218,6 @@ public class APIController {
                 }
             }else{
                 System.out.println("Errore nella decodifica del token!");
-
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
             }
         }catch (ExpiredJwtException e){
@@ -281,18 +235,6 @@ public class APIController {
     public MyToken postRegistraUtente(@RequestBody UtenteAutenticazioneDTO utenteAutenticazioneDTO) throws IOException {
         System.out.println("Richiesta Registrazione Utente: "+utenteAutenticazioneDTO.mail);
         byte[] immagineProfilo = Files.readAllBytes(Paths.get("./CartellaImmagini/placeholder.png"));
-        /*
-        try (OutputStream out = new BufferedOutputStream(new FileOutputStream("./CartellaImmagini/immagineDaSalvare.png"))) {
-            out.write(immagineProfilo);
-            System.out.println("Ho salvato l'immagine");
-        }catch (IOException e){
-            System.out.println("Non sono riuscito a salvare l'immagine");
-            e.printStackTrace();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-       */
-
         Contatti contatti = new Contatti("", "", "");
         Indirizzo indirizzoVuoto = new Indirizzo("", "", "", "");
         LocalDate dataNascita = LocalDate.of(utenteAutenticazioneDTO.dataDiNascitaAnno, utenteAutenticazioneDTO.dataDiNascitaMese, utenteAutenticazioneDTO.dataDiNascitaGiorno);
@@ -304,16 +246,19 @@ public class APIController {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            //return token
             MyToken myToken = new MyToken(jwsToken, false);
-            System.out.println(myToken.getToken());
             return myToken;
         }
-        else{ //errore durante la registrazione dell'utente
+        else if(status==2){ //errore durante la registrazione dell'utente
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "2");
+        }else{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la registrazione!");
-
         }
     }
+
+
+
+
 
     @PostMapping("/postAccediUtente")
     @ResponseBody
@@ -323,7 +268,6 @@ public class APIController {
         if(status==1){ //Utente verificato con successo
             Boolean isBusiness = false;
             if(controller.controllerUtenti.getUtenteByEmail(utenteAutenticazioneDTO.mail) instanceof UtenteBusiness){
-                System.out.println("UtenteBusiness!");
                 isBusiness = true;
             }
             try{
@@ -333,11 +277,14 @@ public class APIController {
             }catch (Exception e){
                 throw new RuntimeException(e);
             }
-        }else{ //errore durante l'autenticazione dell'utente
+        }else{
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la autenticazione!");
-
         }
     }
+
+
+
+
 
     @GetMapping ("/getAsteUtente")
     public ArrayList<AstaDTO> getAsteUtente(@RequestParam String email, @RequestParam String token){
@@ -363,6 +310,10 @@ public class APIController {
         }
     }
 
+
+
+
+
     @GetMapping ("/getAsteUtenteTerzi")
     public ArrayList<AstaDTO> getAsteUtenteTerzi(@RequestParam String emailUtente, @RequestParam String emailUtenteTerzi, @RequestParam String token){
         System.out.println("Richiesta lista Aste Storico dell'utente: "+emailUtenteTerzi+"da parte di Utente: "+emailUtente+"|Token Ricevuto: "+token);
@@ -378,7 +329,6 @@ public class APIController {
                 }
             }else{
                 System.out.println("Errore nella decodifica del token!");
-
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
             }
         }catch (ExpiredJwtException e){
@@ -389,10 +339,10 @@ public class APIController {
 
 
 
+
+
     @PostMapping("/postCreaAsta")
     public int postAsta(@RequestPart MultipartFile immagineProdottoDTO, @RequestPart AstaDTO astaDTO, @RequestParam String token){
-
-
         System.out.println("Richiesta creazione Asta|Con token: "+token);
         try {
             Claims claims = JwtUtil.decodeJWT(token);
@@ -403,7 +353,6 @@ public class APIController {
 
                     Path uploadPath = Path.of("CartellaImmagini");
                     Path filePath = uploadPath.resolve(uniqueFileName);
-
                     if (!Files.exists(uploadPath)) {
                         try {
                             Files.createDirectories(uploadPath);
@@ -412,15 +361,12 @@ public class APIController {
                             throw new RuntimeException(e);
                         }
                     }
-
                     try {
                         Files.copy(immagineProdottoDTO.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
                     } catch (IOException e) {
                         System.out.println(e.getMessage());
                         throw new RuntimeException(e);
                     }
-
-
                     byte[] immagineProdotto = new byte[0];
                     try{
                         immagineProdotto = immagineProdottoDTO.getBytes();
@@ -428,17 +374,14 @@ public class APIController {
                         System.out.println(e.getMessage());
                         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Token Scaduto!");
                     }
-
                     LocalDateTime dataScadenza = LocalDateTime.of(astaDTO.anno, astaDTO.mese, astaDTO.giorno, 23, 59, 59);
                     controller.creaAsta(astaDTO.emailCreatore, astaDTO.titolo, astaDTO.categoria, astaDTO.prezzoPartenza, dataScadenza, astaDTO.descrizione,immagineProdotto, astaDTO.ultimaOfferta, astaDTO.sogliaMinima, astaDTO.tipoAsta);
-
                 }else{
                     System.out.println("Token Non valido!");
                     throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token non valido!");
                 }
             }else{
                 System.out.println("Errore nella decodifica del token!");
-
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
             }
         }catch (ExpiredJwtException e){
@@ -448,24 +391,10 @@ public class APIController {
         return 0;
     }
 
-    @GetMapping("/provaImmagine")
-    public int provaImmagine(){
-
-        AstaTempoFisso asta = (AstaTempoFisso)controller.controllerAste.getAstaDatabase(controller.controllerAste.getIndiceAstaById(42));
-        byte[] immagineAsta = asta.getImmagineProdotto();
-
-        System.out.println("Immagine è'" +immagineAsta.toString());
-        String uniqueFileName = UUID.randomUUID().toString() + "_" + immagineAsta.toString();
-        Path path = Path.of("CartellaImmagini/immagineProva2.png");
-        try {
-            Files.write(path, immagineAsta);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
 
-        return 0;
-    }
+
+
     @PostMapping("/postIscrizione")
     public int postIscrizione(@RequestBody OffertaDTO offertaDTO, @RequestParam String token){
         System.out.println("Richiesta di Iscrizione all'asta: "+offertaDTO.idAsta+" da parte di "+offertaDTO.mailUtente+"|Token Ricevuto: "+token);
@@ -481,7 +410,6 @@ public class APIController {
                 }
             }else{
                 System.out.println("Errore nella decodifica del token!");
-
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
             }
         }catch (ExpiredJwtException e){
@@ -489,6 +417,10 @@ public class APIController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
         }
     }
+
+
+
+
 
     @PostMapping("/postDisiscrizione")
     public int postDisiscrizione(@RequestBody OffertaDTO offertaDTO, @RequestParam String token){
@@ -505,7 +437,6 @@ public class APIController {
                 }
             }else{
                 System.out.println("Errore nella decodifica del token!");
-
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
             }
         }catch (ExpiredJwtException e){
@@ -513,6 +444,10 @@ public class APIController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
         }
     }
+
+
+
+
 
     @PostMapping("/postNuovaOfferta")
     public int postNuovaOfferta(@RequestBody OffertaDTO offertaDTO, @RequestParam String token){
@@ -529,7 +464,6 @@ public class APIController {
                 }
             }else{
                 System.out.println("Errore nella decodifica del token!");
-
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
             }
         }catch (ExpiredJwtException e){
@@ -537,6 +471,9 @@ public class APIController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
         }
     }
+
+
+
 
 
     @GetMapping ("/getNotificheUtente")
@@ -554,7 +491,6 @@ public class APIController {
                 }
             }else{
                 System.out.println("Errore nella decodifica del token!");
-
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
             }
         }catch (ExpiredJwtException e){
@@ -564,15 +500,17 @@ public class APIController {
     }
 
 
+
+
+
     @PostMapping("/postEliminaNotifica")
-    public int postEliminaNotific(@RequestParam int idNotifica, @RequestParam String token){
+    public int postEliminaNotifica(@RequestParam int idNotifica, @RequestParam String token){
         System.out.println("Richiesta di eliminazione della notfica con id: "+idNotifica+"|Token Ricevuto: "+token);
         try {
             Claims claims = JwtUtil.decodeJWT(token);
             if(claims!=null){
                 if(claims.getIssuer().equals("LootMarket")){
                     System.out.println("Token Valido!");
-
                     return  controller.eliminaNotifica(idNotifica);
                 }else{
                     System.out.println("Token Non valido!");
@@ -580,7 +518,6 @@ public class APIController {
                 }
             }else{
                 System.out.println("Errore nella decodifica del token!");
-
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Errore durante la decodifica del token");
             }
         }catch (ExpiredJwtException e){
@@ -589,4 +526,17 @@ public class APIController {
         }
     }
 
+
+
+
+
+    @GetMapping("/getEsisteUtente")
+    public int getEsisteUtente(@RequestParam String email) {
+        System.out.println("Richiesta di Esistenza utente: " + email);
+        if(controller.controllerUtenti.utenteEsistente(email)){
+            return 1;
+        }
+        else
+            return 0;
+    }
 }

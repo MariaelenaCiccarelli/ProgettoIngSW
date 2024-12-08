@@ -143,4 +143,25 @@ public class ControllerAste {
             return 2;
         }
     }
+
+    public int effettuaOfferta(String emailOfferente, int indiceAsta, double offerta){
+
+        Asta asta = getAstaDatabase(indiceAsta);
+        if(asta.getEmailCreatore().equals(emailOfferente)){
+            return -1;
+        }
+        if(asta instanceof AstaConclusa){
+            return 0;
+        }
+        if(asta instanceof AstaInversa astaInversa) {
+            if (astaInversa.presentaOfferta(offerta) == -1) {
+                return -2;
+            }
+        }else if (asta instanceof AstaTempoFisso astaTempoFisso) {
+            if (astaTempoFisso.presentaOfferta(offerta) == -1) {
+                return -2;
+            }
+        }
+        return 1;
+    }
 }

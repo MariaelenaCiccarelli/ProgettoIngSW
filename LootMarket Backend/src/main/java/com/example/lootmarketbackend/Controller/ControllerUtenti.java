@@ -70,6 +70,9 @@ public class ControllerUtenti {
     }
 
     public  int aggiungiUtenteDAO(String email, String password, String nome, String cognome, String codiceFiscale, String nazione, String numeroCellulare, LocalDate dataNascita, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione){
+        if(utenteEsistente(email)){
+            return 2;
+        }
         Utente utente = new Utente(email, password, nome, cognome, codiceFiscale, nazione, numeroCellulare, dataNascita, contatti, immagineProfilo , biografia, indirizzoFatturazione, indirizzoSpedizione);
         databaseUtenti.add(utente);
         UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
@@ -120,6 +123,7 @@ public class ControllerUtenti {
             i++;
         }
         if(email.equals(databaseUtenti.get(i).getEmail())){
+            System.out.println("utente trovato!");
             return i;
         }
         return -1;
@@ -131,6 +135,15 @@ public class ControllerUtenti {
             return databaseUtenti.get(i);
         }else{
             return null;
+            }
         }
+    public Boolean utenteEsistente(String mail){
+        for(Utente utente : databaseUtenti){
+            if(utente.getEmail().equals(mail)){
+                return true;
+            }
+        }
+        return false;
+
     }
 }
