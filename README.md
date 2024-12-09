@@ -1,6 +1,18 @@
 # ProgettoIngSW
 Repository collaborativa per il progetto Loot Market dedicato all'esame di Ingegneria del Software 2023/2024
 
+statechart
+use case
+class diagram (+design)
+sequence diagram (design)
+
+documentazione (test, sonarqube, architettura, etc)
+
+sonarqube
+log dei test
+test
+
+
 # Scaletta cose rimanenti
 2. fare check mockup
 
