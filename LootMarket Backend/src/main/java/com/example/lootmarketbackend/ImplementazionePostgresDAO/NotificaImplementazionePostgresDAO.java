@@ -5,12 +5,10 @@ import com.example.lootmarketbackend.Database.ConnessioneDatabase;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class NotificaImplementazionePostgresDAO implements NotificaDAO {
-
 
     private Connection connection;
 
@@ -18,10 +16,13 @@ public class NotificaImplementazionePostgresDAO implements NotificaDAO {
         try {
             connection = ConnessioneDatabase.getInstance().connection;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
+
+
+
+
 
     @Override
     public void leggiNotificheDB(ArrayList<Integer> idNotifiche,
@@ -44,6 +45,11 @@ public class NotificaImplementazionePostgresDAO implements NotificaDAO {
         }
 
     }
+
+
+
+
+
     //1 notifica aggiunta con successo, 0 altrimenti
     @Override
     public int aggiungiNotificaDB(
@@ -59,8 +65,6 @@ public class NotificaImplementazionePostgresDAO implements NotificaDAO {
             aggiungiNotificheStatement.setDate(4, Date.valueOf(LocalDate.now()));
             aggiungiNotificheStatement.setTime(5, Time.valueOf(LocalTime.now()));
 
-
-
             aggiungiNotificheStatement.executeUpdate();
             connection.close();
             return 1;
@@ -68,8 +72,12 @@ public class NotificaImplementazionePostgresDAO implements NotificaDAO {
             System.out.println("Errore: "+e.getMessage());
             return 0;
         }
-
     }
+
+
+
+
+
     //1 notifica eliminata con successo, 0 altrimenti
     @Override
     public int eliminaNotificaDB(int id) {
@@ -82,6 +90,10 @@ public class NotificaImplementazionePostgresDAO implements NotificaDAO {
             System.out.println("Errore: " + e.getMessage());
             return 0;
         }
-
     }
+
+
+
+
+
 }

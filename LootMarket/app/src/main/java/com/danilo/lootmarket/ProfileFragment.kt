@@ -19,8 +19,8 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.danilo.lootmarket.Network.RetrofitInstance
-import com.danilo.lootmarket.Network.dto.UtenteDTO
+import com.danilo.lootmarket.network.RetrofitInstance
+import com.danilo.lootmarket.network.dto.UtenteDTO
 import com.danilo.lootmarket.databinding.FragmentProfileBinding
 import kotlinx.coroutines.async
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -40,7 +40,7 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
     private var isBusiness: Boolean = false
     private lateinit var utente: UserBusiness
     lateinit var galleryUri: Uri
-    var immagineCambiata:Boolean = false
+    private var immagineCambiata:Boolean = false
 
     val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
         immagineCambiata = true
@@ -59,7 +59,6 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
     ): View? {
 
         getDatiUtentePersonali(mail)
-        // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(layoutInflater)
 
         var spinner : Spinner = binding.spinnerNazioneFrammentoProfile
@@ -74,17 +73,16 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
 
         disattivaCampi(isBusiness)
 
-
-
         binding.bottoneModificaFrammentoProfile.setOnClickListener{
             attivaCampi(isBusiness)
         }
 
+
         binding.bottoneAnnullaModificheFrammentoProfile.setOnClickListener{
             disattivaCampi(isBusiness)
             setDatiBusiness(utente)
-
         }
+
 
         binding.bottoneSalvaModificheFrammentoProfile.setOnClickListener{
             if(isBusiness && binding.editTextNumeroAziendaleFrammentoProfile.text.toString().equals("")){
@@ -93,31 +91,23 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
                 disattivaCampi(isBusiness)
                 var indirizzoFatturazione = Indirizzo(binding.editTextViaFatturazioneFrammentoProfile.text.toString(), binding.editTextCittaFatturazioneFrammentoProfile.text.toString(), binding.editTextProvinciaFatturazioneFrammentoProfile.text.toString(), binding.editTextCAPFatturazioneFrammentoProfile.text.toString())
                 var indirizzoSpedizione = Indirizzo(binding.editTextViaSpedizioneFrammentoProfile.text.toString(), binding.editTextCittaSpedizioneFrammentoProfile.text.toString(), binding.editTextProvinciaSpedizioneFrammentoProfile.text.toString(), binding.editTextCAPSpedizioneFrammentoProfile.text.toString())
-
-
                 var utenteDTO = UtenteDTO(utente.informazioniBase.nome, utente.informazioniBase.codiceFiscale, utente.informazioniBase.mail, utente.informazioniBase.dataDiNascita.year, utente.informazioniBase.dataDiNascita.monthValue, utente.informazioniBase.dataDiNascita.dayOfMonth, binding.spinnerNazioneFrammentoProfile.selectedItem.toString(), binding.editTextNumeroCellulareFrammentoProfile.text.toString(),indirizzoSpedizione, indirizzoFatturazione, binding.editTextSitowebFrammentoProfile.text.toString(), binding.editTextSocialFacebookFrammentoProfile.text.toString(), binding.editTextSocialInstagramFrammentoProfile.text.toString(), binding.editTextBiografiaFrammentoProfile.text.toString(), utente.ragioneSociale, utente.partitaIva, binding.editTextNumeroAziendaleFrammentoProfile.text.toString(),"immagineInMultiPart")
-                //var immagineProfilo = binding.imageViewImmagineUtenteFrammentoProfile.drawable
                 var partImmagineDTO: MultipartBody.Part
                 if(immagineCambiata==true){
                     val fileDir = context?.applicationContext?.filesDir
                     val imageFile = File(fileDir, "immagineProfilo.png")
 
-                    Log.println(Log.INFO, "MyNetwork", "Ho creato imageFile")
                     val inputStream = context?.contentResolver?.openInputStream(galleryUri)
                     val outputStream = FileOutputStream(imageFile)
 
-
                     inputStream!!.copyTo((outputStream))
-                    Log.println(Log.INFO, "MyNetwork", "Ho finito con gli stream")
 
                     val requestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
                     partImmagineDTO = MultipartBody.Part.createFormData("immagineProfiloDTO", imageFile.name, requestBody)
-
                 }
                 else{
                     val fileDir = context?.applicationContext?.filesDir
                     val imageFile = File(fileDir, "immagineProfilo.png")
-
                     try{
                         var out= FileOutputStream(imageFile)
                         utente.informazioniBase.immagine.compress(Bitmap.CompressFormat.PNG, 90, out)
@@ -126,16 +116,11 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
                     }catch (e: Exception){
                         e.printStackTrace()
                     }
-
-                    Log.println(Log.INFO, "MyNetwork", "Ho finito con gli stream")
-
                     val requestBody = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
                     partImmagineDTO = MultipartBody.Part.createFormData("immagineProfiloDTO", imageFile.name, requestBody)
-
                 }
                 postModificaUtente(partImmagineDTO, utenteDTO)
             }
-
         }
 
         //fa apparire l'overlay per l'inserimento dei dati business
@@ -147,18 +132,15 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
 
         }
 
-        //***
         binding.bottoneOverlayFrammentoProfile.setOnClickListener{
             val ragioneSociale = binding.editTextOverlayRagioneSocialeFrammentoProfile.text.toString()
             val partitaIva = binding.editTextOverlayPartivaIvaFrammentoProfile.text.toString()
             val numeroAziendale = binding.editTextOverlayNumeroAziendaleFrammentoProfile.text.toString()
-
             if(ragioneSociale ==""||partitaIva==""||numeroAziendale==""){
                 Toast.makeText(this.context, "Compila tutti i campi!", Toast.LENGTH_SHORT).show()
             }else {
                 var indirizzoFatturazione = Indirizzo(binding.editTextViaFatturazioneFrammentoProfile.text.toString(), binding.editTextCittaFatturazioneFrammentoProfile.text.toString(), binding.editTextProvinciaFatturazioneFrammentoProfile.text.toString(), binding.editTextCAPFatturazioneFrammentoProfile.text.toString())
                 var indirizzoSpedizione = Indirizzo(binding.editTextViaSpedizioneFrammentoProfile.text.toString(), binding.editTextCittaSpedizioneFrammentoProfile.text.toString(), binding.editTextProvinciaSpedizioneFrammentoProfile.text.toString(), binding.editTextCAPSpedizioneFrammentoProfile.text.toString())
-                var array = byteArrayOf(0x48, 101, 108, 108, 111)
                 var utenteDTO = UtenteDTO(utente.informazioniBase.nome, utente.informazioniBase.codiceFiscale, utente.informazioniBase.mail, utente.informazioniBase.dataDiNascita.year, utente.informazioniBase.dataDiNascita.monthValue, utente.informazioniBase.dataDiNascita.dayOfMonth, binding.spinnerNazioneFrammentoProfile.selectedItem.toString(), binding.editTextNumeroCellulareFrammentoProfile.text.toString(),indirizzoSpedizione, indirizzoFatturazione, binding.editTextSitowebFrammentoProfile.text.toString(), binding.editTextSocialFacebookFrammentoProfile.text.toString(), binding.editTextSocialInstagramFrammentoProfile.text.toString(), binding.editTextBiografiaFrammentoProfile.text.toString(), ragioneSociale, partitaIva, numeroAziendale, "miao")
                 postUpgradeUtente(utenteDTO)
             }
@@ -177,13 +159,8 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
     }
 
 
-
-
-
-
-
         //dato un utente base, compila i suoi campi nella pagina
-        fun setDatiBase(utente: UserBase){
+        private fun setDatiBase(utente: UserBase){
             //Settaggio campi
             binding.imageViewImmagineUtenteFrammentoProfile.setImageBitmap(utente.immagine)
             binding.textViewNomeUtenteFrammentoProfile.text = utente.nome
@@ -211,17 +188,17 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
 
         }
 
+
     //dato un utente compila tutti i suoi campi, compresi quelli business
-    fun setDatiBusiness(utenteBusiness: UserBusiness){
+    private fun setDatiBusiness(utenteBusiness: UserBusiness){
         setDatiBase(utenteBusiness.informazioniBase)
         binding.textViewValueRagioneSocialeFrammentoProfile.setText(utenteBusiness.ragioneSociale)
         binding.textViewValuePartivaIvaFrammentoProfile.setText(utenteBusiness.partitaIva)
         binding.editTextNumeroAziendaleFrammentoProfile.setText(utenteBusiness.numeroAziendale)
-
     }
 
     //Attiva la modifica dei campi, inclusi quelli Business se l'utente è Business
-    fun attivaCampi(isBusiness: Boolean){
+    private fun attivaCampi(isBusiness: Boolean){
 
         binding.cardBottoneCambiaImmagineFrammentoProfile.isVisible= true
         binding.spinnerNazioneFrammentoProfile.setBackgroundColor(Color.parseColor("#EBCA71"))
@@ -267,16 +244,13 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
         if(isBusiness){
             binding.editTextNumeroAziendaleFrammentoProfile.setBackgroundColor(Color.parseColor("#EBCA71"))
             binding.editTextNumeroAziendaleFrammentoProfile.isEnabled = true
-
         }else{
             binding.bottonePassaABusinessFrammentoProfile.isVisible = false
         }
-
-
     }
 
     //Disattiva la modifica dei campi, inclusi quelli Business nel caso l'utente lo sia
-    fun disattivaCampi(isBusiness: Boolean){
+    private fun disattivaCampi(isBusiness: Boolean){
         binding.spinnerNazioneFrammentoProfile.setBackgroundColor(Color.parseColor("#FFF6DD"))
         binding.spinnerNazioneFrammentoProfile.isEnabled= false
         binding.cardBottoneCambiaImmagineFrammentoProfile.isVisible= false
@@ -321,14 +295,14 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
         if(isBusiness){
             binding.editTextNumeroAziendaleFrammentoProfile.setBackgroundColor(Color.parseColor("#FFF6DD"))
             binding.editTextNumeroAziendaleFrammentoProfile.isEnabled = false
-
         }else{
             binding.bottonePassaABusinessFrammentoProfile.isVisible = true
         }
     }
 
+
     //Rende invisibili i campi Business
-    fun disattivaCampiBusiness(){
+    private fun disattivaCampiBusiness(){
         binding.textViewLabelInfoBusinessFrammentoProfile.isVisible = false
         binding.textViewLabelRagioneSocialeFrammentoProfile.isVisible = false
         binding.textViewValueRagioneSocialeFrammentoProfile.isVisible = false
@@ -340,7 +314,7 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
     }
 
     //Rende visibile i campi Business
-    fun attivaCampiBusiness(){
+    private fun attivaCampiBusiness(){
         binding.textViewLabelInfoBusinessFrammentoProfile.isVisible = true
         binding.textViewLabelRagioneSocialeFrammentoProfile.isVisible = true
         binding.textViewValueRagioneSocialeFrammentoProfile.isVisible = true
@@ -354,7 +328,7 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
         binding.cardBottoneModificaFrammentoProfile.isVisible = true
     }
 
-    fun annullaPassaBusiness(){
+    private fun annullaPassaBusiness(){
         binding.cardOverlayFrammentoProfile.isVisible = false
         binding.cardBackgroundOverlayFrammentoProfile.isVisible = false
         binding.cardBottoneModificaFrammentoProfile.isVisible = true
@@ -387,34 +361,21 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
             if(response.isSuccessful && response.body() != null){
                 Log.println(Log.INFO, "MyNetwork", "Response is successful")
                 var utenteRecuperato: UtenteDTO = response.body()!!
-                Log.println(Log.INFO, "MyNetwork", utenteRecuperato.toString())
-
                 var dataNascita = LocalDate.of(utenteRecuperato.dataDiNascitaAnno, utenteRecuperato.dataDiNascitaMese, utenteRecuperato.dataDiNascitaGiorno)
                 val immagineProfiloByteArrayDecoded = Base64.getDecoder().decode(utenteRecuperato.immagineProfilo)
-                Log.println(Log.INFO, "MyNetwork", immagineProfiloByteArrayDecoded.toString())
-
-                Log.println(Log.INFO, "MyNetwork", "Ho trasformato la stringa in byte Array")
-
                 try{
                     var immagineProfilo= BitmapFactory.decodeByteArray(immagineProfiloByteArrayDecoded, 0, immagineProfiloByteArrayDecoded.size)
 
+                    var utenteBase = UserBase(immagineProfilo, utenteRecuperato.nome, utenteRecuperato.codiceFiscale, utenteRecuperato.mail, dataNascita, utenteRecuperato.nazione, utenteRecuperato.numeroCellulare, utenteRecuperato.indirizzoSpedizione, utenteRecuperato.indirizzoFatturazione, utenteRecuperato.sito, utenteRecuperato.socialFacebook, utenteRecuperato.socialInstagram, utenteRecuperato.biografia)
 
-                Log.println(Log.INFO, "MyNetwork", "Ho trasformato il byte array in bitmap")
+                    if(!utenteRecuperato.ragioneSociale.equals("")){
 
-                    Log.println(Log.INFO, "MyNetwork", utenteRecuperato.nome)
-                    Log.println(Log.INFO, "MyNetwork", immagineProfilo.toString())
-                var utenteBase = UserBase(immagineProfilo, utenteRecuperato.nome, utenteRecuperato.codiceFiscale, utenteRecuperato.mail, dataNascita, utenteRecuperato.nazione, utenteRecuperato.numeroCellulare, utenteRecuperato.indirizzoSpedizione, utenteRecuperato.indirizzoFatturazione, utenteRecuperato.sito, utenteRecuperato.socialFacebook, utenteRecuperato.socialInstagram, utenteRecuperato.biografia)
-                Log.println(Log.INFO, "MyNetwork", utenteBase.toString())
-                if(!utenteRecuperato.ragioneSociale.equals("")){
-                    Log.println(Log.INFO, "MyNetwork", "utente business recuperato!")
-                    isBusiness = true
-                    var utenteBusiness = UserBusiness(utenteBase, utenteRecuperato.ragioneSociale, utenteRecuperato.partitaIva, utenteRecuperato.numeroAziendale)
-                    //Log.println(Log.INFO, "MyNetwork", utenteBusiness.toString())
-                    setDatiBusiness(utenteBusiness)
-                    attivaCampiBusiness()
-                    utente = utenteBusiness
+                        isBusiness = true
+                        var utenteBusiness = UserBusiness(utenteBase, utenteRecuperato.ragioneSociale, utenteRecuperato.partitaIva, utenteRecuperato.numeroAziendale)
+                        setDatiBusiness(utenteBusiness)
+                        attivaCampiBusiness()
+                        utente = utenteBusiness
                 }else{
-                    Log.println(Log.INFO, "MyNetwork", "utente base recuperato!")
                     isBusiness= false
                     setDatiBase(utenteBase)
                     disattivaCampiBusiness()
@@ -437,11 +398,10 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
         }
     }
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun postModificaUtente(partImmagine: MultipartBody.Part, utenteDTO: UtenteDTO){
-
         lifecycleScope.async {
-
             val response = try{
                 RetrofitInstance.api.postModificaUtente(partImmagine, utenteDTO, token)
             }catch (e: IOException){
@@ -477,9 +437,7 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
     }
 
     private fun postUpgradeUtente(utenteDTO: UtenteDTO){
-
         lifecycleScope.async {
-
             val response = try{
                 RetrofitInstance.api.postUpgradeUtente(utenteDTO, token)
             }catch (e: IOException){
@@ -487,7 +445,6 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
                 Log.e("MyNetwork", e.message.toString())
                 Log.e("MyNetwork", e.cause.toString())
                 Log.e("MyNetwork", e.toString())
-
                 annullaPassaBusiness()
                 return@async
             }catch (e: HttpException){
@@ -515,10 +472,10 @@ class ProfileFragment(var mail: String, var token: String) : Fragment() {
                     annullaPassaBusiness()
                     Toast.makeText(context, "Passaggio a Business fallito", Toast.LENGTH_SHORT).show()
                 }
-
                 return@async
             }
         }
     }
+
 
 }

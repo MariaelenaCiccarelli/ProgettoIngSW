@@ -18,11 +18,7 @@ public interface LegameDAO {
                           double offerta,
                           LocalDateTime timestamp);
 
-    void eliminaLegameDB(int idAsta,
-                         String emailOfferente);
+    void eliminaLegameDB(int idAsta, String emailOfferente);
 
-    void modificaUltimaOffertaLegameDB(int idAsta,
-                                       String emailOfferente,
-                                       double offerta,
-                                       LocalDateTime timestamp);
+    void modificaUltimaOffertaLegameDB(int idAsta, String emailOfferente, double offerta, LocalDateTime timestamp);
 }

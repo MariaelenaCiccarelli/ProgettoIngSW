@@ -1,7 +1,5 @@
 package com.example.lootmarketbackend.dto;
 
-import com.example.lootmarketbackend.Modelli.Indirizzo;
-
 public class UtenteAutenticazioneDTO {
 
     public String nome;

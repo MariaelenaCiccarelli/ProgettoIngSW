@@ -63,7 +63,6 @@ public class APIController {
             System.out.println("Token Scaduto!");
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token Scaduto!");
         }
-
     }
 
 
@@ -170,8 +169,8 @@ public class APIController {
                     }catch (Exception e){
                         System.out.println(e.getMessage());
                     }
-                    Contatti contatti = new Contatti(utenteDTO.sito, utenteDTO.socialFacebook, utenteDTO.socialInstagram);
-                    if(controller.controllerUtenti.modificaUtenteDAO(utenteDTO.mail, utenteDTO.nazione, utenteDTO.numeroCellulare, contatti, utenteDTO.biografia, immagineProfilo, utenteDTO.indirizzoFatturazione, utenteDTO.indirizzoSpedizione, utenteDTO.numeroAziendale)==1){
+
+                    if(controller.modificaUtente(utenteDTO.mail, utenteDTO.nazione, utenteDTO.numeroCellulare, utenteDTO.sito, utenteDTO.socialFacebook, utenteDTO.socialInstagram, utenteDTO.biografia, immagineProfilo, utenteDTO.indirizzoFatturazione, utenteDTO.indirizzoSpedizione, utenteDTO.numeroAziendale)==1){
                         System.out.println("Modifica utente effettuato con successo!");
                         return 1;
                     }else{
@@ -204,7 +203,7 @@ public class APIController {
             if(claims!=null){
                 if(claims.getIssuer().equals("LootMarket")){
                     System.out.println("Token Valido!");
-                    if(controller.controllerUtenti.upgradeUtenteDAO(utenteDTO.mail,utenteDTO.ragioneSociale, utenteDTO.partitaIva, utenteDTO.numeroAziendale)==0){
+                    if(controller.upgradeUtente(utenteDTO.mail,utenteDTO.ragioneSociale, utenteDTO.partitaIva, utenteDTO.numeroAziendale)==0){
                         System.out.println("Upgrade utente fallito!");
                         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Upgrade utente fallito!");
                     }
@@ -234,12 +233,8 @@ public class APIController {
     @ResponseBody
     public MyToken postRegistraUtente(@RequestBody UtenteAutenticazioneDTO utenteAutenticazioneDTO) throws IOException {
         System.out.println("Richiesta Registrazione Utente: "+utenteAutenticazioneDTO.mail);
-        byte[] immagineProfilo = Files.readAllBytes(Paths.get("./CartellaImmagini/placeholder.png"));
-        Contatti contatti = new Contatti("", "", "");
-        Indirizzo indirizzoVuoto = new Indirizzo("", "", "", "");
-        LocalDate dataNascita = LocalDate.of(utenteAutenticazioneDTO.dataDiNascitaAnno, utenteAutenticazioneDTO.dataDiNascitaMese, utenteAutenticazioneDTO.dataDiNascitaGiorno);
         String jwsToken;
-        int status = controller.controllerUtenti.aggiungiUtenteDAO(utenteAutenticazioneDTO.mail, utenteAutenticazioneDTO.password, utenteAutenticazioneDTO.nome, utenteAutenticazioneDTO.cognome, utenteAutenticazioneDTO.codiceFiscale, utenteAutenticazioneDTO.nazione, utenteAutenticazioneDTO.numeroCellulare, dataNascita, contatti, "", immagineProfilo, indirizzoVuoto, indirizzoVuoto);
+        int status = controller.registraUtente(utenteAutenticazioneDTO);
         if(status==1){ //Utente creato con successo
             try {
                 jwsToken = JwtUtil.encodeJWT(utenteAutenticazioneDTO.mail);
@@ -264,14 +259,14 @@ public class APIController {
     @ResponseBody
     public MyToken postAccediUtente(@RequestBody UtenteAutenticazioneDTO utenteAutenticazioneDTO){
         System.out.println("Richiesta di Accesso Utente: "+utenteAutenticazioneDTO.mail);
-        int status = controller.controllerUtenti.verificaUtente(utenteAutenticazioneDTO.mail, utenteAutenticazioneDTO.password);
-        if(status==1){ //Utente verificato con successo
-            Boolean isBusiness = false;
-            if(controller.controllerUtenti.getUtenteByEmail(utenteAutenticazioneDTO.mail) instanceof UtenteBusiness){
+        int status = controller.accediUtente(utenteAutenticazioneDTO);
+        if(status!=0){
+            boolean isBusiness = false;
+            if(status==2){
                 isBusiness = true;
             }
             try{
-            String jwsToken = JwtUtil.encodeJWT(utenteAutenticazioneDTO.mail);
+                String jwsToken = JwtUtil.encodeJWT(utenteAutenticazioneDTO.mail);
                 MyToken myToken = new MyToken(jwsToken, isBusiness);
                 return myToken;
             }catch (Exception e){
@@ -349,33 +344,15 @@ public class APIController {
             if(claims!=null){
                 if(claims.getIssuer().equals("LootMarket")){
                     System.out.println("Token Valido!");
-                    String uniqueFileName = UUID.randomUUID().toString() + "_" + immagineProdottoDTO.getOriginalFilename();
 
-                    Path uploadPath = Path.of("CartellaImmagini");
-                    Path filePath = uploadPath.resolve(uniqueFileName);
-                    if (!Files.exists(uploadPath)) {
-                        try {
-                            Files.createDirectories(uploadPath);
-                        } catch (IOException e) {
-                            System.out.println(e.getMessage());
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    try {
-                        Files.copy(immagineProdottoDTO.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-                        throw new RuntimeException(e);
-                    }
-                    byte[] immagineProdotto = new byte[0];
+                    byte[] immagineProdotto;
                     try{
                         immagineProdotto = immagineProdottoDTO.getBytes();
                     }catch (Exception e){
                         System.out.println(e.getMessage());
-                        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Token Scaduto!");
+                        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Errore durante la creazione Asta!");
                     }
-                    LocalDateTime dataScadenza = LocalDateTime.of(astaDTO.anno, astaDTO.mese, astaDTO.giorno, 23, 59, 59);
-                    controller.creaAsta(astaDTO.emailCreatore, astaDTO.titolo, astaDTO.categoria, astaDTO.prezzoPartenza, dataScadenza, astaDTO.descrizione,immagineProdotto, astaDTO.ultimaOfferta, astaDTO.sogliaMinima, astaDTO.tipoAsta);
+                    controller.creaAsta(astaDTO.emailCreatore, astaDTO.titolo, astaDTO.categoria, astaDTO.prezzoPartenza, astaDTO.giorno, astaDTO.mese, astaDTO.anno, astaDTO.descrizione,immagineProdotto, astaDTO.ultimaOfferta, astaDTO.sogliaMinima, astaDTO.tipoAsta);
                 }else{
                     System.out.println("Token Non valido!");
                     throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token non valido!");

@@ -16,22 +16,37 @@ public class ControllerUtenti {
         leggiUtentiDAO();
     }
 
+
+
+
+
     public int getDatabaseSize(){
         return databaseUtenti.size();
     }
+
+
+
+
 
     public Utente getUtenteDatabase(int indice){
         return databaseUtenti.get(indice);
     }
 
 
+
+
+
+    //1 Verifica con successo, 0 altrimenti
     public int verificaUtente(String mailUtente, String passwordUtente){
 
         UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
         int status = utenteDAO.verificaUtenteDB(mailUtente, passwordUtente);
 
-        return status; //1 Verifica con successo, 0 altrimenti
+        return status;
     }
+
+
+
 
 
     public void leggiUtentiDAO(){
@@ -53,21 +68,21 @@ public class ControllerUtenti {
         ArrayList<String> numeriAziendali = new ArrayList<>();
 
         UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
-
         utenteDAO.leggiUtentiDB(emails, passwords, nomi, cognomi, codiciFiscali, nazioni, numeriCellulare, dateNascita, contatti, biografie, immaginiProfilo, indirizziFatturazione, indirizziSpedizione, ragioniSociali, partiteIva, numeriAziendali);
-
         for(int i = 0; i < emails.size(); i++){
             Utente utente;
-
             if(ragioniSociali.get(i).isEmpty()){
                 utente = new Utente(emails.get(i), passwords.get(i), nomi.get(i), cognomi.get(i), codiciFiscali.get(i), nazioni.get(i), numeriCellulare.get(i), dateNascita.get(i), contatti.get(i), immaginiProfilo.get(i), biografie.get(i), indirizziFatturazione.get(i), indirizziSpedizione.get(i));
             }else{
                 utente = new UtenteBusiness(emails.get(i), passwords.get(i), nomi.get(i), cognomi.get(i), codiciFiscali.get(i), nazioni.get(i), numeriCellulare.get(i), dateNascita.get(i), contatti.get(i), immaginiProfilo.get(i), biografie.get(i), indirizziFatturazione.get(i), indirizziSpedizione.get(i), ragioniSociali.get(i), partiteIva.get(i), numeriAziendali.get(i));
             }
-
             databaseUtenti.add(utente);
         }
     }
+
+
+
+
 
     public  int aggiungiUtenteDAO(String email, String password, String nome, String cognome, String codiceFiscale, String nazione, String numeroCellulare, LocalDate dataNascita, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione){
         if(utenteEsistente(email)){
@@ -76,12 +91,16 @@ public class ControllerUtenti {
         Utente utente = new Utente(email, password, nome, cognome, codiceFiscale, nazione, numeroCellulare, dataNascita, contatti, immagineProfilo , biografia, indirizzoFatturazione, indirizzoSpedizione);
         databaseUtenti.add(utente);
         UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
-        int status = utenteDAO.aggiungiUtenteDB(email, password, nome, cognome, codiceFiscale, nazione, numeroCellulare, dataNascita, contatti, biografia, immagineProfilo, indirizzoFatturazione, indirizzoSpedizione, "", "", "");
-        return status;
+        return utenteDAO.aggiungiUtenteDB(email, password, nome, cognome, codiceFiscale, nazione, numeroCellulare, dataNascita, contatti, biografia, immagineProfilo, indirizzoFatturazione, indirizzoSpedizione, "", "", "");
     }
 
-    public int modificaUtenteDAO(String email, String nazione, String numeroCellulare, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String numeroAziendale){
+
+
+
+
+    public int modificaUtenteDAO(String email, String nazione, String numeroCellulare, String sito, String socialFacebook, String socialInstagram, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String numeroAziendale){
         UtenteDAO utenteDAO = new UtenteImplementazionePostgresDAO();
+        Contatti contatti = new Contatti(sito, socialFacebook, socialInstagram);
         if(utenteDAO.modificaUtenteDB(email, nazione, numeroCellulare, contatti, biografia, immagineProfilo, indirizzoFatturazione, indirizzoSpedizione, numeroAziendale)==1){
             int i = getIndiceUtenteByEmail(email);
             if(i != -1){
@@ -101,6 +120,10 @@ public class ControllerUtenti {
         return 0;
     }
 
+
+
+
+
     //1: operazione avvenuta con successo, 0 altrimenti
     public int upgradeUtenteDAO(String email, String ragioneSociale, String partitaIva, String numeroAziendale){
         int i = getIndiceUtenteByEmail(email);
@@ -116,6 +139,10 @@ public class ControllerUtenti {
         return 0;
     }
 
+
+
+
+
     //ritorna -1 se asta non presente
     public int getIndiceUtenteByEmail(String email) {
         int i = 0;
@@ -123,11 +150,14 @@ public class ControllerUtenti {
             i++;
         }
         if(email.equals(databaseUtenti.get(i).getEmail())){
-            System.out.println("utente trovato!");
             return i;
         }
         return -1;
     }
+
+
+
+
 
     public Utente getUtenteByEmail(String email){
         int i = getIndiceUtenteByEmail(email);
@@ -137,6 +167,11 @@ public class ControllerUtenti {
             return null;
             }
         }
+
+
+
+
+
     public Boolean utenteEsistente(String mail){
         for(Utente utente : databaseUtenti){
             if(utente.getEmail().equals(mail)){
@@ -144,6 +179,10 @@ public class ControllerUtenti {
             }
         }
         return false;
-
     }
+
+
+
+
+
 }

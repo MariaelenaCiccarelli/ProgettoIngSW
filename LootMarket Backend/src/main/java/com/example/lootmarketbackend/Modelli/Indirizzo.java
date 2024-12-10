@@ -2,12 +2,10 @@ package com.example.lootmarketbackend.Modelli;
 
 public class Indirizzo {
 
-    //ATTRIBUTI
     private String via;
     private String citta;
     private String provincia;
     private String cap;
-
 
     public Indirizzo(String via, String citta, String provincia, String cap) {
         this.via = via;
@@ -28,7 +26,5 @@ public class Indirizzo {
         return provincia;
     }
 
-    public String getCap() {
-        return cap;
-    }
+    public String getCap() {return cap;}
 }

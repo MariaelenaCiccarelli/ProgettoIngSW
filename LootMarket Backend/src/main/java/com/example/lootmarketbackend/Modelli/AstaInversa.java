@@ -3,6 +3,7 @@ package com.example.lootmarketbackend.Modelli;
 import java.time.LocalDateTime;
 
 public class AstaInversa extends AstaTempoFisso {
+
     public AstaInversa(int idAsta,
                        String emailCreatore,
                        String titolo,
@@ -15,8 +16,13 @@ public class AstaInversa extends AstaTempoFisso {
         super(idAsta, emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, 0);
     }
 
+
+
+
+
+
     @Override
-    //ritorna -1 se la presentazione dell'offerta non va a buon fine, 1 se invece va tutto bene
+    //ritorna -1 se la presentazione dell'offerta non va a buon fine, 1 se invece viene effettuata con successo
     public int presentaOfferta(double offerta){
         if(offerta < getUltimaOfferta() && offerta >0){
             setUltimaOfferta(offerta);
@@ -25,5 +31,9 @@ public class AstaInversa extends AstaTempoFisso {
             return -1;
         }
     }
+
+
+
+
 
 }

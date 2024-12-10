@@ -6,7 +6,6 @@ import java.time.LocalTime;
 
 public class Offerta implements Legame {
 
-    //ATTRIBUTI
     private double offerta;
     private LocalDateTime timestamp;
     String emailUtente;

@@ -1,4 +1,4 @@
-package com.danilo.lootmarket.Network.dto
+package com.danilo.lootmarket.network.dto
 
 data class DettagliAstaDTO(val idAsta: Int,
                            val emailCreatore: String,

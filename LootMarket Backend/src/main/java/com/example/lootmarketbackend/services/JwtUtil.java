@@ -13,6 +13,10 @@ public class JwtUtil {
     // Chiave segreta usata per la firma
     private static final String SECRET_KEY = "secretMagnificoBellissmoDelMondoCheVerraGiuroSuMioZio";
 
+
+
+
+
     public static Claims decodeJWT(String jwt) {
         try {
             // Decodifica e parsing del token
@@ -29,10 +33,14 @@ public class JwtUtil {
         }
     }
 
+
+
+
+
+
     public static String encodeJWT(String mail) {
         String jwsToken;
         try {
-
             jwsToken = Jwts.builder()
                     .setIssuer("LootMarket")
                     .claim("mail", mail)
@@ -40,7 +48,7 @@ public class JwtUtil {
                     .setExpiration(Date.from(Instant.now().plusSeconds(120000)))
                     .signWith(
                             SignatureAlgorithm.HS256,
-                            "secretMagnificoBellissmoDelMondoCheVerraGiuroSuMioZio".getBytes("UTF-8")
+                            SECRET_KEY.getBytes("UTF-8")
                     )
                     .compact();
         } catch (UnsupportedEncodingException e) {

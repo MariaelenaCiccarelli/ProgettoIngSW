@@ -1,12 +1,12 @@
-package com.danilo.lootmarket.Network
+package com.danilo.lootmarket.network
 
-import com.danilo.lootmarket.Network.dto.AstaDTO
-import com.danilo.lootmarket.Network.dto.DettagliAstaDTO
-import com.danilo.lootmarket.Network.dto.MyToken
-import com.danilo.lootmarket.Network.dto.OffertaDTO
-import com.danilo.lootmarket.Network.dto.UtenteAutenticazioneDTO
-import com.danilo.lootmarket.Network.dto.UtenteDTO
-import com.danilo.lootmarket.Network.dto.NotificaDTO
+import com.danilo.lootmarket.network.dto.AstaDTO
+import com.danilo.lootmarket.network.dto.DettagliAstaDTO
+import com.danilo.lootmarket.network.dto.MyToken
+import com.danilo.lootmarket.network.dto.OffertaDTO
+import com.danilo.lootmarket.network.dto.UtenteAutenticazioneDTO
+import com.danilo.lootmarket.network.dto.UtenteDTO
+import com.danilo.lootmarket.network.dto.NotificaDTO
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -30,13 +30,6 @@ interface MyApi {
     @GET("/getDettagliAsta")
     suspend fun getDettagliAsta(@Query("idAsta") id: Int, @Query("mailUtente") mailUtente: String, @Query("token")  token:String): Response<DettagliAstaDTO>
 
-    /*
-    @Headers("Content-Type: application/json")
-    @POST("/postCreaAsta")
-    suspend fun postNuovaAsta(@Body asta: AstaDTO, @Query("token") token: String): Response<Int>
-
-
-     */
     @Multipart
     @POST("/postModificaUtente")
     suspend fun postModificaUtente(@Part immagineProfiloDTO: MultipartBody.Part, @Part("utenteDTO") utente: UtenteDTO, @Query("token") token: String): Response<Int>
@@ -72,6 +65,10 @@ interface MyApi {
     @GET("/getNotificheUtente")
     suspend fun getNotificheUtente(@Query("email") email: String, @Query("token") token: String): Response<ArrayList<NotificaDTO>>
 
+    @GET("/getEsisteUtente")
+    suspend fun getEsisteUtente(@Query("email") email: String): Response<Int>
+
     @POST("/postEliminaNotifica")
     suspend fun postEliminaNotifica(@Query("idNotifica") idNotifica:Int, @Query("token") token: String):Response<Int>
+
 }

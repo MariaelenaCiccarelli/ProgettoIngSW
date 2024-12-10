@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public interface Asta {
 
-    //ATTRIBUTI
     int idAsta = 0;
     String emailCreatore = "emailCreatore";
     String titolo = "titolo";

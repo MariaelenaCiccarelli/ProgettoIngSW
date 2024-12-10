@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public interface Legame {
 
-    //ATTRIBUTI
     String emailUtente = "emailUtente";
     int idAsta = 0;
 

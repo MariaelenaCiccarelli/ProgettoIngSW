@@ -13,11 +13,9 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.danilo.lootmarket.Network.RetrofitInstance
-import com.danilo.lootmarket.Network.dto.AstaDTO
-import com.danilo.lootmarket.Network.dto.MyToken
-import com.danilo.lootmarket.Network.dto.UtenteAutenticazioneDTO
-import com.danilo.lootmarket.Network.dto.UtenteDTO
+import com.danilo.lootmarket.network.RetrofitInstance
+import com.danilo.lootmarket.network.dto.MyToken
+import com.danilo.lootmarket.network.dto.UtenteAutenticazioneDTO
 import com.danilo.lootmarket.databinding.ActivityProfiledataBinding
 import kotlinx.coroutines.async
 import okio.IOException
@@ -39,6 +37,7 @@ class DataProfileActivity: AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityProfiledataBinding.inflate(layoutInflater)
 
+
         val spinner : Spinner = binding.spinnerNazionePaginaProfileData
         ArrayAdapter.createFromResource(
             this,
@@ -48,6 +47,8 @@ class DataProfileActivity: AppCompatActivity() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
         }
+
+
         binding.editTextCellularePaginaProfileData.customSelectionActionModeCallback = object : ActionMode.Callback {
             override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
                 return false
@@ -60,6 +61,8 @@ class DataProfileActivity: AppCompatActivity() {
                 return false
             }
         }
+
+
         binding.bottoneConfermaPaginaProfileData.setOnClickListener{
             var nome = binding.editTextNomePaginaProfileData.text.toString()
             var cognome = binding.editTextCognomePaginaProfileData.text.toString()
@@ -77,22 +80,19 @@ class DataProfileActivity: AppCompatActivity() {
             }else if((dataNascita.until(LocalDate.now(), ChronoUnit.YEARS))<18){
                 Toast.makeText(this, "Devi essere maggiorenne per iscriverti!", Toast.LENGTH_SHORT).show()
             }else{
-
                 var utenteAutenticazioneDTO =UtenteAutenticazioneDTO(nome, cognome, codiceFiscale, password,  email, dataNascita.year, dataNascita.monthValue, dataNascita.dayOfMonth, nazione, cellulare)
                 postRegistraUtente(utenteAutenticazioneDTO)
-
             }
         }
-
         setContentView(binding.root)
-
-
     }
 
+
+
+
+
     private fun postRegistraUtente(utenteAutenticazioneDTO: UtenteAutenticazioneDTO){
-
         lifecycleScope.async {
-
             val response = try{
                 RetrofitInstance.api.postRegistraUtente(utenteAutenticazioneDTO)
             }catch (e: IOException){
@@ -104,7 +104,6 @@ class DataProfileActivity: AppCompatActivity() {
                 return@async
             }catch (e: HttpException){
                 Log.e("MyNetwork", "HttpException, unexpected response")
-
                 Toast.makeText(contesto, "Registrazione fallita!", Toast.LENGTH_SHORT).show()
                 val intent = Intent(contesto, MainActivity::class.java)
                 startActivity(intent)
@@ -113,23 +112,29 @@ class DataProfileActivity: AppCompatActivity() {
             if(response.isSuccessful && response.body() != null){
                 Log.e("MyNetwork", "Response is successful")
                 var jwtToken: MyToken = response.body()!!
-                Toast.makeText(contesto, jwtToken.token, Toast.LENGTH_SHORT).show()
                 Toast.makeText(contesto, "Registrazione avvenuta con successo!", Toast.LENGTH_SHORT).show()
                 val intent = Intent(contesto, HomeActivity::class.java)
                 intent.putExtra("mail", utenteAutenticazioneDTO.mail)
                 intent.putExtra("token", jwtToken.token)
                 startActivity(intent)
-
                 return@async
             }else{
                 Log.e("MyNetwork", "Response not successful")
-
+                if(response.errorBody().toString()== "2"){
+                    Toast.makeText(contesto, "Email già in utilizzo!", Toast.LENGTH_SHORT).show()
+                }
                 Toast.makeText(contesto, "Registrazione fallita!", Toast.LENGTH_SHORT).show()
+                Log.e("MyNetwork", response.errorBody().toString())
+                Log.e("MyNetwork", response.code().toString())
                 val intent = Intent(contesto, MainActivity::class.java)
                 startActivity(intent)
-
                 return@async
             }
+
+
+
+
+
         }
     }
 

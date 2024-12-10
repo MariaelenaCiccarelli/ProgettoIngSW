@@ -4,7 +4,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.6'
 }
 
-group = 'com.example'
+
+group = 'com.example.lootmarketbackend'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -12,21 +13,38 @@ java {
         languageVersion = JavaLanguageVersion.of(22)
     }
 }
+apply plugin: 'java'
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.example.lootmarketbackend.LootMarketBackendApplication'
+        )
+    }
+}
+
+bootJar {
+    manifest {
+        archiveClassifier = 'boot'
+        attributes 'Main-Class': 'org.springframework.boot.loader.launch.JarLauncher'
+        attributes 'Start-Class': 'com.example.lootmarketbackend.LootMarketBackendApplication'
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 
 repositories {
     mavenCentral()
 }
-
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     implementation 'commons-codec:commons-codec:1.17.1'
-    //implementation "org.springframework.boot:spring-boot-starter-security"
-    //ext['spring-security.version']='5.8.15'
     implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
     implementation 'io.jsonwebtoken:jjwt-impl:0.12.6'
     implementation 'io.jsonwebtoken:jjwt-gson:0.12.6'
@@ -36,4 +54,12 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.named('jar') {
+    enabled = false
+}
+
+tasks.named('bootJar') {
+    enabled = true
 }

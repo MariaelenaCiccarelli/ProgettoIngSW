@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public class AstaTempoFisso implements Asta {
 
-    //ATTRIBUTI
     private int idAsta;
     private String emailCreatore;
     private String titolo;
@@ -119,7 +118,11 @@ public class AstaTempoFisso implements Asta {
         this.sogliaMinima = sogliaMinima;
     }
 
-    //ritorna -1 se la presentazione dell'offerta non va a buon fine, 1 se invece va tutto bene
+
+
+
+
+    //ritorna -1 se la presentazione dell'offerta non va a buon fine, 1 se invece viene effettuata con successo
     public int presentaOfferta(double offerta){
         if(offerta > this.ultimaOfferta){
             setUltimaOfferta(offerta);
@@ -128,4 +131,9 @@ public class AstaTempoFisso implements Asta {
             return -1;
         }
     }
+
+
+
+
+
 }

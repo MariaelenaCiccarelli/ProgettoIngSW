@@ -7,7 +7,6 @@ public class NotificaDTO {
     int idAsta;
     String titoloAsta;
 
-
     public NotificaDTO(int id, int tipo, String destinatario, int idAsta, String titoloAsta) {
         this.id = id;
         this.tipo = tipo;
@@ -15,7 +14,6 @@ public class NotificaDTO {
         this.idAsta = idAsta;
         this.titoloAsta = titoloAsta;
     }
-
 
     public int getId() {
         return id;

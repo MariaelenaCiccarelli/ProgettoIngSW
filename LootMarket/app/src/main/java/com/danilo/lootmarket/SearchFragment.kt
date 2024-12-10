@@ -1,9 +1,7 @@
 package com.danilo.lootmarket
 
-import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -14,15 +12,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.toDrawable
-import androidx.core.graphics.toColor
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.danilo.lootmarket.Network.RetrofitInstance
-import com.danilo.lootmarket.Network.dto.AstaDTO
-import com.danilo.lootmarket.Network.dto.MyToken
+import com.danilo.lootmarket.network.RetrofitInstance
+import com.danilo.lootmarket.network.dto.AstaDTO
 import com.danilo.lootmarket.databinding.FragmentSearchBinding
 import kotlinx.coroutines.async
 import okio.IOException
@@ -57,8 +51,7 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
         savedInstanceState: Bundle?
 
 
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View{
         indice=0
         auctions = listOf()
         getAste(indice++)
@@ -71,16 +64,12 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
 
 
         binding = FragmentSearchBinding.inflate(layoutInflater)
-        //setContentView(binding.root)
 
-        auctionsAdapter = AuctionsAdapter(searchList, this.requireContext())
+        auctionsAdapter = AuctionsAdapter(searchList)
         binding.RecyclerViewFrammentoSearch.layoutManager = LinearLayoutManager(this.requireContext())
         binding.RecyclerViewFrammentoSearch.adapter = auctionsAdapter
         searchView = binding.searchbarFrammentoSearch
         searchView.clearFocus()
-
-
-
 
 
 
@@ -101,6 +90,8 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
             }
         }
 
+
+
         //FILTRO ACTION FIGURES
         binding.cardFiltroActionFiguresFrammentoSearch.setOnClickListener{
             if(!statusFiltroActionFigures){
@@ -118,9 +109,10 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
             }
         }
 
+
+
         //FILTRO CARTE
         binding.cardFiltroCarteFrammentoSearch.setOnClickListener {
-
             if (!statusFiltroCarte) {
                 binding.immagineFiltroCarteFrammentoSearch.setImageResource(R.drawable.baseline_screenshot_24_secondcolor)
                 binding.cardFiltroCarteFrammentoSearch.setCardBackgroundColor(Color.parseColor("#a91010"))
@@ -136,6 +128,8 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
             }
 
         }
+
+
 
         //FILTRO TAVOLE
         binding.cardFiltroTavoleFrammentoSearch.setOnClickListener {
@@ -153,6 +147,8 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
                 binding.cardFiltroTavoleFrammentoSearch.setCardBackgroundColor(Color.parseColor("#FFF6DD"))
             }
         }
+
+
 
         //FILTRO GADGET
         binding.cardFiltroGadgetFrammentoSearch.setOnClickListener {
@@ -172,6 +168,7 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
         }
 
 
+
         //Ricerca per testo
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(p0: String?): Boolean {
@@ -189,6 +186,9 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
                             searchList.add(it)
                         }
                     }
+                    if(searchList.isEmpty()){
+                        Toast.makeText(context, "Nessuna asta trovata!", Toast.LENGTH_SHORT).show()
+                    }
                     binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
                 }else{
                     searchList.clear()
@@ -197,8 +197,10 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
                 }
                 return false
             }
-
         })
+
+
+
         //Click su un Asta
         auctionsAdapter.onItemClick = {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
@@ -206,6 +208,8 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
             transaction?.addToBackStack(this.tag)
             transaction?.commit()
         }
+
+
 
         //caricamento ulteriori aste
         binding.RecyclerViewFrammentoSearch.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -219,15 +223,18 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
         })
 
 
-        //val view = inflater.inflate(R.layout.fragment_home, container, false)
+
         return binding.root
     }
+
+
+
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getAste(indice: Int){
         var auctionsCaricate = ArrayList<Auction>()
         lifecycleScope.async {
-
             val response = try{
                 RetrofitInstance.api.getAsteHome(indice, token)
             }catch (e: IOException){
@@ -238,15 +245,13 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
                 return@async
             }
             if(response.isSuccessful && response.body() != null){
+                Log.println(Log.INFO,"MyNetwork", "Response is successful")
                 var asteRecuperate: List<AstaDTO> = response.body()!!
-
                 for(asta in asteRecuperate){
-                    Log.println(Log.INFO, "MyNetwork", asta.toString())
                     val immagineAstaByteArrayDecoded = Base64.getDecoder().decode(asta.immagineAsta)
                     val immagineAsta= BitmapFactory.decodeByteArray(immagineAstaByteArrayDecoded, 0, immagineAstaByteArrayDecoded.size)
                     var auction = Auction(asta.idAsta, asta.titolo, asta.ultimaOfferta, ZonedDateTime.of(asta.anno, asta.mese, asta.giorno, 0, 0, 0,0, ZoneId.of("GMT")), immagineAsta, asta.descrizione, asta.categoria, asta.tipoAsta )
                     auctionsCaricate.add(auction)
-
                 }
                 auctions = auctions + auctionsCaricate
                 ApplicaFiltri()
@@ -261,6 +266,10 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
             }
         }
     }
+
+
+
+
 
     private fun ApplicaFiltri(){
         filteredList.clear()
@@ -284,7 +293,6 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
             }
         }
         searchList.clear()
-
         if(filtroTestuale.isNotEmpty()) {
             filteredList.forEach {
                 if (it.titoloAsta.toLowerCase(Locale.getDefault()).contains(filtroTestuale)) {
@@ -294,6 +302,12 @@ class SearchFragment(var mail: String, var token: String) : Fragment() {
         }else{
             searchList.addAll(filteredList)
         }
+        if(searchList.isEmpty()){
+            Toast.makeText(this.context, "Nessuna asta trovata!", Toast.LENGTH_SHORT).show()
+        }
         binding.RecyclerViewFrammentoSearch.adapter!!.notifyDataSetChanged()
     }
+
+
+
 }

@@ -1,38 +1,42 @@
 package com.example.lootmarketbackend.Controller;
 
-import com.example.lootmarketbackend.DAO.LegameDAO;
 import com.example.lootmarketbackend.DAO.NotificaDAO;
-import com.example.lootmarketbackend.ImplementazionePostgresDAO.LegameImplementazionePostgresDAO;
 import com.example.lootmarketbackend.ImplementazionePostgresDAO.NotificaImplementazionePostgresDAO;
-import com.example.lootmarketbackend.Modelli.Iscrizione;
-import com.example.lootmarketbackend.Modelli.Legame;
 import com.example.lootmarketbackend.Modelli.Notifica;
-import com.example.lootmarketbackend.Modelli.Offerta;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class ControllerNotifiche {
 
-    public ArrayList<Notifica> databaseNotifiche = new ArrayList<>();
+    public ArrayList<Notifica> databaseNotifiche;
 
     public ControllerNotifiche(){
         databaseNotifiche = new ArrayList<>();
         leggiNotificheDAO();
     }
 
+
+
+
+
     public int getDatabaseSize(){
         return databaseNotifiche.size();
     }
+
+
+
+
 
     public Notifica getNotificaDatabase(int indice){
         return databaseNotifiche.get(indice);
     }
 
+
+
+
+
     public int getIdUltimaNotifica(){
-        if(databaseNotifiche.size() > 0){
+        if(!databaseNotifiche.isEmpty()){
             return databaseNotifiche.getLast().getIdAsta();
         }
         else{
@@ -42,23 +46,26 @@ public class ControllerNotifiche {
 
 
 
+
+
     public void leggiNotificheDAO(){
+
         ArrayList<Integer> idNotifiche = new ArrayList<>();
         ArrayList<Integer> tipiNotifiche = new ArrayList<>();
         ArrayList<String> destinatari = new ArrayList<>();
         ArrayList<Integer> idAste = new ArrayList<>();
 
-
         NotificaDAO notificaDAO = new NotificaImplementazionePostgresDAO();
-
         notificaDAO.leggiNotificheDB(idNotifiche, tipiNotifiche, destinatari, idAste);
-
         for(int i = 0; i < idNotifiche.size(); i++){
             Notifica notifica = new Notifica(idNotifiche.get(i), tipiNotifiche.get(i), destinatari.get(i), idAste.get(i));
-
             databaseNotifiche.add(notifica);
         }
     }
+
+
+
+
 
     //1 notifica aggiunta con successo, 0 altrimenti
     public int aggiungiNotificaDAO(int tipo, String destinatario, int idAsta){
@@ -70,6 +77,10 @@ public class ControllerNotifiche {
         }
         return 0;
     }
+
+
+
+
 
     //1 notifica eliminata con successo, 0 altrimenti
     public int eliminaNotificaDAO(int id){
@@ -86,5 +97,8 @@ public class ControllerNotifiche {
         }
         return 0;
     }
+
+
+
 
 }

@@ -17,10 +17,13 @@ public class LegameImplementazionePostgresDAO implements LegameDAO {
         try {
             connection = ConnessioneDatabase.getInstance().connection;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
+
+
+
+
 
     @Override
     public void leggiLegamiDB(ArrayList<Integer> idAste,
@@ -46,6 +49,10 @@ public class LegameImplementazionePostgresDAO implements LegameDAO {
 
     }
 
+
+
+
+
     @Override
     public void aggiungiLegameDB(int idAsta,
                                  String emailOfferente,
@@ -63,9 +70,12 @@ public class LegameImplementazionePostgresDAO implements LegameDAO {
 
     }
 
+
+
+
+
     @Override
     public void eliminaLegameDB(int idAsta, String emailOfferente) {
-
         try {
             PreparedStatement eliminaLegameStatement = connection.prepareStatement("DELETE FROM \"Legami\" WHERE \"Id Asta\" = '"+idAsta+"' AND \"Email Offerente\" = '"+emailOfferente+"'");
             eliminaLegameStatement.executeUpdate();
@@ -76,6 +86,10 @@ public class LegameImplementazionePostgresDAO implements LegameDAO {
 
     }
 
+
+
+
+
     @Override
     public void modificaUltimaOffertaLegameDB(int idAsta,
                                               String emailOfferente,
@@ -83,7 +97,6 @@ public class LegameImplementazionePostgresDAO implements LegameDAO {
                                               LocalDateTime timestamp) {
 
         try{
-            //PreparedStatement modificaUltimaOffertaLegameStatement = connection.prepareStatement("UPDATE \"Legami\" SET (\"Email Offerente\" = '"+emailOfferente+"' , \"Offerta\" = '"+offerta+"', \"Data\" = '"+timestamp.toLocalDate()+"', \"Ora\" = '"+timestamp.toLocalTime()+"') WHERE \"Id Asta\" = '"+idAsta+"'");
             PreparedStatement modificaUltimaOffertaLegameStatement = connection.prepareStatement("UPDATE \"Legami\" SET \"Offerta\" = ?, \"Data\" = ?, \"Ora\" = ? WHERE \"Id Asta\" = ? AND \"Email Offerente\" = ?");
             modificaUltimaOffertaLegameStatement.setDouble(1, offerta);
             modificaUltimaOffertaLegameStatement.setDate(2, Date.valueOf(timestamp.toLocalDate()));
@@ -95,6 +108,10 @@ public class LegameImplementazionePostgresDAO implements LegameDAO {
         }catch(Exception e){
             System.out.println("Errore: "+e.getMessage());
         }
-
     }
+
+
+
+
+
 }

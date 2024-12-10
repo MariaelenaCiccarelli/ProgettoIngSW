@@ -1,11 +1,10 @@
 package com.example.lootmarketbackend.Modelli;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+
 
 public class Utente {
 
-    //ATTRIBUTI
     private String email;
     private String password;
     private String nome;
@@ -35,7 +34,6 @@ public class Utente {
         this.indirizzoSpedizione = indirizzoSpedizione;
         this.indirizzoFatturazione = indirizzoFatturazione;
     }
-
 
     public String getEmail() {
         return email;

@@ -1,12 +1,13 @@
 package com.example.lootmarketbackend.Controller;
 
 import com.example.lootmarketbackend.Modelli.*;
-import com.example.lootmarketbackend.dto.AstaDTO;
-import com.example.lootmarketbackend.dto.DettagliAstaDTO;
-import com.example.lootmarketbackend.dto.NotificaDTO;
-import com.example.lootmarketbackend.dto.UtenteDTO;
+import com.example.lootmarketbackend.dto.*;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -18,10 +19,6 @@ public class Controller {
     public ControllerAste controllerAste;
     public ControllerLegami controllerLegami;
     public ControllerNotifiche controllerNotifiche;
-
-
-
-
 
     public Controller(){
         controllerUtenti = new ControllerUtenti();
@@ -36,30 +33,28 @@ public class Controller {
 
 
     public void checkAsteScadute(){
-        System.out.println("Controllo scadenza Aste avviato!");
+        System.out.println("Controllo scadenza Aste avviato");
         for(int i=0; i<controllerAste.getDatabaseSize(); i++){
             Asta asta = controllerAste.getAstaDatabase(i);
             if((asta.getDataScadenza().isBefore(LocalDateTime.now())) && (!(asta instanceof AstaConclusa))){
                 System.out.println("Asta scaduta individuata: "+asta.getTitolo()+" scade il "+asta.getDataScadenza());
                 Offerta ultimaOfferta = controllerLegami.getUltimaOffertaLegame(asta.getIdAsta());
                 if(ultimaOfferta == null){
-                    System.out.println("Ultima offerta non trovata!");
+                    System.out.println("Ultima offerta non trovata");
                     controllerAste.concludiAstaDAO(asta.getIdAsta(), "", -2);
                 }else{
                     if(!(asta instanceof AstaTempoFisso) || ultimaOfferta.getOfferta() >= asta.getSogliaMinima()){
-                        System.out.println("Ultima offerta trovata, asta terminita con successo!");
+                        System.out.println("Ultima offerta trovata, asta terminita con successo");
                         String emailVincitore =  ultimaOfferta.getEmailUtente();
                         controllerAste.concludiAstaDAO(asta.getIdAsta(), emailVincitore, asta.getUltimaOfferta());
                     }
                     else{
-                        System.out.println("Ultima offerta non supera la soglia minima, asta fallita!");
+                        System.out.println("Ultima offerta non supera la soglia minima, asta fallita");
                         controllerAste.concludiAstaDAO(asta.getIdAsta(), "", -3);
                     }
-
                 }
-                System.out.println("Genero le notifiche!");
+                System.out.println("Genero le notifiche");
                 generaNotificaAstaScaduta(asta, ultimaOfferta);
-
             }
         }
         System.out.println("Controllo scadenza Aste terminato!");
@@ -69,7 +64,7 @@ public class Controller {
 
 
 
-    //ritorna -1 se la presentazione dell'offerta non va a buon fine a causa di un errore, -2 offerta non valida per il tipo di asta, 1 se invece va tutto bene, 0 se l'asta è conclusa
+    //ritorna -1 se la presentazione dell'offerta non va a buon fine a causa di un errore, -2 offerta non valida per il tipo di asta, 1 se l'offerta viene presentata con successo, 0 se l'asta è conclusa
     public int nuovaOfferta(String email,int idAsta, double nuovaOfferta){
         int i = controllerAste.getIndiceAstaById(idAsta);
         int k = controllerUtenti.getIndiceUtenteByEmail(email);
@@ -96,7 +91,7 @@ public class Controller {
 
 
 
-    //ritorna -1 se l'iscrizione non va a buon fine, 1 se invece va tutto bene
+    //ritorna -1 se l'iscrizione non va a buon fine, 1 se invece l'iscrizione viene effettuata con successo
     public int iscrizione(String email, int idAsta){
         int i = controllerAste.getIndiceAstaById(idAsta);
         int k = controllerUtenti.getIndiceUtenteByEmail(email);
@@ -111,17 +106,17 @@ public class Controller {
 
 
 
-    //ritorna -1 se la disiscrizione non va a buon fine, 1 se invece va tutto bene
+    //ritorna -1 se la disiscrizione non va a buon fine, 1 se invece la disiscrizione viene effettuata con successo
     public int disiscrizione(String email, int idAsta){
         int i = controllerAste.getIndiceAstaById(idAsta);
         int k = controllerUtenti.getIndiceUtenteByEmail(email);
         if(i != -1 && k!= -1){
-            if(controllerAste.getAstaDatabase(i).getEmailCreatore().equals(email)){
+            if(controllerAste.getMailCreatoreAstaByIndice(i).equals(email)){
                 return -1;
             }
             int j = controllerLegami.getIndiceLegameByEmailAndIdAsta(email, idAsta);
             if(j != -1){
-                if(controllerLegami.getLegameDatabase(j).getOfferta() == -1.0){
+                if(controllerLegami.getOffertaLegameByIndice(j) == -1.0){
                     controllerLegami.eliminaLegameDAO(idAsta, email);
                     return 1;
                 }else{
@@ -138,6 +133,7 @@ public class Controller {
 
 
 
+    //recupera le i-esime 10 aste non concluse
     public ArrayList<AstaDTO> recuperaAsteHome(int indice){
         ArrayList<AstaDTO> arrayRitorno = new ArrayList<>();
         int i = -(10*indice);
@@ -167,6 +163,7 @@ public class Controller {
 
 
 
+    //recupera la specifica asta e costruisce il rispettivo DTO per quello specifico utente
     public DettagliAstaDTO getDettagliAsta(int idAsta, String emailUtente){
         int indice = controllerAste.getIndiceAstaById(idAsta);
         if(indice==-1){
@@ -223,16 +220,17 @@ public class Controller {
 
 
 
+    //recupera le aste relative ad un utente
     public ArrayList<AstaDTO> getAsteByEmailUtente(String email){
         ArrayList<AstaDTO> arrayRitorno = new ArrayList<>();
         for(int i = 0; i < controllerLegami.getDatabaseSize(); i++){
-            if(controllerLegami.getLegameDatabase(i).getEmailUtente().equals(email)){
+            if(controllerLegami.getMailUtenteLegameByIndice(i).equals(email)){
                 Asta asta;
                 AstaDTO astaDTO;
-                asta = controllerAste.getAstaDatabase(controllerAste.getIndiceAstaById(controllerLegami.getLegameDatabase(i).getIdAsta()));
-                Boolean offertaFatta = false;
+                asta = controllerAste.getAstaDatabase(controllerAste.getIndiceAstaById(controllerLegami.getIdAstaLegameByIndice(i)));
+                boolean offertaFatta = false;
                 String tipo="";
-                if(controllerLegami.getLegameDatabase(i).getOfferta()!=-1){
+                if(controllerLegami.getOffertaLegameByIndice(i)!=-1){
                     offertaFatta = true;
                 }
                 if((asta instanceof AstaConclusa)){
@@ -255,17 +253,20 @@ public class Controller {
 
 
 
-    //ritorna -1 se errore, 1 se va a buon fine
+    //ritorna -1 se errore, 1 se l'asta viene creata con successo
     public int creaAsta(String emailCreatore,
                         String titolo,
                         String categoria,
                         double prezzoPartenza,
-                        LocalDateTime dataScadenza,
+                        int giorno,
+                        int mese,
+                        int anno,
                         String descrizione,
                         byte[] immagineProdotto,
                         double ultimaOfferta,
                         double sogliaMinima,
                         String tipoAsta){
+        LocalDateTime dataScadenza = LocalDateTime.of(anno, mese, giorno, 23, 59, 59);
         if(controllerAste.aggiungiAstaDAO(emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima, tipoAsta)==1){
             int idAsta = controllerAste.getIdUltimaAsta();
             return iscrizione(emailCreatore, idAsta);
@@ -278,6 +279,7 @@ public class Controller {
 
 
 
+    //recupera i propri dati personali di un utente
     public UtenteDTO getDatiUtentePersonali(String mailUtente){
         Utente utente = controllerUtenti.getUtenteByEmail(mailUtente);
         String ragioneSociale;
@@ -292,7 +294,6 @@ public class Controller {
             partitaIva = "";
             numeroAziendale = "";
         }
-        System.out.println(utente.getImmagineProfilo());
         String immagineProfiloCodificata = Base64.getEncoder().encodeToString(utente.getImmagineProfilo());
         return new UtenteDTO(utente.getNome(), utente.getCodiceFiscale(), utente.getEmail(), utente.getDataNascita().getYear(), utente.getDataNascita().getMonthValue(), utente.getDataNascita().getDayOfMonth(), utente.getNazione(), utente.getNumeroCellulare(), utente.getIndirizzoSpedizione(), utente.getIndirizzoFatturazione(), utente.getContatti().getSitoWeb(), utente.getContatti().getFacebook(), utente.getContatti().getInstagram(), utente.getBiografia(), ragioneSociale, partitaIva, numeroAziendale, immagineProfiloCodificata);
     }
@@ -301,6 +302,7 @@ public class Controller {
 
 
 
+    //recupera i dati publici di un utente
     public UtenteDTO getDatiUtenteTerzi(String mailUtente){
         Utente utente = controllerUtenti.getUtenteByEmail(mailUtente);
         String ragioneSociale;
@@ -315,7 +317,6 @@ public class Controller {
             partitaIva = "";
             numeroAziendale = "";
         }
-        System.out.println(utente.getImmagineProfilo());
         String immagineProfiloCodificata = Base64.getEncoder().encodeToString(utente.getImmagineProfilo());
         return new UtenteDTO(utente.getNome(), "", utente.getEmail(), 0, 0, 0, utente.getNazione(), "", null, null, utente.getContatti().getSitoWeb(), utente.getContatti().getFacebook(), utente.getContatti().getInstagram(), utente.getBiografia(), ragioneSociale, partitaIva, numeroAziendale, immagineProfiloCodificata);
     }
@@ -324,23 +325,21 @@ public class Controller {
 
 
 
+    //recupera le aste attive publiche di un utente
     public ArrayList<AstaDTO> getAsteByEmailUtenteTerzi(String emailUtente, String emailUtenteTerzi){
         ArrayList<AstaDTO> arrayRitorno = new ArrayList<>();
         for(int i = 0; i < controllerLegami.getDatabaseSize(); i++){
-            if(controllerLegami.getLegameDatabase(i).getEmailUtente().equals(emailUtenteTerzi)){
+            if(controllerLegami.getMailUtenteLegameByIndice(i).equals(emailUtenteTerzi)){
                 Asta asta;
                 AstaDTO astaDTO;
                 String tipo="";
                 Boolean offertaFatta = false;
-                asta = controllerAste.getAstaDatabase(controllerAste.getIndiceAstaById(controllerLegami.getLegameDatabase(i).getIdAsta()));
+                asta = controllerAste.getAstaDatabase(controllerAste.getIndiceAstaById(controllerLegami.getIdAstaLegameByIndice(i)));
                 if(asta.getEmailCreatore().equals(emailUtenteTerzi) && !(asta instanceof AstaConclusa)){
                     for(int j = 0; j < controllerLegami.getDatabaseSize(); j++){
-                        System.out.print(controllerLegami.getLegameDatabase(j).getIdAsta()+" vs "+ asta.getIdAsta());
-                        System.out.print(controllerLegami.getLegameDatabase(j).getEmailUtente()+" vs "+ emailUtente);
-                        System.out.println(controllerLegami.getLegameDatabase(j).getOfferta());
-                        if((controllerLegami.getLegameDatabase(j).getIdAsta() == asta.getIdAsta()) &&
-                                (controllerLegami.getLegameDatabase(j).getEmailUtente().equals(emailUtente)) &&
-                                (controllerLegami.getLegameDatabase(j).getOfferta()!=-1)){
+                        if((controllerLegami.getIdAstaLegameByIndice(j) == asta.getIdAsta()) &&
+                                (controllerLegami.getMailUtenteLegameByIndice(j).equals(emailUtente)) &&
+                                (controllerLegami.getOffertaLegameByIndice(j)!=-1)){
                             offertaFatta = true;
                             }
                         }
@@ -356,12 +355,12 @@ public class Controller {
 
 
 
+    //genera le notifiche al seguito di una nuova offerta ad una asta indicata
     public void generaNotificheNuovaOfferta(int idAsta){
         int i = controllerAste.getIndiceAstaById(idAsta);
         if(i != -1){
-            String emailCreatore = controllerAste.getAstaDatabase(i).getEmailCreatore();
+            String emailCreatore = controllerAste.getMailCreatoreAstaByIndice(i);
             controllerNotifiche.aggiungiNotificaDAO(5, emailCreatore, idAsta);
-
             Legame legameUltimaOfferta = controllerLegami.getUltimaOffertaLegame(idAsta);
             if(legameUltimaOfferta != null){
                 controllerNotifiche.aggiungiNotificaDAO(6,legameUltimaOfferta.getEmailUtente(), idAsta);
@@ -373,6 +372,7 @@ public class Controller {
 
 
 
+    //genera le notifiche al seguito della scadenza di una asta specificata
     public int generaNotificaAstaScaduta(Asta asta, Offerta legameUltimaOfferta){
         //variabile che decreta come l'asta è conclusa: 0 nessuna offerta, 1 nessuna offerta valida, 2 con successo, altrimenti errore: -1
         int successo = 0;
@@ -386,9 +386,7 @@ public class Controller {
             }else{
                 successo= 1;
             }
-
         }
-        //scorro il database dei legami
         for(Legame legame: controllerLegami.databaseLegami){
             if(legame.getIdAsta() == asta.getIdAsta()){ //controllo che il legame riguardi l'asta che sta scadendo
                 if(!(legame.getEmailUtente().equals(asta.getEmailCreatore()))){ //controllo che il legame non sia del creatore
@@ -398,7 +396,6 @@ public class Controller {
                         }else{
                             controllerNotifiche.aggiungiNotificaDAO(7,legameUltimaOfferta.getEmailUtente(), asta.getIdAsta());
                         }
-
                     }else{
                         controllerNotifiche.aggiungiNotificaDAO(3,legame.getEmailUtente(), asta.getIdAsta());
                     }
@@ -425,10 +422,7 @@ public class Controller {
             if(controllerNotifiche.getNotificaDatabase(i).getDestinatario().equals(email)){
                 Notifica notifica = controllerNotifiche.getNotificaDatabase(i);
                 Asta asta = controllerAste.getAstaDatabase(controllerAste.getIndiceAstaById(notifica.getIdAsta()));
-                System.out.println(asta.getTitolo());
-
                 NotificaDTO notificaDTO = new NotificaDTO(notifica.getId(), notifica.getTipo(), notifica.getDestinatario(), notifica.getIdAsta(), asta.getTitolo());
-
                 arrayRitorno.add(notificaDTO);
             }
         }
@@ -443,4 +437,47 @@ public class Controller {
         return controllerNotifiche.eliminaNotificaDAO(idNotifica);
     }
 
+
+
+
+
+    public int modificaUtente(String email, String nazione, String numeroCellulare, String sito, String socialFacebook, String socialInstagram, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String numeroAziendale){
+        return controllerUtenti.modificaUtenteDAO(email, nazione, numeroCellulare, sito, socialFacebook, socialInstagram, biografia, immagineProfilo, indirizzoFatturazione, indirizzoSpedizione,numeroAziendale);
+    }
+
+    public int upgradeUtente(String email, String ragioneSociale, String partitaIva, String numeroAziendale){
+        return  controllerUtenti.upgradeUtenteDAO(email, ragioneSociale, partitaIva, numeroAziendale);
+    }
+
+    public int registraUtente(UtenteAutenticazioneDTO utenteAutenticazioneDTO){
+        byte[] immagineProfilo = null;
+        try {
+            immagineProfilo = Files.readAllBytes(Paths.get("placeholder.png"));
+        } catch (IOException e) {
+            System.out.println("Errore nella lettura della immagine");
+            return 0;
+        }
+        Contatti contatti = new Contatti("", "", "");
+        Indirizzo indirizzoVuoto = new Indirizzo("", "", "", "");
+        LocalDate dataNascita = LocalDate.of(utenteAutenticazioneDTO.dataDiNascitaAnno, utenteAutenticazioneDTO.dataDiNascitaMese, utenteAutenticazioneDTO.dataDiNascitaGiorno);
+        return controllerUtenti.aggiungiUtenteDAO(utenteAutenticazioneDTO.mail, utenteAutenticazioneDTO.password, utenteAutenticazioneDTO.nome, utenteAutenticazioneDTO.cognome, utenteAutenticazioneDTO.codiceFiscale, utenteAutenticazioneDTO.nazione, utenteAutenticazioneDTO.numeroCellulare, dataNascita, contatti, "", immagineProfilo, indirizzoVuoto, indirizzoVuoto);
+    }
+
+
+
+    // ritorna: 0 dati utente non corretti, 1 utente base, 2 utenteBusiness
+    public int accediUtente(UtenteAutenticazioneDTO utenteAutenticazioneDTO) {
+        int status = controllerUtenti.verificaUtente(utenteAutenticazioneDTO.mail, utenteAutenticazioneDTO.password);
+        if (status == 1) { //Utente verificato con successo
+            Boolean isBusiness = false;
+            if (controllerUtenti.getUtenteByEmail(utenteAutenticazioneDTO.mail) instanceof UtenteBusiness) {
+                return 2;
+            } else {
+                return 1;
+            }
+
+        } else {
+            return 0;
+        }
+    }
 }

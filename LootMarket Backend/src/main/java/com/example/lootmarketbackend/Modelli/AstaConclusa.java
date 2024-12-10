@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public class AstaConclusa implements Asta{
 
-    //ATTRIBUTI
     private int idAsta;
     private String emailCreatore;
     private String titolo;

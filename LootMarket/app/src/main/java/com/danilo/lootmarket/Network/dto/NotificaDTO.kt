@@ -1,4 +1,4 @@
-package com.danilo.lootmarket.Network.dto
+package com.danilo.lootmarket.network.dto
 
 class NotificaDTO(val id: Int,
     val tipo: Int,

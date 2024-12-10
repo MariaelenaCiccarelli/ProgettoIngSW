@@ -2,27 +2,18 @@ package com.danilo.lootmarket
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Window
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.danilo.lootmarket.Network.dto.MyToken
 import com.danilo.lootmarket.databinding.ActivityHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity: AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
-
-    //private lateinit var auctionsAdapter : AuctionsAdapter
     private lateinit var mail: String
     private lateinit var token: String
     private var isBusiness: Boolean = false
     private var detailsAsta: Boolean = false
-
-
     private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,15 +23,13 @@ class HomeActivity: AppCompatActivity() {
         isBusiness= intent.getBooleanExtra("isBusiness", false)
         detailsAsta = intent.getBooleanExtra("detailsAsta", false)
         var idAstaDetails = intent.getIntExtra("idAstaDetails", 0)
-
         enableEdgeToEdge()
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
-
-            bottomNavigationView = findViewById(R.id.bottom_navigation)
-            bottomNavigationView.setOnItemSelectedListener { menuItem ->
+        bottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when(menuItem.itemId) {
                 R.id.bottom_home -> {
                     replaceFragment(HomeFragment(mail, token, detailsAsta, idAstaDetails ), "HomeFragment")
@@ -98,13 +87,13 @@ class HomeActivity: AppCompatActivity() {
     override fun onResume(){
         super.onResume()
         if(supportFragmentManager.fragments.last().tag == "HomeFragment"){
-            bottomNavigationView.getMenu().findItem(R.id.bottom_home).setChecked(true)
+            bottomNavigationView.menu.findItem(R.id.bottom_home).setChecked(true)
         }else if(supportFragmentManager.fragments.last().tag == "SearchFragment"){
-            bottomNavigationView.getMenu().findItem(R.id.bottom_seach).setChecked(true)
+            bottomNavigationView.menu.findItem(R.id.bottom_seach).setChecked(true)
         }else if(supportFragmentManager.fragments.last().tag == "AuctionsFragment"){
-            bottomNavigationView.getMenu().findItem(R.id.bottom_auctions).setChecked(true)
+            bottomNavigationView.menu.findItem(R.id.bottom_auctions).setChecked(true)
         }else if(supportFragmentManager.fragments.last().tag == "ProfileFragment"){
-            bottomNavigationView.getMenu().findItem(R.id.bottom_profile).setChecked(true)
+            bottomNavigationView.menu.findItem(R.id.bottom_profile).setChecked(true)
         }
     }
 

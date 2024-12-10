@@ -1,8 +1,5 @@
 package com.example.lootmarketbackend.DAO;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public interface NotificaDAO {
@@ -12,10 +9,7 @@ public interface NotificaDAO {
                        ArrayList<String> destinatari,
                        ArrayList<Integer> idAste);
 
-    int aggiungiNotificaDB(
-                          int tipo,
-                          String destinatario,
-                          int idAsta);
+    int aggiungiNotificaDB(int tipo, String destinatario, int idAsta);
 
     int eliminaNotificaDB(int id);
 

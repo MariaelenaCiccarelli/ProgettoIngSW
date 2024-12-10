@@ -2,7 +2,6 @@ package com.danilo.lootmarket
 
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,13 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import androidx.core.content.res.ResourcesCompat
-
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
-import com.danilo.lootmarket.Network.RetrofitInstance
-import com.danilo.lootmarket.Network.dto.AstaDTO
+
 import com.danilo.lootmarket.databinding.FragmentAuctionsBinding
+import com.danilo.lootmarket.network.RetrofitInstance
+import com.danilo.lootmarket.network.dto.AstaDTO
 
 import kotlinx.coroutines.async
 import okio.IOException
@@ -42,15 +40,11 @@ class AuctionsFragment(var mail: String, var token: String) : Fragment() {
 
         arrayAsteUtente = listOf()
         getAsteUtente(mail)
-
-
-        auctionsLiveAdapter = AuctionsLiveAdapter(arrayAsteUtente, this.requireContext())
-
-
-
+        auctionsLiveAdapter = AuctionsLiveAdapter(arrayAsteUtente)
 
 
         binding.buttonProprieFrammentoAuctions.setOnClickListener{
+
             binding.cardBottoneProprieFrammentoAuctions.setCardBackgroundColor(Color.parseColor("#a91010"))
             binding.buttonProprieFrammentoAuctions.setBackgroundColor(Color.parseColor("#a91010"))
             binding.buttonProprieFrammentoAuctions.setTextColor(Color.parseColor("#FFF6DD"))
@@ -65,7 +59,10 @@ class AuctionsFragment(var mail: String, var token: String) : Fragment() {
 
             replaceFragment(PersonalAuctionsFragment(auctionsLiveAdapter.auctionsViewHistory, mail, token))
         }
+
+
         binding.buttonIscrizioniFrammentoAuctions.setOnClickListener{
+
             binding.cardBottoneIscrizioniFrammentoAuctions.setCardBackgroundColor(Color.parseColor("#a91010"))
             binding.buttonIscrizioniFrammentoAuctions.setBackgroundColor(Color.parseColor("#a91010"))
             binding.buttonIscrizioniFrammentoAuctions.setTextColor(Color.parseColor("#FFF6DD"))
@@ -78,10 +75,10 @@ class AuctionsFragment(var mail: String, var token: String) : Fragment() {
             binding.buttonStoricoFrammentoAuctions.setBackgroundColor(Color.parseColor("#FFF6DD"))
             binding.buttonStoricoFrammentoAuctions.setTextColor(Color.parseColor("#4d251b"))
 
-
             replaceFragment(SubscribedAuctionsFragment(auctionsLiveAdapter.auctionsViewHistory, mail, token))
         }
         binding.buttonStoricoFrammentoAuctions.setOnClickListener{
+
             binding.cardBottoneStoricoFrammentoAuctions.setCardBackgroundColor(Color.parseColor("#a91010"))
             binding.buttonStoricoFrammentoAuctions.setBackgroundColor(Color.parseColor("#a91010"))
             binding.buttonStoricoFrammentoAuctions.setTextColor(Color.parseColor("#FFF6DD"))
@@ -98,21 +95,25 @@ class AuctionsFragment(var mail: String, var token: String) : Fragment() {
         }
 
 
-
         return binding.root
     }
 
-    private fun replaceFragment(fragment: Fragment){
 
+
+
+
+    private fun replaceFragment(fragment: Fragment){
         var transaction: FragmentTransaction = getChildFragmentManager().beginTransaction()
         transaction.replace(binding.frameContainerFrammentoAuctions.id, fragment).commit()
-
     }
+
+
+
+
 
     private fun getAsteUtente(email: String){
         var auctionsCaricate = ArrayList<AuctionViewHistory>()
         lifecycleScope.async {
-
             val response = try{
                 RetrofitInstance.api.getAsteUtente(email, token)
             }catch (e: IOException){
@@ -126,18 +127,14 @@ class AuctionsFragment(var mail: String, var token: String) : Fragment() {
                 Log.println(Log.INFO,"MyNetwork", "Response is successful")
                 var asteRecuperate: List<AstaDTO> = response.body()!!
                 for(asta in asteRecuperate){
-                    Log.println(Log.INFO, "MyNetwork", asta.toString())
                     val immagineAstaByteArrayDecoded = Base64.getDecoder().decode(asta.immagineAsta)
                     val immagineAsta= BitmapFactory.decodeByteArray(immagineAstaByteArrayDecoded, 0, immagineAstaByteArrayDecoded.size)
                     var auctionViewHistory = AuctionViewHistory(asta.idAsta, asta.titolo, asta.ultimaOfferta, ZonedDateTime.of(asta.anno, asta.mese, asta.giorno, 0, 0, 0,0, ZoneId.of("GMT")), immagineAsta, asta.emailCreatore, asta.offertaFatta)
                     auctionsCaricate.add(auctionViewHistory)
-
-                    Log.println(Log.INFO, "MyNetwork", auctionsCaricate[0].titoloAsta)
                 }
                 arrayAsteUtente = arrayAsteUtente + auctionsCaricate
                 auctionsLiveAdapter.auctionsViewHistory = arrayAsteUtente
                 auctionsLiveAdapter!!.notifyDataSetChanged()
-
                 replaceFragment(SubscribedAuctionsFragment(auctionsLiveAdapter.auctionsViewHistory, mail, token))
                 return@async
             }else{
@@ -149,6 +146,10 @@ class AuctionsFragment(var mail: String, var token: String) : Fragment() {
                 return@async
             }
         }
-
     }
+
+
+
+
+
 }

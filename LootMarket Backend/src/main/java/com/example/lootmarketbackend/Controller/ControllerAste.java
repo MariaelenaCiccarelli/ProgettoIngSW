@@ -3,14 +3,14 @@ package com.example.lootmarketbackend.Controller;
 import com.example.lootmarketbackend.DAO.AstaDAO;
 import com.example.lootmarketbackend.ImplementazionePostgresDAO.AstaImplementazionePostgresDAO;
 import com.example.lootmarketbackend.Modelli.*;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class ControllerAste {
 
-    public ArrayList<Asta> databaseAste = new ArrayList<>();
+    public ArrayList<Asta> databaseAste;
+
     public ControllerAste(){
         databaseAste = new ArrayList<>();
         leggiAsteDAO();
@@ -18,8 +18,12 @@ public class ControllerAste {
 
     }
 
+
+
+
+
     public int getIdUltimaAsta(){
-        if(databaseAste.size() > 0){
+        if(!databaseAste.isEmpty()){
             return databaseAste.getLast().getIdAsta();
         }
         else{
@@ -27,14 +31,26 @@ public class ControllerAste {
         }
     }
 
+
+
+
+
     public int getDatabaseSize(){return databaseAste.size();}
+
+
+
+
 
     public Asta getAstaDatabase(int indice){
         return databaseAste.get(indice);
     }
 
 
+
+
+
     public void leggiAsteDAO(){
+
         ArrayList<Integer> idAste = new ArrayList<>();
         ArrayList<String> emailCreatori = new ArrayList<>();
         ArrayList<String> titoli = new ArrayList<>();
@@ -50,12 +66,9 @@ public class ControllerAste {
         ArrayList<Double> costiFinali = new ArrayList<>();
 
         AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
-
         astaDAO.leggiAsteDB(idAste, emailCreatori, titoli, categorie, prezziPartenza, dateScadenza, descrizioni, immaginiProdotti, ultimeOfferte, soglieMinime, tipiAste, emailVincitori, costiFinali);
-
         for(int i = 0; i < idAste.size(); i++) {
             Asta asta;
-
             if (!(tipiAste.get(i).equals("Asta Conclusa"))){
                 if (tipiAste.get(i).equals("Asta a Tempo Fisso")) {
                     asta = new AstaTempoFisso(idAste.get(i), emailCreatori.get(i), titoli.get(i), categorie.get(i), prezziPartenza.get(i), dateScadenza.get(i), descrizioni.get(i), immaginiProdotti.get(i), ultimeOfferte.get(i), soglieMinime.get(i));
@@ -68,6 +81,10 @@ public class ControllerAste {
             databaseAste.add(asta);
         }
     }
+
+
+
+
 
     public int aggiungiAstaDAO(String emailCreatore,
                                 String titolo,
@@ -86,30 +103,33 @@ public class ControllerAste {
         }else{
             asta = new AstaInversa(idAsta, emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta);
         }
-
-
         AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
         if(astaDAO.aggiungiAstaDB(emailCreatore, titolo, categoria, prezzoPartenza, dataScadenza, descrizione, immagineProdotto, ultimaOfferta, sogliaMinima, tipoAsta)==1){
             databaseAste.add(asta);
-            //idUltimaAsta++;
             return 1;
         }else{
             return -1;
         }
     }
 
+
+
+
+
     public void concludiAstaDAO(int idAsta, String emailVincitore, double costoFinale){
         int i = getIndiceAstaById(idAsta);
         if(i != -1) {
-            System.out.println("Asta da concludere individuata!");
             Asta astaConclusa = new AstaConclusa(idAsta, databaseAste.get(i).getEmailCreatore(), databaseAste.get(i).getTitolo(), databaseAste.get(i).getCategoria(), databaseAste.get(i).getPrezzoPartenza(), databaseAste.get(i).getDataScadenza(), databaseAste.get(i).getDescrizione(), databaseAste.get(i).getImmagineProdotto(), emailVincitore, costoFinale);
             databaseAste.remove(i);
             databaseAste.add(astaConclusa);
             AstaDAO astaDAO = new AstaImplementazionePostgresDAO();
             astaDAO.concludiAstaDB(idAsta, emailVincitore, costoFinale);
-            System.out.println("Asta conclusa con successo!");
         }
     }
+
+
+
+
 
     public void modificaUltimaOffertaAstaDAO(int idAsta, double ultimaOfferta){
         int i = getIndiceAstaById(idAsta);
@@ -118,6 +138,10 @@ public class ControllerAste {
             astaDAO.modificaUltimaOffertaAstaDB(idAsta, ultimaOfferta);
         }
     }
+
+
+
+
 
     //ritorna -1 se asta non presente
     public int getIndiceAstaById(int idAsta) {
@@ -130,6 +154,10 @@ public class ControllerAste {
         }
         return -1;
     }
+
+
+
+
 
     //ritorna 0 se è un'asta a tempo fisso, 1 asta inversa, -1 asta conclusa, 2 se non trova nulla
     public int getTipoAsta(Asta asta){
@@ -144,8 +172,16 @@ public class ControllerAste {
         }
     }
 
-    public int effettuaOfferta(String emailOfferente, int indiceAsta, double offerta){
+    public String getMailCreatoreAstaByIndice(int indice){
+        return databaseAste.get(indice).getEmailCreatore();
 
+    }
+
+
+
+
+
+    public int effettuaOfferta(String emailOfferente, int indiceAsta, double offerta){
         Asta asta = getAstaDatabase(indiceAsta);
         if(asta.getEmailCreatore().equals(emailOfferente)){
             return -1;
@@ -164,4 +200,9 @@ public class ControllerAste {
         }
         return 1;
     }
+
+
+
+
+
 }

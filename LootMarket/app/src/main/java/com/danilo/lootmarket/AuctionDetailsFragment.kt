@@ -2,7 +2,6 @@ package com.danilo.lootmarket
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -10,21 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.danilo.lootmarket.Network.RetrofitInstance
-import com.danilo.lootmarket.Network.dto.AstaDTO
-import com.danilo.lootmarket.Network.dto.DettagliAstaDTO
-import com.danilo.lootmarket.Network.dto.OffertaDTO
-import com.danilo.lootmarket.Network.dto.UtenteDTO
+import com.danilo.lootmarket.network.RetrofitInstance
+import com.danilo.lootmarket.network.dto.DettagliAstaDTO
+import com.danilo.lootmarket.network.dto.OffertaDTO
 import com.danilo.lootmarket.databinding.FragmentAuctionDetailsBinding
-import com.danilo.lootmarket.databinding.FragmentHomeBinding
 import kotlinx.coroutines.async
 import okio.IOException
 import retrofit2.HttpException
@@ -33,7 +25,6 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.Base64
-import java.util.Date
 import java.util.Locale
 
 
@@ -41,8 +32,6 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
 
     private lateinit var binding: FragmentAuctionDetailsBinding
     private var mailCreatore = ""
-    //private lateinit var navController: NavController
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -51,13 +40,9 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
 
 
     ): View? {
-        // Inflate the layout for this fragment
-
-
         binding = FragmentAuctionDetailsBinding.inflate(layoutInflater)
         binding.frammentoIntero.isVisible=false
         getDettagliAsta(idAuction,mailUtente,token)
-        //val view = inflater.inflate(R.layout.fragment_home, container, false)
 
 
         binding.cardBackButtonFrammentoAuctionDetails.setOnClickListener{
@@ -65,13 +50,16 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
 
         }
 
+
         binding.cardIscrizioneAstaFrammentoAuctionDetails.setOnClickListener{
             postIscrizione(idAuction, mailUtente, token)
         }
 
+
         binding.cardDisiscrizioneAstaFrammentoAuctionDetails.setOnClickListener{
             postDisiscrizione(idAuction, mailUtente,token)
         }
+
 
         binding.cardPresentaOffertaFrammentoAuctionDetails.setOnClickListener{
             binding.cardBackgroundOverlayFrammentoAuctionDetails.isVisible = true
@@ -82,7 +70,6 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
             val cittaSpedizione = binding.editTextOverlayCittaSpedizioneFrammentoAuctionDetails.text.toString()
             val provinciaSpedizione = binding.editTextOverlayProvinciaSpedizioneFrammentoAuctionDetails.text.toString()
             val CAPSpedizione = binding.editTextOverlayCAPSpedizioneFrammentoAuctionDetails.text.toString()
-
             val viaFatturazione = binding.editTextOverlayViaFatturazioneFrammentoAuctionDetails.text.toString()
             val cittaFatturazione = binding.editTextOverlayCittaFatturazioneFrammentoAuctionDetails.text.toString()
             val provinciaFatturazione = binding.editTextOverlayProvinciaFatturazioneFrammentoAuctionDetails.text.toString()
@@ -96,6 +83,8 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
                 binding.scrollViewOverlay1FrammentoAuctionDetails.isVisible = false
             }
         }
+
+
         binding.bottoneOverlay2FrammentoAuctionDetails.setOnClickListener{
             val offerta = binding.editTextOverlayTuaOffertaFrammentoAuctionDetails.text.toString()
             val numeroCarta = binding.editTextOverlayNumeroOffertaFrammentoAuctionDetails.text.toString()
@@ -103,7 +92,6 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
             val dataScadenzaMese = binding.editTextOverlayDataScadenzaMeseFrammentoAuctionDetails.text.toString()
             val dateScadenzaAnno = binding.editTextOverlayDataScadenzaAnnoFrammentoAuctionDetails.text.toString()
             val ccv = binding.editTextOverlayCCVFrammentoAuctionDetails.text.toString()
-
             if((offerta=="")||(numeroCarta=="")||(nomeIntestatarioCarta=="")||(dataScadenzaMese=="")||(dateScadenzaAnno=="")||(ccv=="")){
                 Toast.makeText(this.context, "Compila tutti i campi!", Toast.LENGTH_SHORT).show()
             }else{
@@ -112,41 +100,34 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
                 }else{
                     Toast.makeText(this.context, "Inserisci una carta valida!", Toast.LENGTH_SHORT).show()
                 }
-
             }
         }
 
 
         binding.imageViewBackButtonOverlayPresentaOffertaFrammentoAuctionDetails.setOnClickListener{
             if(binding.scrollViewOverlay2FrammentoAuctionDetails.isVisible == true){
-
-
                 binding.editTextOverlayTuaOffertaFrammentoAuctionDetails.setText("")
                 binding.editTextOverlayNumeroOffertaFrammentoAuctionDetails.setText("")
                 binding.editTextOverlayIntestatarioCartaFrammentoAuctionDetails.setText("")
                 binding.editTextOverlayDataScadenzaMeseFrammentoAuctionDetails.setText("")
                 binding.editTextOverlayDataScadenzaAnnoFrammentoAuctionDetails.setText("")
                 binding.editTextOverlayCCVFrammentoAuctionDetails.setText("")
-
                 binding.textViewLabelOverlayTuaOffertaFrammentoAuctionDetails.requestFocus()
                 binding.scrollViewOverlay2FrammentoAuctionDetails.isVisible = false
             }
-
-
             binding.editTextOverlayViaSpedizioneFrammentoAuctionDetails.setText("")
             binding.editTextOverlayCittaSpedizioneFrammentoAuctionDetails.setText("")
             binding.editTextOverlayProvinciaSpedizioneFrammentoAuctionDetails.setText("")
             binding.editTextOverlayCAPSpedizioneFrammentoAuctionDetails.setText("")
-
             binding.editTextOverlayViaFatturazioneFrammentoAuctionDetails.setText("")
             binding.editTextOverlayCittaFatturazioneFrammentoAuctionDetails.setText("")
             binding.editTextOverlayProvinciaFatturazioneFrammentoAuctionDetails.setText("")
             binding.editTextOverlayCAPFatturazioneFrammentoAuctionDetails.setText("")
-
             binding.scrollViewOverlay1FrammentoAuctionDetails.isVisible = true
             binding.textViewLabelOverlayIndirizzoSpedizioneFrammentoAuctionDetails.requestFocus()
             binding.cardBackgroundOverlayFrammentoAuctionDetails.isVisible= false
         }
+
 
         binding.textViewNomeAutoreFrammentoAuctionDetails.setOnClickListener{
             val transaction = activity?.supportFragmentManager?.beginTransaction()
@@ -163,20 +144,13 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
 
 
 
-
-
-
     fun setAuction(dettagliAsta: DettagliAstaDTO, immagineProdotto: Bitmap){
         mailCreatore = dettagliAsta.emailCreatore
         var dataScadenza: ZonedDateTime = ZonedDateTime.of(dettagliAsta.anno, dettagliAsta.mese, dettagliAsta.giorno, 0, 0, 0,0, ZoneId.of("GMT"))
         binding.imageViewImmagineAuctionFrammentoAuctionDetails.setImageBitmap(immagineProdotto)
         binding.textViewTitoloAstaFrammentoAuctionDetails.text = dettagliAsta.titolo
-        Log.println(Log.INFO, "MyNetwork", dettagliAsta.ultimaOffertaTua.toString())
-        Log.println(Log.INFO, "MyNetwork", dettagliAsta.statusLegame)
-
         if(dettagliAsta.ultimaOffertaTua){
             binding.textViewUltimaOffertaFrammentoAuctionDetails.text = "Ultima Offerta (Tu): €"+ "%,.2f".format(Locale.ITALIAN,dettagliAsta.ultimaOfferta)
-
         }else{
             binding.textViewUltimaOffertaFrammentoAuctionDetails.text = "Ultima Offerta: €"+ "%,.2f".format(Locale.ITALIAN,dettagliAsta.ultimaOfferta)
         }
@@ -202,6 +176,13 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
                 binding.textViewTempoRimFrammentoAuctionDetails.text = ">1h rimanente"
             }
         }
+        if(dettagliAsta.tipoAsta =="Asta Conclusa"){
+            disabilitaIscrizione()
+            disabilitaPresentaOfferta()
+            if(dettagliAsta.ultimaOfferta<-1){
+                binding.textViewUltimaOffertaFrammentoAuctionDetails.text="Terminata senza successo"
+            }
+        }
         if(dettagliAsta.tipoAsta =="Asta Inversa"){
             binding.cardIsInversaFrammentoAuctionDetails.isVisible = true
         }
@@ -220,20 +201,30 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
                 }
             }
         }
+    }
 
-    }
+
+
+
+
     fun disabilitaIscrizione(){
-        binding.cardIscrizioneAstaFrammentoAuctionDetails.isVisible = false
-        //binding.textViewIscrizioneAstaFrammentoAuctionDetails.isVisible = false
+        binding.cardIscrizioneAstaFrammentoAuctionDetails.isClickable= false
+        binding.cardBottoneIscrizioneAstaFrammentoAuctionDetails.isVisible = false
+        binding.textViewIscrizioneAstaFrammentoAuctionDetails.isVisible = false
     }
+
+
     fun disabilitaPresentaOfferta(){
         binding.cardPresentaOffertaFrammentoAuctionDetails.isVisible=false
-        //binding.textViewPresentaOffertaFrammentoAuctionDetails.isVisible = false
     }
+
+
     fun cambiaDaIscrizioneADisiscrizione(){
         binding.cardDisiscrizioneAstaFrammentoAuctionDetails.isVisible = true
         binding.cardIscrizioneAstaFrammentoAuctionDetails.isVisible = false
     }
+
+
     fun cambiaDaDisiscrizioneAIscrizione(){
         binding.cardIscrizioneAstaFrammentoAuctionDetails.isVisible = true
         binding.cardDisiscrizioneAstaFrammentoAuctionDetails.isVisible = false
@@ -243,17 +234,8 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
 
 
 
-
-
-
-
-
-
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getDettagliAsta(id: Int, mailUtente: String, token: String){
-
         lifecycleScope.async {
             val response = try{
                 RetrofitInstance.api.getDettagliAsta(id, mailUtente, token)
@@ -272,22 +254,11 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
             if(response.isSuccessful && response.body() != null){
                 Log.println(Log.INFO, "MyNetwork", "Response is successful")
                 var astaRecuperata: DettagliAstaDTO = response.body()!!
-                Log.println(Log.INFO, "MyNetwork", astaRecuperata.toString())
-
-
                 val immagineAstaByteArrayDecoded = Base64.getDecoder().decode(astaRecuperata.immagineAsta)
-
-
-                Log.println(Log.INFO, "MyNetwork", "Ho trasformato la stringa in byte Array")
-
                 try{
                     var immagineAsta= BitmapFactory.decodeByteArray(immagineAstaByteArrayDecoded, 0, immagineAstaByteArrayDecoded.size)
-
-
-                    Log.println(Log.INFO, "MyNetwork", "Ho trasformato il byte array in bitmap")
                     setAuction(astaRecuperata, immagineAsta)
                     binding.frammentoIntero.isVisible=true
-
                     return@async
                 }catch (e: Exception){
                     Log.e("MyNetwork", e.toString())
@@ -306,8 +277,11 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
     }
 
 
+
+
+
     private fun postIscrizione(idAsta: Int, mailUtente: String, token: String){
-        var offertaDTO = OffertaDTO(idAsta, mailUtente, -1.0)
+        val offertaDTO = OffertaDTO(idAsta, mailUtente, -1.0)
         lifecycleScope.async {
             val response = try{
                 RetrofitInstance.api.postIscrizione(offertaDTO, token)
@@ -347,8 +321,12 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
         }
     }
 
+
+
+
+
     private fun postDisiscrizione(idAsta: Int, mailUtente: String, token: String){
-        var offertaDTO = OffertaDTO(idAsta, mailUtente, -1.0)
+        val offertaDTO = OffertaDTO(idAsta, mailUtente, -1.0)
         lifecycleScope.async {
             val response = try{
                 RetrofitInstance.api.postDisiscrizione(offertaDTO, token)
@@ -388,6 +366,10 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
         }
     }
 
+
+
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun postNuovaOfferta(idAsta: Int, mailUtente: String, offerta: Double, token: String){
         var offertaDTO = OffertaDTO(idAsta, mailUtente, offerta)
@@ -414,6 +396,7 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
                 if(response.body()==1){
                     cambiaDaDisiscrizioneAIscrizione()
                     Toast.makeText(context, "Presentazione nuova offerta avvenuta con successo!", Toast.LENGTH_SHORT).show()
+
                     binding.cardBackgroundOverlayFrammentoAuctionDetails.isVisible = false
                     binding.textViewLabelOverlayTuaOffertaFrammentoAuctionDetails.requestFocus()
                     binding.scrollViewOverlay2FrammentoAuctionDetails.isVisible = false
@@ -424,6 +407,7 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
                     binding.editTextOverlayDataScadenzaMeseFrammentoAuctionDetails.setText("")
                     binding.editTextOverlayDataScadenzaAnnoFrammentoAuctionDetails.setText("")
                     binding.editTextOverlayCCVFrammentoAuctionDetails.setText("")
+
                     binding.editTextOverlayViaSpedizioneFrammentoAuctionDetails.setText("")
                     binding.editTextOverlayCittaSpedizioneFrammentoAuctionDetails.setText("")
                     binding.editTextOverlayProvinciaSpedizioneFrammentoAuctionDetails.setText("")
@@ -439,6 +423,7 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
                     binding.scrollViewOverlay2FrammentoAuctionDetails.isVisible = false
                     binding.scrollViewOverlay1FrammentoAuctionDetails.isVisible = true
                     binding.textViewLabelOverlayIndirizzoSpedizioneFrammentoAuctionDetails.requestFocus()
+
                     getDettagliAsta(idAsta, mailUtente, token)
                 }
                 else if(response.body()==-2){
@@ -458,6 +443,8 @@ class AuctionDetailsFragment(private var idAuction: Int, private var mailUtente:
             }
         }
     }
+
+
 
 
 

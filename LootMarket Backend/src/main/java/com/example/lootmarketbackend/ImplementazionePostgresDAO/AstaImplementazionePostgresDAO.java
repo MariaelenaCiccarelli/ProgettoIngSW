@@ -16,10 +16,12 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
         try {
             connection = ConnessioneDatabase.getInstance().connection;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
+
+
+
 
 
     @Override
@@ -62,6 +64,10 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
 
     }
 
+
+
+
+
     @Override
     public int aggiungiAstaDB(String emailCreatore,
                                String titolo,
@@ -90,8 +96,6 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
             aggiungiAstaStatement.setString(11,"");
             aggiungiAstaStatement.setDouble(12, -1);
 
-
-
             aggiungiAstaStatement.executeUpdate();
             connection.close();
             return 1;
@@ -102,9 +106,12 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
 
     }
 
+
+
+
+
     @Override
     public void concludiAstaDB(int idAsta, String emailVincitore, double costoFinale) {
-
         try{
             PreparedStatement concludiAstaStatement = connection.prepareStatement("UPDATE \"Aste\" SET \"Email Vincitore\" = ? , \"Costo Finale\" = ?, \"Tipo di Asta\" = ? WHERE \"Id Asta\" = ?");
             concludiAstaStatement.setString(1, emailVincitore);
@@ -119,9 +126,12 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
 
     }
 
+
+
+
+
     @Override
     public void modificaUltimaOffertaAstaDB(int idAsta, double ultimaOfferta) {
-
         try{
             PreparedStatement modificaUltimaOffertaStatement = connection.prepareStatement("UPDATE \"Aste\" SET \"Ultima Offerta\" = ? WHERE \"Id Asta\" = ?");
             modificaUltimaOffertaStatement.setDouble(1, ultimaOfferta);
@@ -133,4 +143,9 @@ public class AstaImplementazionePostgresDAO implements AstaDAO {
         }
 
     }
+
+
+
+
+
 }

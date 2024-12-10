@@ -9,14 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.danilo.lootmarket.Network.RetrofitInstance
-import com.danilo.lootmarket.Network.dto.NotificaDTO
+import com.danilo.lootmarket.network.RetrofitInstance
+import com.danilo.lootmarket.network.dto.NotificaDTO
 import com.danilo.lootmarket.databinding.ActivityNotificationBinding
 import kotlinx.coroutines.async
 import okio.IOException
 import retrofit2.HttpException
 
-class NotificationActivity(): AppCompatActivity() {
+class NotificationActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityNotificationBinding
 
@@ -30,19 +30,14 @@ class NotificationActivity(): AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityNotificationBinding.inflate(layoutInflater)
-
         mail= intent.getStringExtra("mail").toString()
         token= intent.getStringExtra("token").toString()
-
         setContentView(binding.root)
-
 
         arrayNotificheUtente = listOf()
         getNotificheUtente(mail)
+        notificationAdapter = NotificationAdapters(arrayNotificheUtente)
 
-
-
-        notificationAdapter = NotificationAdapters(arrayNotificheUtente, this)
 
         binding.RecyclerViewFrammentoHome.layoutManager = LinearLayoutManager(this)
         binding.RecyclerViewFrammentoHome.adapter = notificationAdapter
@@ -50,7 +45,6 @@ class NotificationActivity(): AppCompatActivity() {
 
         notificationAdapter.onItemClick = {
             postEliminaNotificaUtente(it.idNotifica, it.idAsta)
-
         }
 
         binding.imageViewBackButtonPaginaNotification.setOnClickListener{
@@ -59,13 +53,12 @@ class NotificationActivity(): AppCompatActivity() {
         binding.textViewBackHomePaginaNotification.setOnClickListener{
             finish()
         }
-
     }
+
 
     private fun getNotificheUtente(email: String){
         var notificheCaricate = ArrayList<Notification>()
         lifecycleScope.async {
-
             val response = try{
                 RetrofitInstance.api.getNotificheUtente(email, token)
             }catch (e: IOException){
@@ -79,7 +72,6 @@ class NotificationActivity(): AppCompatActivity() {
                 Log.println(Log.INFO,"MyNetwork", "Response is successful")
                 var notificheRecuperate: List<NotificaDTO> = response.body()!!
                 for(notifica in notificheRecuperate){
-                    Log.println(Log.INFO, "MyNetwork", notifica.titoloAsta)
                     var testoNotifica = notifica.getMessaggio()
                     var titoloNotifica = notifica.getTitolo()
                     var immagineNotifica: Drawable
@@ -95,7 +87,6 @@ class NotificationActivity(): AppCompatActivity() {
                         else ->{
                             immagineNotifica = ResourcesCompat.getDrawable(resources, R.drawable.baseline_report_gmailerrorred_24, null)!!
                         }
-
                     }
                     var notification = Notification(notifica.id, notifica.idAsta, immagineNotifica, titoloNotifica, testoNotifica)
                     notificheCaricate.add(notification)
@@ -103,7 +94,6 @@ class NotificationActivity(): AppCompatActivity() {
                 arrayNotificheUtente = arrayNotificheUtente + notificheCaricate
                 notificationAdapter.NotificationViewHistory = arrayNotificheUtente
                 notificationAdapter!!.notifyDataSetChanged()
-
                 return@async
             }else{
                 Log.e("MyNetwork", "Response not successful")
@@ -114,13 +104,11 @@ class NotificationActivity(): AppCompatActivity() {
                 return@async
             }
         }
-
     }
 
 
     private fun postEliminaNotificaUtente(idNotifica: Int, idAsta: Int){
         lifecycleScope.async {
-
             val response = try{
                 RetrofitInstance.api.postEliminaNotifica(idNotifica, token)
             }catch (e: IOException){
@@ -138,7 +126,6 @@ class NotificationActivity(): AppCompatActivity() {
                 intent.putExtra("detailsAsta", true)
                 intent.putExtra("idAstaDetails", idAsta)
                 startActivity(intent)
-
                 return@async
             }else{
                 Log.e("MyNetwork", "Response not successful")
@@ -149,7 +136,6 @@ class NotificationActivity(): AppCompatActivity() {
                 return@async
             }
         }
-
     }
 
 

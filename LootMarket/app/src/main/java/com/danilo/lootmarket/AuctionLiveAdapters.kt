@@ -1,29 +1,21 @@
 package com.danilo.lootmarket
 
-import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import java.time.temporal.Temporal
-import java.time.temporal.TemporalUnit
-import java.util.Date
 import java.util.Locale
 
-class AuctionsLiveAdapter (public var auctionsViewHistory: List<AuctionViewHistory>, context: Context, var autoreVisibile: Boolean = true): RecyclerView.Adapter<AuctionsLiveAdapter.AuctionViewHolder>(){
+class AuctionsLiveAdapter(
+    public var auctionsViewHistory: List<AuctionViewHistory>, var autoreVisibile: Boolean = true): RecyclerView.Adapter<AuctionsLiveAdapter.AuctionViewHolder>(){
 
     class AuctionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val testoTitoloView: TextView = itemView.findViewById(R.id.testoTitoloAstaAuctionLiveItem)
@@ -37,16 +29,28 @@ class AuctionsLiveAdapter (public var auctionsViewHistory: List<AuctionViewHisto
 
     var onItemClick: ((AuctionViewHistory)-> Unit)? = null
 
+
+
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AuctionViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.auction_item_live, parent, false)
         return AuctionViewHolder(view)
     }
 
+
+
+
+
     override fun onBindViewHolder(holder: AuctionViewHolder, position: Int) {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val auction = auctionsViewHistory[position]
         holder.testoTitoloView.text = auction.titoloAsta
-        holder.testoUltimaOffertaView.text = "Ultima Offerta: €"+ "%,.2f".format(Locale.ITALIAN,auction.ultimaOfferta)
+        if(auction.ultimaOfferta<0){
+            holder.testoUltimaOffertaView.text ="Terminata senza successo"
+        }else{
+            holder.testoUltimaOffertaView.text = "Ultima Offerta: €"+ "%,.2f".format(Locale.ITALIAN,auction.ultimaOfferta)
+        }
         if(autoreVisibile) {
             holder.testoAutoreView.text = auction.autore
         }else{
@@ -58,7 +62,6 @@ class AuctionsLiveAdapter (public var auctionsViewHistory: List<AuctionViewHisto
         }else{
             holder.bollinoView.isVisible = true
         }
-
         if(auction.dataScadenza.isBefore(ZonedDateTime.now())){
             holder.testoTempoRimanenteView.text = "Scaduta il: "+auction.dataScadenza.format(formatter)
             holder.testoTempoRimanenteView.setTextColor(Color.parseColor("#4d251b"))
@@ -81,10 +84,19 @@ class AuctionsLiveAdapter (public var auctionsViewHistory: List<AuctionViewHisto
     }
 
 
+
+
+
     override fun getItemCount(): Int = auctionsViewHistory.size
+
 
     fun refreshData(newAuctions: List<AuctionViewHistory>){
         auctionsViewHistory = newAuctions
         this.notifyDataSetChanged()
     }
+
+
+
+
+
 }

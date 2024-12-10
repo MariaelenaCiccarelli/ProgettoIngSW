@@ -55,8 +55,5 @@ public interface UtenteDAO {
                           Indirizzo indirizzoSpedizione,
                           String numeroAziendale);
 
-    int upgradeUtenteDB(String email,
-                         String ragioneSociale,
-                         String partitaIva,
-                         String numeroAziendale);
+    int upgradeUtenteDB(String email, String ragioneSociale, String partitaIva, String numeroAziendale);
 }

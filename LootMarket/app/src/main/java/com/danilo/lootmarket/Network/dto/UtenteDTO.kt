@@ -1,7 +1,6 @@
-package com.danilo.lootmarket.Network.dto
+package com.danilo.lootmarket.network.dto
 
 import com.danilo.lootmarket.Indirizzo
-import okio.ByteString
 
 data class UtenteDTO(
     var nome: String,

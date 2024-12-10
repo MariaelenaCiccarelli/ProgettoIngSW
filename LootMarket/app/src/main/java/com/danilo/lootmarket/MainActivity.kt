@@ -9,9 +9,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import com.danilo.lootmarket.Network.RetrofitInstance
-import com.danilo.lootmarket.Network.dto.MyToken
-import com.danilo.lootmarket.Network.dto.UtenteAutenticazioneDTO
+import com.danilo.lootmarket.network.RetrofitInstance
+import com.danilo.lootmarket.network.dto.MyToken
+import com.danilo.lootmarket.network.dto.UtenteAutenticazioneDTO
 import com.danilo.lootmarket.databinding.ActivityMainBinding
 import kotlinx.coroutines.async
 import okio.IOException
@@ -29,10 +29,9 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         Thread.sleep(1000)
         installSplashScreen()
-
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         binding.bottoneAccediPaginaAccedi.setOnClickListener{
             var mailUtente = binding.editTextEmailPaginaAccedi.text.toString()
@@ -40,27 +39,22 @@ class MainActivity : AppCompatActivity() {
             if((mailUtente != "") && (passwordUtente != "")){
                 var utenteautenticazioneDTO = UtenteAutenticazioneDTO("", "", "", passwordUtente, mailUtente, 0, 0, 0,"", "" )
                 postAccediUtente(utenteautenticazioneDTO)
-                //Toast.makeText(this, "Accesso eseguito", Toast.LENGTH_SHORT).show()
-                //crea utente
-
-
             }
             else{
                 Toast.makeText(this, "Credenziali invalide", Toast.LENGTH_SHORT).show()
             }
         }
+
+
         binding.bottoneRegistratiPaginaAccedi.setOnClickListener{
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
-
-
     }
 
+
     private fun postAccediUtente(utenteAutenticazioneDTO: UtenteAutenticazioneDTO){
-
         lifecycleScope.async {
-
             val response = try{
                 RetrofitInstance.api.postAccediUtente(utenteAutenticazioneDTO)
             }catch (e: IOException){
@@ -70,7 +64,6 @@ class MainActivity : AppCompatActivity() {
                 return@async
             }catch (e: HttpException){
                 Log.e("MyNetwork", "HttpException, unexpected response")
-
                 Toast.makeText(contesto, "Autenticazione fallita!", Toast.LENGTH_SHORT).show()
                 return@async
             }catch (e: Exception){
@@ -81,10 +74,6 @@ class MainActivity : AppCompatActivity() {
             if(response.isSuccessful && response.body() != null){
                 Log.println(Log.INFO, "MyNetwork", "Response is successful")
                 var jwtToken: MyToken = response.body()!!
-                Log.println(Log.INFO, "MyNetwork", jwtToken.toString())
-                Log.println(Log.INFO, "MyNetwork", jwtToken.token)
-                Log.println(Log.INFO, "MyNetwork", jwtToken.business.toString())
-                Toast.makeText(contesto, jwtToken.token, Toast.LENGTH_SHORT).show()
                 Toast.makeText(contesto, "Accesso avvenuto con successo!", Toast.LENGTH_SHORT).show()
                 binding.editTextEmailPaginaAccedi.setText("")
                 binding.editTextPasswordPaginaAccedi.setText("")
@@ -93,17 +82,15 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("token", jwtToken.token)
                 intent.putExtra("isBusiness", jwtToken.business)
                 startActivity(intent)
-
                 return@async
             }else{
                 Log.e("MyNetwork", "Response not successful")
-
                 Toast.makeText(contesto, "Autenticazione fallita!", Toast.LENGTH_SHORT).show()
-
                 return@async
             }
         }
     }
+
 
 
 

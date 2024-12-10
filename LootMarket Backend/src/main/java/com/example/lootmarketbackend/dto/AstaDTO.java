@@ -1,8 +1,5 @@
 package com.example.lootmarketbackend.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-
 public class AstaDTO {
     public int idAsta;
     public String emailCreatore;
@@ -18,7 +15,6 @@ public class AstaDTO {
     public String tipoAsta;
     public Boolean offertaFatta;
     public String immagineAsta;
-
 
     public AstaDTO(int idAsta, String emailCreatore, String titolo, String categoria, double prezzoPartenza, int anno, int mese, int giorno, String descrizione, double ultimaOfferta, double sogliaMinima, String tipoAsta, Boolean offertaFatta, String immagineAsta) {
         this.idAsta = idAsta;

@@ -45,8 +45,6 @@ tools:context=".HomeFragment">
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
 
-
-
                     <com.google.android.material.divider.MaterialDivider
                         android:id="@+id/dividerPaginaHome"
                         android:layout_width="match_parent"
@@ -60,13 +58,7 @@ tools:context=".HomeFragment">
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-
-
             </androidx.cardview.widget.CardView>
-
-
 
         <FrameLayout
             android:id="@+id/frame_container"

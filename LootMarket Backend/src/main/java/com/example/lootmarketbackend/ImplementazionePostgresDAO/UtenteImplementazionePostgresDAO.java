@@ -4,9 +4,6 @@ import com.example.lootmarketbackend.DAO.UtenteDAO;
 import com.example.lootmarketbackend.Database.ConnessioneDatabase;
 import com.example.lootmarketbackend.Modelli.Contatti;
 import com.example.lootmarketbackend.Modelli.Indirizzo;
-import org.springframework.util.DigestUtils;
-
-
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,10 +19,13 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
         try {
             connection = ConnessioneDatabase.getInstance().connection;
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
+
+
+
+
 
     @Override
     public void leggiUtentiDB(ArrayList<String> emails,
@@ -44,6 +44,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
                               ArrayList<String> ragioniSociali,
                               ArrayList<String> partiteIva,
                               ArrayList<String> numeriAziendali) {
+
         try {
             PreparedStatement leggiUtentiStatement = connection.prepareStatement("SELECT * FROM \"Utenti\"");
             ResultSet rs = leggiUtentiStatement.executeQuery();
@@ -69,11 +70,14 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
                 partiteIva.add(rs.getString("Partita Iva"));
                 numeriAziendali.add(rs.getString("Numero Aziendale"));
             }
-
         } catch (Exception e) {
             System.out.println("Errore: " + e.getMessage());
         }
     }
+
+
+
+
 
     @Override
     public int aggiungiUtenteDB(String email, String password, String nome, String cognome, String codiceFiscale, String nazione, String numeroCellulare, LocalDate dataNascita, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String ragioneSociale, String partitaIva, String numeroAziendale) {
@@ -108,6 +112,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
             addUtenteStatement.setString(22, ragioneSociale);
             addUtenteStatement.setString(23, partitaIva);
             addUtenteStatement.setString(24, numeroAziendale);
+
             addUtenteStatement.executeUpdate();
             connection.close();
             return 1;
@@ -117,11 +122,13 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
         }
     }
 
+
+
+
+
     @Override
     public int modificaUtenteDB(String email, String nazione, String numeroCellulare, Contatti contatti, String biografia, byte[] immagineProfilo, Indirizzo indirizzoFatturazione, Indirizzo indirizzoSpedizione, String numeroAziendale) {
         try {
-
-
             PreparedStatement updateUtenteStatement = connection.prepareStatement("UPDATE \"Utenti\" SET " +
                     "\"Nazione\" = ?, \"Numero di Cellulare\" = ?, \"Sito Web\" = ?, \"Facebook\" = ?, \"Instagram\" = ?, \"Biografia\" = ?, \"Immagine del Profilo\" = ?, \"Via Spedizione\"= ?, \"Città Spedizione\"= ?, \"Provincia Spedizione\"= ?, \"CAP Spedizione\"=?, \"Via Fatturazione\"= ?, \"Città Fatturazione\"= ?, \"Provincia Fatturazione\"= ?, \"CAP Fatturazione\"= ?, \"Numero Aziendale\" = ? WHERE \"Email\" = ?");
             updateUtenteStatement.setString(1, nazione);
@@ -141,6 +148,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
             updateUtenteStatement.setString(15, indirizzoFatturazione.getCap());
             updateUtenteStatement.setString(16, numeroAziendale);
             updateUtenteStatement.setString(17, email);
+
             updateUtenteStatement.executeUpdate();
             connection.close();
             return 1;
@@ -149,6 +157,10 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
             return 0;
         }
     }
+
+
+
+
 
     //1: operazione avvenuta con successo, 0: fallimento
     @Override
@@ -166,15 +178,18 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
         }
     }
 
+
+
+
+
     public static String generateSHA256Hash(String input) {
         try {
-            // Create a MessageDigest instance for SHA-256
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
 
-            // Perform the hash computation
+            // effettua la codifica hash
             byte[] encodedhash = digest.digest(input.getBytes());
 
-            // Convert byte array into a hexadecimal string
+            // converte il byte array in una stringa esadecimale
             StringBuilder hexString = new StringBuilder();
             for (byte b : encodedhash) {
                 String hex = Integer.toHexString(0xff & b);
@@ -190,6 +205,9 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
     }
 
 
+
+
+
     @Override
     public int verificaUtenteDB(String mailUtente, String passwordUtente) {
 
@@ -201,8 +219,6 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
                 passwordDB = rs.getString("Password");
             }
             connection.close();
-
-
                 String passwordUtenteHash = generateSHA256Hash(passwordUtente);
                 if (passwordUtenteHash.equals(passwordDB)) {
                     return 1;
@@ -215,4 +231,9 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO {
             return 0;
         }
     }
+
+
+
+
+
 }
