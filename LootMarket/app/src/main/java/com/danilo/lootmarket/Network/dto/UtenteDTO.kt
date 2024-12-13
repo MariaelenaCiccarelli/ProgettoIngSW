@@ -1,6 +1,6 @@
 package com.danilo.lootmarket.network.dto
 
-import com.danilo.lootmarket.Indirizzo
+import com.danilo.lootmarket.modelview.IndirizzoView
 
 data class UtenteDTO(
     var nome: String,
@@ -11,8 +11,8 @@ data class UtenteDTO(
     var dataDiNascitaGiorno: Int,
     var nazione: String,
     var numeroCellulare: String,
-    var indirizzoSpedizione: Indirizzo,
-    var indirizzoFatturazione: Indirizzo,
+    var indirizzoSpedizione: IndirizzoView,
+    var indirizzoFatturazione: IndirizzoView,
     var sito: String,
     var socialFacebook: String,
     var socialInstagram: String,

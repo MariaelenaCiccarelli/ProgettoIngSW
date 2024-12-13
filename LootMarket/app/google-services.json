@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "810257348849",
+    "project_id": "lootmarket-e81e1",
+    "storage_bucket": "lootmarket-e81e1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810257348849:android:f7924c639750ecde61d150",
+        "android_client_info": {
+          "package_name": "com.danilo.lootmarket"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB51O9P4Mvk-V10vqb2IFGMx5ltRHuUt2g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

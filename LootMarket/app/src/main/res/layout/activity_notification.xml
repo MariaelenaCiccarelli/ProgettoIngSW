@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".NotificationActivity"
+    tools:context=".view.home.NotificationActivity"
     android:background="@color/LightGold">
 
     <androidx.cardview.widget.CardView

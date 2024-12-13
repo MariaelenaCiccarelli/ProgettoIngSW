@@ -7,7 +7,7 @@
     android:id="@+id/signup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DataProfileActivity"
+    tools:context=".view.autentication.DataProfileActivity"
     android:background="@color/LightGold">
 
     <TextView

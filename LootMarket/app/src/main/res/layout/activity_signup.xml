@@ -7,7 +7,7 @@
     android:id="@+id/signup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignupActivity"
+    tools:context=".view.autentication.SignupActivity"
     android:background="@color/LightGold">
 
     <ImageView

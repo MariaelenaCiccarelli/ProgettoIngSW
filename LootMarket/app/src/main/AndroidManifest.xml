@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".view.autentication.MainActivity"
             android:theme ="@style/Theme.App.Splashscreen"
             android:exported="true">
             <intent-filter>
@@ -25,22 +25,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity"
+        <activity android:name=".view.autentication.SignupActivity"
             android:exported="false">
         </activity>
         <activity android:name=".RecoveryActivity"
             android:exported="false">
         </activity>
-        <activity android:name=".DataProfileActivity"
+        <activity android:name=".view.autentication.DataProfileActivity"
             android:exported="false">
         </activity>
-        <activity android:name=".HomeActivity"
+        <activity android:name=".view.home.HomeActivity"
             android:exported="false">
         </activity>
-        <activity android:name=".AddAuctionActivity"
+        <activity android:name=".view.home.AddAuctionActivity"
             android:exported="false">
         </activity>
-        <activity android:name=".NotificationActivity"
+        <activity android:name=".view.home.NotificationActivity"
             android:exported="false">
         </activity>
         <meta-data
