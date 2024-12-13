@@ -1,8 +1,8 @@
 package com.example.lootmarketbackend.Controller;
 
 import com.example.lootmarketbackend.DAO.NotificaDAO;
-import com.example.lootmarketbackend.ImplementazionePostgresDAO.NotificaImplementazionePostgresDAO;
-import com.example.lootmarketbackend.Modelli.Notifica;
+import com.example.lootmarketbackend.ImplementationPostgresDAO.NotificaImplementazionePostgresDAO;
+import com.example.lootmarketbackend.Models.Notifica;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.lootmarketbackend.Modelli;
+package com.example.lootmarketbackend.Models;
 
 import java.time.LocalDate;
 

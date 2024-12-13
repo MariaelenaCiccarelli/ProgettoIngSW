@@ -1,4 +1,4 @@
-package com.example.lootmarketbackend.ImplementazionePostgresDAO;
+package com.example.lootmarketbackend.ImplementationPostgresDAO;
 
 import com.example.lootmarketbackend.DAO.NotificaDAO;
 import com.example.lootmarketbackend.Database.ConnessioneDatabase;

@@ -1,7 +1,7 @@
 package com.example.lootmarketbackend.DAO;
 
-import com.example.lootmarketbackend.Modelli.Contatti;
-import com.example.lootmarketbackend.Modelli.Indirizzo;
+import com.example.lootmarketbackend.Models.Contatti;
+import com.example.lootmarketbackend.Models.Indirizzo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

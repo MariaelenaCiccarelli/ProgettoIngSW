@@ -1,8 +1,8 @@
 package com.example.lootmarketbackend.Controller;
 
 import com.example.lootmarketbackend.DAO.UtenteDAO;
-import com.example.lootmarketbackend.ImplementazionePostgresDAO.UtenteImplementazionePostgresDAO;
-import com.example.lootmarketbackend.Modelli.*;
+import com.example.lootmarketbackend.ImplementationPostgresDAO.UtenteImplementazionePostgresDAO;
+import com.example.lootmarketbackend.Models.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,9 +1,9 @@
-package com.example.lootmarketbackend.ImplementazionePostgresDAO;
+package com.example.lootmarketbackend.ImplementationPostgresDAO;
 
 import com.example.lootmarketbackend.DAO.UtenteDAO;
 import com.example.lootmarketbackend.Database.ConnessioneDatabase;
-import com.example.lootmarketbackend.Modelli.Contatti;
-import com.example.lootmarketbackend.Modelli.Indirizzo;
+import com.example.lootmarketbackend.Models.Contatti;
+import com.example.lootmarketbackend.Models.Indirizzo;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

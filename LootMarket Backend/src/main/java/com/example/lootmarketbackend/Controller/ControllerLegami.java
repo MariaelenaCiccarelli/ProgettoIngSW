@@ -1,10 +1,10 @@
 package com.example.lootmarketbackend.Controller;
 
 import com.example.lootmarketbackend.DAO.LegameDAO;
-import com.example.lootmarketbackend.ImplementazionePostgresDAO.LegameImplementazionePostgresDAO;
-import com.example.lootmarketbackend.Modelli.Iscrizione;
-import com.example.lootmarketbackend.Modelli.Legame;
-import com.example.lootmarketbackend.Modelli.Offerta;
+import com.example.lootmarketbackend.ImplementationPostgresDAO.LegameImplementazionePostgresDAO;
+import com.example.lootmarketbackend.Models.Iscrizione;
+import com.example.lootmarketbackend.Models.Legame;
+import com.example.lootmarketbackend.Models.Offerta;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

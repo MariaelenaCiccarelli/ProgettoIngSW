@@ -1,6 +1,6 @@
 package com.example.lootmarketbackend.Controller;
 
-import com.example.lootmarketbackend.Modelli.*;
+import com.example.lootmarketbackend.Models.*;
 import com.example.lootmarketbackend.dto.*;
 import org.springframework.stereotype.Service;
 

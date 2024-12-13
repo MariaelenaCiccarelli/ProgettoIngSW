@@ -1,4 +1,4 @@
-package com.example.lootmarketbackend.services;
+package com.example.lootmarketbackend.Services;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

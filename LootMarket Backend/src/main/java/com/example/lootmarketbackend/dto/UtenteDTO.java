@@ -1,6 +1,6 @@
 package com.example.lootmarketbackend.dto;
 
-import com.example.lootmarketbackend.Modelli.Indirizzo;
+import com.example.lootmarketbackend.Models.Indirizzo;
 
 public class UtenteDTO {
     public String nome;

@@ -1,15 +1,5 @@
 package com.example.lootmarketbackend;
 
-import com.example.lootmarketbackend.Controller.Controller;
-import com.example.lootmarketbackend.Modelli.Asta;
-import com.example.lootmarketbackend.Modelli.Contatti;
-import com.example.lootmarketbackend.Modelli.Indirizzo;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
     /*

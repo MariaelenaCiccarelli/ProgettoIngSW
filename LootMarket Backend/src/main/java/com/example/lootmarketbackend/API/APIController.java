@@ -1,10 +1,14 @@
 package com.example.lootmarketbackend.API;
 
 import com.example.lootmarketbackend.Controller.Controller;
-import com.example.lootmarketbackend.Modelli.*;
+
+
+import com.example.lootmarketbackend.Services.*;
+import com.example.lootmarketbackend.Services.JwtUtil;
+
 import com.example.lootmarketbackend.dto.*;
-import com.example.lootmarketbackend.services.JwtUtil;
-import com.example.lootmarketbackend.services.MyToken;
+
+
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,14 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
-import java.util.UUID;
+
 import org.springframework.web.bind.annotation.RestController;
 
 

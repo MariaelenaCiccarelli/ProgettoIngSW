@@ -1,6 +1,6 @@
-package com.example.lootmarketbackend.services;
+package com.example.lootmarketbackend.Services;
 
-public class MyToken {
+public class MyToken{
 
     private String token;
     private boolean business;

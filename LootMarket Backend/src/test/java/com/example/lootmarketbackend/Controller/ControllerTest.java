@@ -1,6 +1,6 @@
 package com.example.lootmarketbackend.Controller;
 
-import com.example.lootmarketbackend.Modelli.*;
+import com.example.lootmarketbackend.Models.*;
 
 import com.example.lootmarketbackend.dto.DettagliAstaDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,9 +27,6 @@ class ControllerTest {
     private Controller controllerSpy;
 
 
-
-
-
     @BeforeEach
     public void setup(){
         controllerAsteMock = Mockito.mock(ControllerAste.class);
@@ -38,9 +35,6 @@ class ControllerTest {
         controllerNotificheMock = Mockito.mock(ControllerNotifiche.class);
         Controller realController = new Controller();
         controllerSpy = Mockito.spy(realController);
-
-
-
 
 
         ReflectionTestUtils.setField(controllerSpy, "controllerAste", controllerAsteMock);
@@ -233,7 +227,8 @@ class ControllerTest {
 
         when(controllerAsteMock.getIndiceAstaById(Mockito.anyInt())).thenReturn(-1);
         when(controllerUtentiMock.getIndiceUtenteByEmail(Mockito.anyString())).thenReturn(-1);
-        when(controllerLegamiMock.getLegameDatabase(Mockito.anyInt())).thenReturn(new Offerta("emailUtente@gmail.com", 1, -1, LocalDate.now(), LocalTime.MIDNIGHT));
+        when(controllerLegamiMock.getLegameDatabase(Mockito.anyInt())).thenReturn(new Offerta("emailUtente@gmail.com",
+                1, -1, LocalDate.now(), LocalTime.MIDNIGHT));
         when(controllerLegamiMock.getIndiceLegameByEmailAndIdAsta(Mockito.anyString(), Mockito.anyInt())).thenReturn(1);
         Mockito.doNothing().when(controllerLegamiMock).eliminaLegameDAO(Mockito.anyInt(), Mockito.anyString());
 
@@ -254,7 +249,8 @@ class ControllerTest {
 
         when(controllerAsteMock.getIndiceAstaById(Mockito.anyInt())).thenReturn(1);
         when(controllerUtentiMock.getIndiceUtenteByEmail(Mockito.anyString())).thenReturn(-1);
-        when(controllerLegamiMock.getLegameDatabase(Mockito.anyInt())).thenReturn(new Offerta("emailUtente@gmail.com", 1, -1, LocalDate.now(), LocalTime.MIDNIGHT));
+        when(controllerLegamiMock.getLegameDatabase(Mockito.anyInt())).thenReturn(new Offerta(
+                "emailUtente@gmail.com", 1, -1, LocalDate.now(), LocalTime.MIDNIGHT));
         when(controllerLegamiMock.getIndiceLegameByEmailAndIdAsta(Mockito.anyString(), Mockito.anyInt())).thenReturn(1);
         Mockito.doNothing().when(controllerLegamiMock).eliminaLegameDAO(Mockito.anyInt(), Mockito.anyString());
 
@@ -272,12 +268,15 @@ class ControllerTest {
     @Test
     void testDisiscrizioneAstaNonEsistenteUtenteEsistenteNonIscritto() {
         // Arrange
-        AstaTempoFisso a = new AstaTempoFisso(1,"emailCreatore@gmail.com", "aaaa", "aaaa", 10, LocalDateTime.now(), "aaaa", null, 23, 100);
+        AstaTempoFisso a = new AstaTempoFisso(1,"emailCreatore@gmail.com",
+                "aaaa", "aaaa", 10, LocalDateTime.now(), "aaaa",
+                null, 23, 100);
         when(controllerAsteMock.getIndiceAstaById(Mockito.anyInt())).thenReturn(-1);
         when(controllerAsteMock.getAstaDatabase(Mockito.anyInt())).thenReturn(a);
         when(controllerUtentiMock.getIndiceUtenteByEmail(Mockito.anyString())).thenReturn(-1);
         when(controllerLegamiMock.getIndiceLegameByEmailAndIdAsta(Mockito.anyString(), Mockito.anyInt())).thenReturn(-1);
-        when(controllerLegamiMock.getLegameDatabase(Mockito.anyInt())).thenReturn(new Offerta("emailUtente@gmail.com", 1, -1, LocalDate.now(), LocalTime.MIDNIGHT));
+        when(controllerLegamiMock.getLegameDatabase(Mockito.anyInt())).thenReturn(new Offerta("emailUtente@gmail.com",
+                1, -1, LocalDate.now(), LocalTime.MIDNIGHT));
         Mockito.doNothing().when(controllerLegamiMock).eliminaLegameDAO(Mockito.anyInt(), Mockito.anyString());
 
         // Act
@@ -294,13 +293,16 @@ class ControllerTest {
     @Test
     void testDisiscrizioneAstaEsistenteUtenteEsistenteOfferente() {
         // Arrange
-        AstaTempoFisso a = new AstaTempoFisso(1,"emailCreatore@gmail.com", "aaaa", "aaaa", 10, LocalDateTime.now(), "aaaa", null, 23, 100);
+        AstaTempoFisso a = new AstaTempoFisso(1,"emailCreatore@gmail.com",
+                "aaaa", "aaaa", 10, LocalDateTime.now(), "aaaa",
+                null, 23, 100);
 
         when(controllerAsteMock.getIndiceAstaById(Mockito.anyInt())).thenReturn(1);
         when(controllerAsteMock.getAstaDatabase(Mockito.anyInt())).thenReturn(a);
         when(controllerUtentiMock.getIndiceUtenteByEmail(Mockito.anyString())).thenReturn(1);
         when(controllerLegamiMock.getIndiceLegameByEmailAndIdAsta(Mockito.anyString(), Mockito.anyInt())).thenReturn(1);
-        when(controllerLegamiMock.getLegameDatabase(Mockito.anyInt())).thenReturn(new Offerta("emailUtente@gmail.com", 1, 10, LocalDate.now(), LocalTime.MIDNIGHT));
+        when(controllerLegamiMock.getLegameDatabase(Mockito.anyInt())).thenReturn(new Offerta(
+                "emailUtente@gmail.com", 1, 10, LocalDate.now(), LocalTime.MIDNIGHT));
         Mockito.doNothing().when(controllerLegamiMock).eliminaLegameDAO(Mockito.anyInt(), Mockito.anyString());
 
         // Act
@@ -318,13 +320,15 @@ class ControllerTest {
     @Test
     void testDisiscrizioneAstaEsistenteUtenteEsistenteCreatore() {
         // Arrange
-        AstaTempoFisso a = new AstaTempoFisso(1,"emailCreatore@gmail.com", "aaaa", "aaaa", 10, LocalDateTime.now(), "aaaa", null, 23, 100);
+        AstaTempoFisso a = new AstaTempoFisso(1,"emailCreatore@gmail.com", "aaaa",
+                "aaaa", 10, LocalDateTime.now(), "aaaa", null, 23, 100);
 
         when(controllerAsteMock.getIndiceAstaById(Mockito.anyInt())).thenReturn(1);
         when(controllerAsteMock.getAstaDatabase(Mockito.anyInt())).thenReturn(a);
         when(controllerUtentiMock.getIndiceUtenteByEmail(Mockito.anyString())).thenReturn(1);
         when(controllerLegamiMock.getIndiceLegameByEmailAndIdAsta(Mockito.anyString(), Mockito.anyInt())).thenReturn(1);
-        when(controllerLegamiMock.getLegameDatabase(Mockito.anyInt())).thenReturn(new Offerta("emailCreatore@gmail.com", 1, -1, LocalDate.now(), LocalTime.MIDNIGHT));
+        when(controllerLegamiMock.getLegameDatabase(Mockito.anyInt())).thenReturn(new Offerta(
+                "emailCreatore@gmail.com", 1, -1, LocalDate.now(), LocalTime.MIDNIGHT));
         Mockito.doNothing().when(controllerLegamiMock).eliminaLegameDAO(Mockito.anyInt(), Mockito.anyString());
 
         // Act
@@ -341,13 +345,15 @@ class ControllerTest {
     @Test
     void testDisiscrizioneAstaEsistenteUtenteEsistenteIscritto() {
         // Arrange
-        AstaTempoFisso a = new AstaTempoFisso(1,"emailCreatore@gmail.com", "aaaa", "aaaa", 10, LocalDateTime.now(), "aaaa", null, 23, 100);
+        AstaTempoFisso a = new AstaTempoFisso(1,"emailCreatore@gmail.com", "aaaa",
+                "aaaa", 10, LocalDateTime.now(), "aaaa", null, 23, 100);
 
         when(controllerAsteMock.getIndiceAstaById(Mockito.anyInt())).thenReturn(1);
         when(controllerAsteMock.getAstaDatabase(Mockito.anyInt())).thenReturn(a);
         when(controllerUtentiMock.getIndiceUtenteByEmail(Mockito.anyString())).thenReturn(1);
         when(controllerLegamiMock.getIndiceLegameByEmailAndIdAsta(Mockito.anyString(), Mockito.anyInt())).thenReturn(1);
-        when(controllerLegamiMock.getLegameDatabase(Mockito.anyInt())).thenReturn(new Offerta("emailUtente@gmail.com", 1, -1, LocalDate.now(), LocalTime.MIDNIGHT));
+        when(controllerLegamiMock.getLegameDatabase(Mockito.anyInt())).thenReturn(new Offerta(
+                "emailUtente@gmail.com", 1, -1, LocalDate.now(), LocalTime.MIDNIGHT));
         Mockito.doNothing().when(controllerLegamiMock).eliminaLegameDAO(Mockito.anyInt(), Mockito.anyString());
 
         // Act
@@ -390,7 +396,7 @@ class ControllerTest {
 
 
     @Test
-    void testGeneraNotificaAstaScadutaNull() {
+    void testGeneraNotificaAstaScadutaNullUltimaOffertaSufficiente() {
         // Arrange
         Legame legame1 = new Offerta("aaa", 10, 199, LocalDate.now(), LocalTime.MIDNIGHT);
         Legame legame2 = new Offerta("aaa22", 10, 100, LocalDate.now(), LocalTime.MIDNIGHT);
@@ -407,7 +413,7 @@ class ControllerTest {
 
         // Act
         int result = controllerSpy.generaNotificaAstaScaduta(null,
-                        new Offerta("aaa", 1, -1, LocalDate.now(), LocalTime.MIDNIGHT));
+                        new Offerta("aaa", 1, 100, LocalDate.now(), LocalTime.MIDNIGHT));
 
         // Assert
         assertEquals(-1, result);
@@ -419,7 +425,7 @@ class ControllerTest {
 
 
     @Test
-    void testGeneraNotificaAstaScadutaGiaConclusa() {
+    void testGeneraNotificaAstaScadutaGiaConclusaOffertaSufficiente() {
         // Arrange
         Legame legame1 = new Offerta("aaa", 10, 199, LocalDate.now(), LocalTime.MIDNIGHT);
         Legame legame2 = new Offerta("aaa22", 10, 100, LocalDate.now(), LocalTime.MIDNIGHT);
@@ -435,7 +441,9 @@ class ControllerTest {
 
 
         // Act
-        int result = controllerSpy.generaNotificaAstaScaduta(new AstaConclusa(10, "emailcreatore@gmail.com", "aaa", "aaaa", 10, LocalDateTime.now(),"aaaa", null, "emailVincitore@gmail.com", 100.0 ),
+        int result = controllerSpy.generaNotificaAstaScaduta(new AstaConclusa(10, "emailcreatore@gmail.com",
+                        "aaa", "aaaa", 10, LocalDateTime.now(),"aaaa",
+                        null, "emailVincitore@gmail.com", 100.0 ),
                 new Offerta("aaa", 1, -1, LocalDate.now(), LocalTime.MIDNIGHT));
 
         // Assert
@@ -621,14 +629,16 @@ class ControllerTest {
 
 
     @Test
-    void testNuovaOffertaEmailUtenteNonValida() {
+    void testNuovaOffertaAstaTempoFissoEmailUtenteNonValidaPiuUnoUltimaOfferta() {
         // Arrange
-        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
-        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
         Mockito.doNothing().when(controllerSpy).generaNotificheNuovaOfferta(Mockito.anyInt());
 
         // Act
-        int result = controllerSpy.nuovaOfferta("marioBianchi@gmail.com", 2, 30);
+        int result = controllerSpy.nuovaOfferta("marioBianchi@gmail.com", 2, 21);
 
 
         // Assert
@@ -640,14 +650,16 @@ class ControllerTest {
 
 
     @Test
-    void testNuovaOffertaEmailUtenteIdAstaNonTrovata() {
+    void testNuovaOffertaAstaNonTrovataUtenteIscrittoOffertaZero() {
         // Arrange
-        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
-        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
         Mockito.doNothing().when(controllerSpy).generaNotificheNuovaOfferta(Mockito.anyInt());
 
         // Act
-        int result = controllerSpy.nuovaOfferta("marioBlu@gmail.com", 12, 30);
+        int result = controllerSpy.nuovaOfferta("marioGiallo@gmail.com", 12, 0);
 
         // Assert
         assertEquals(-1, result);
@@ -658,14 +670,16 @@ class ControllerTest {
 
 
     @Test
-    void testNuovaOffertaAstaConclusa() {
+    void testNuovaOffertaAstaConclusaUtenteGiaOfferenteOffertaMoltoGrande() {
         // Arrange
-        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
-        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
         Mockito.doNothing().when(controllerSpy).generaNotificheNuovaOfferta(Mockito.anyInt());
 
         // Act
-        int result = controllerSpy.nuovaOfferta("marioBlu@gmail.com", 5, 30);
+        int result = controllerSpy.nuovaOfferta("marioBlu@gmail.com", 5, 3000000000000000000000000000.0);
 
         // Assert
         assertEquals(0, result);
@@ -676,10 +690,12 @@ class ControllerTest {
 
 
     @Test
-    void testNuovaOffertaAstaTempoFissoUtenteCreatore() {
+    void testNuovaOffertaAstaTempoFissoUtenteCreatoreOffertaMaggioreUltimaOfferta() {
         // Arrange
-        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
-        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
         Mockito.doNothing().when(controllerSpy).generaNotificheNuovaOfferta(Mockito.anyInt());
 
         // Act
@@ -765,8 +781,10 @@ class ControllerTest {
     @Test
     void testNuovaOffertaAstaTempoFissoUtenteSenzaLegamiOffertaMinoreUltimaOfferta() {
         // Arrange
-        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
-        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
         Mockito.doNothing().when(controllerSpy).generaNotificheNuovaOfferta(Mockito.anyInt());
 
         // Act
@@ -1306,8 +1324,10 @@ class ControllerTest {
     void testNuovaOffertaAstaInversaUtenteSenzaLegamiOffertaMenoUnoUltimaOfferta() {
         // Arrange
 
-        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
-        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
         Mockito.doNothing().when(controllerSpy).generaNotificheNuovaOfferta(Mockito.anyInt());
 
         // Act
@@ -1452,8 +1472,10 @@ class ControllerTest {
     @Test
     void testNuovaOffertaAstaInversaUtenteIscrittoOffertaUgualeUltimaOfferta() {
         // Arrange
-        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
-        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(), Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).aggiungiLegamiDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
+        Mockito.doNothing().when(controllerLegamiMock).modificaUltimaOffertaLegameDAO(Mockito.anyInt(),
+                Mockito.anyString(), Mockito.anyDouble(), Mockito.any());
         Mockito.doNothing().when(controllerSpy).generaNotificheNuovaOfferta(Mockito.anyInt());
 
         // Act
@@ -1793,7 +1815,7 @@ class ControllerTest {
 
 
     @Test
-    void testGetDettagliAstaAstaInesistente() {
+    void testGetDettagliAstaAstaInesistenteUtenteOfferente() {
         // Arrange
 
         // Act

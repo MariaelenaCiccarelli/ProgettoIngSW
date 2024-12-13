@@ -1,8 +1,8 @@
 package com.example.lootmarketbackend.Controller;
 
 import com.example.lootmarketbackend.DAO.AstaDAO;
-import com.example.lootmarketbackend.ImplementazionePostgresDAO.AstaImplementazionePostgresDAO;
-import com.example.lootmarketbackend.Modelli.*;
+import com.example.lootmarketbackend.ImplementationPostgresDAO.AstaImplementazionePostgresDAO;
+import com.example.lootmarketbackend.Models.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
